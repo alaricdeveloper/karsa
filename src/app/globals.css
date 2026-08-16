@@ -1,26 +1,75 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-sand-50: #FBFBFA;
+  --color-sand-100: #F5F5F3;
+  --color-sand-200: #EBEBE8;
+  --color-sand-300: #DDDCD7;
+  --color-sand-700: #4A4844;
+  --color-sand-800: #2A2927;
+  --color-sand-900: #171615;
+
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Instrument Serif", serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Mega dropdown menu transition */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tab active state */
+.tab-btn.active {
+  background-color: #171615;
+  color: #FFFFFF;
+  border-color: #171615;
+}
+
+/* Sample pill active state */
+.sample-pill.active {
+  background-color: #171615;
+  font-weight: 600;
+  color: #FFFFFF;
+  border-color: #171615;
+}
+
+/* Calendar day card active */
+.cal-day-card.active {
+  border-color: #171615;
+  background-color: #F5F5F3;
+}
+
+/* Kanban tab pill active */
+.kanban-tab-pill.active {
+  background-color: #171615;
+  color: #FFFFFF;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #171615;
+  color: #FBFBFA;
 }
