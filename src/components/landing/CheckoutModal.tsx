@@ -20,11 +20,10 @@ interface CheckoutModalProps {
 
 export function CheckoutModal({ open, onClose, order }: CheckoutModalProps) {
   const [stage, setStage] = useState<1 | 2>(1);
-
-  if (!order) return null;
-
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+
+  if (!order) return null;
 
   const handleSimulate = async () => {
     setSubmitting(true);

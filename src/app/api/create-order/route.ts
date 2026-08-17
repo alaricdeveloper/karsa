@@ -1,44 +1,11 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
-
-  const supabase = createServerClient(
+  const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet, headers) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-          Object.entries(headers).forEach(([key, value]) =>
-            supabaseResponse.headers.set(key, value)
-          );
-        },
-      },
-    }
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
-
-  // Check if user is authenticated
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "Silakan login terlebih dahulu" },
-      { status: 401 }
-    );
-  }
 
   try {
     const body = await request.json();
@@ -60,7 +27,7 @@ export async function POST(request: NextRequest) {
     const rand = Math.floor(1000 + Math.random() * 9000);
     const order_id = `OC-${yy}${mm}${dd}-${rand}`;
 
-    // Insert order with user_id
+    // Insert order (public — no auth required)
     const { data: order, error } = await supabase
       .from("orders")
       .insert({
@@ -72,7 +39,6 @@ export async function POST(request: NextRequest) {
         email,
         phone: phone || "",
         status: "PENDING_PAYMENT",
-        user_id: user.id,
       })
       .select()
       .single();
