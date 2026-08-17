@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Order, OrderStatus } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import { StatsOverview } from "@/components/console/StatsOverview";

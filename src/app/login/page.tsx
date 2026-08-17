@@ -5,13 +5,13 @@ import { createClient } from "@/lib/supabase/client";
 import { Eye, EyeOff, LogIn, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
+  const [supabase] = useState(() => createClient());
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
