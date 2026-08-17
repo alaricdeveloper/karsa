@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Karsa Studio",
   description:
     "30-Day Content Calendar untuk UMKM Indonesia. Produksi konten viral dalam 1x24 jam.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
