@@ -163,6 +163,9 @@ export function MegaDropdownNav() {
 
         {/* Action Button & Mobile Toggle */}
         <div className="flex items-center space-x-2 sm:space-x-3">
+          <a href="/login" className="hidden sm:inline-flex text-xs font-mono font-medium text-stone-600 hover:text-sand-900 px-3 py-2 rounded-lg transition">
+            Masuk
+          </a>
           <a href="#order" className="hidden sm:inline-flex text-xs font-mono font-medium bg-sand-900 hover:bg-stone-800 text-sand-50 px-4 py-2 rounded-lg transition tracking-tight">
             Pesan Batch (Rp299k)
           </a>
@@ -231,7 +234,10 @@ export function MegaDropdownNav() {
           <a href="#calculator" onClick={() => setMobileOpen(false)} className="block py-2.5 px-3 rounded-xl bg-white border border-sand-200 font-bold text-sand-900">Perbandingan Biaya</a>
           <a href="#faq" onClick={() => setMobileOpen(false)} className="block py-2.5 px-3 rounded-xl bg-white border border-sand-200 font-bold text-sand-900">Pusat Bantuan (FAQ)</a>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col gap-2">
+            <a href="/login" onClick={() => setMobileOpen(false)} className="block w-full text-center py-3 border border-sand-200 text-sand-900 font-bold rounded-xl text-xs">
+              Masuk ke Akun
+            </a>
             <a href="#order" onClick={() => setMobileOpen(false)} className="block w-full text-center py-3.5 bg-sand-900 text-sand-50 font-bold rounded-xl text-xs">
               Isi Brief Sekarang (Rp299.000)
             </a>
