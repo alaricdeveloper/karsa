@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Eye, EyeOff, LogIn, AlertCircle } from "lucide-react";
 
@@ -12,6 +12,17 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // Read error from URL (e.g. middleware redirect)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlError = params.get("error");
+    if (urlError) {
+      setError(urlError);
+      window.history.replaceState({}, "", "/login");
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +45,8 @@ export default function LoginPage() {
           password,
         });
         if (error) throw error;
-        console.log("[login] Login successful, redirecting to /console");
 
-        // Full reload to ensure middleware sees fresh auth cookies
-        window.location.href = "/console";
+        window.location.replace("/console");
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Terjadi kesalahan";
@@ -48,7 +57,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center min-h-screen px-4">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-serif text-sand-900">Karsa Studio</h1>
         <p className="text-stone-500 text-sm mt-2 font-mono">
@@ -105,6 +114,18 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 rounded border-sand-300 text-sand-900 focus:ring-sand-400"
+              />
+              <span className="text-xs text-stone-500">Ingat di perangkat ini</span>
+            </label>
           </div>
 
           <button

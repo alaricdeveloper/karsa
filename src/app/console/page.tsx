@@ -20,6 +20,7 @@ import {
   Sparkles,
   BarChart3,
   Plus,
+  LogOut,
 } from "lucide-react";
 
 type View = "kanban" | "table" | "analytics" | "ai";
@@ -116,6 +117,11 @@ export default function ConsolePage() {
     fetchOrders();
   }
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    window.location.href = "/login";
+  }
+
   function handleExportCSV() {
     let csv = "Order ID,Brand,Kategori,Deskripsi,Email,WhatsApp,Status,Tanggal,Notion URL,Notes\n";
     orders.forEach((o) => {
@@ -188,6 +194,14 @@ export default function ConsolePage() {
             >
               <ExternalLink className="w-3.5 h-3.5 text-stone-600" />
             </a>
+            <button
+              onClick={handleLogout}
+              className="p-2 sm:px-3 sm:py-1.5 border border-red-200 rounded-lg hover:bg-red-50 transition bg-white text-red-600"
+              title="Keluar"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden md:inline ml-1">Keluar</span>
+            </button>
           </div>
         </div>
       </header>
