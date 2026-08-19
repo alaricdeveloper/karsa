@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET() {
   const supabase = createClient(
@@ -17,4 +17,38 @@ export async function GET() {
   }
 
   return NextResponse.json(data);
+}
+
+export async function PATCH(request: NextRequest) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  try {
+    const body = await request.json();
+    const { id, status, notion_url, notes } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing order id" }, { status: 400 });
+    }
+
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (status !== undefined) updates.status = status;
+    if (notion_url !== undefined) updates.notion_url = notion_url;
+    if (notes !== undefined) updates.notes = notes;
+
+    const { error } = await supabase
+      .from("orders")
+      .update(updates)
+      .eq("id", id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
 }

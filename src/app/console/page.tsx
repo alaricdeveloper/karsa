@@ -92,10 +92,11 @@ export default function ConsolePage() {
     orderId: string,
     updates: { status?: string; notion_url?: string; notes?: string }
   ) {
-    await supabase
-      .from("orders")
-      .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq("id", orderId);
+    await fetch("/api/orders", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: orderId, ...updates }),
+    });
     fetchOrders();
   }
 
