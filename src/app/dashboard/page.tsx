@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
 import { createClient } from "@/lib/supabase/client";
 import {
   Sparkles,
@@ -82,35 +81,49 @@ function loadProfileFromStorage(): Profile {
 }
 
 async function fetchOrdersFromSupabase(email: string): Promise<Order[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    console.error("[Dashboard] Missing Supabase env vars");
-    return [];
-  }
-  const supabase = createBrowserClient(url, key);
+  // Try API first (bypasses any client-side Supabase issues)
+  try {
+    const res = await fetch("/api/orders");
+    if (res.ok) {
+      const allOrders: Record<string, unknown>[] = await res.json();
+      const filtered = allOrders.filter((o) => o.email === email);
+      return filtered.map((o) => ({
+        orderId: o.order_id as string,
+        brand: o.brand as string,
+        category: o.category as string,
+        competitor: (o.competitor as string) || "",
+        description: (o.description as string) || "",
+        email: o.email as string,
+        phone: (o.phone as string) || "",
+        timestamp: (o.created_at as string) || "",
+        status: o.status as string,
+        notionUrl: (o.notion_url as string) || "",
+        notes: (o.notes as string) || "",
+      }));
+    }
+  } catch {}
+
+  // Fallback: Supabase client
+  const supabase = createClient();
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from("orders")
     .select("*")
     .eq("email", email)
     .order("created_at", { ascending: false });
-  if (error) {
-    console.error("[Dashboard] Supabase query error:", error.message);
-    return [];
-  }
-  if (!data) return [];
+  if (error || !data) return [];
   return data.map((o: Record<string, unknown>) => ({
     orderId: o.order_id as string,
     brand: o.brand as string,
     category: o.category as string,
-    competitor: o.competitor as string || "",
-    description: o.description as string || "",
+    competitor: (o.competitor as string) || "",
+    description: (o.description as string) || "",
     email: o.email as string,
-    phone: o.phone as string || "",
+    phone: (o.phone as string) || "",
     timestamp: (o.created_at as string) || "",
     status: o.status as string,
-    notionUrl: o.notion_url as string || "",
-    notes: o.notes as string || "",
+    notionUrl: (o.notion_url as string) || "",
+    notes: (o.notes as string) || "",
   }));
 }
 
