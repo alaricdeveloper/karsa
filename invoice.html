@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Invoice Resmi & Bukti Pembayaran — Karsa Studio</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            sand: {
+              50: '#FBFBFA',
+              100: '#F5F5F3',
+              200: '#EBEBE8',
+              300: '#DDDCD7',
+              700: '#4A4844',
+              800: '#2A2927',
+              900: '#171615',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @media print {
+      body {
+        background-color: #FFFFFF !important;
+        padding: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .invoice-container {
+        border: none !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-sand-100 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 py-6 sm:py-12 px-3 sm:px-6">
+
+  <!-- ACTION BAR (HIDDEN IN PRINT) -->
+  <div class="max-w-3xl mx-auto mb-5 flex items-center justify-between no-print font-mono text-xs">
+    <a href="user_dashboard.html" class="flex items-center gap-1.5 px-3 py-2 bg-white border border-sand-300 rounded-xl hover:bg-sand-200 transition text-stone-700 shadow-sm">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+      <span>Kembali ke Workspace</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <button onclick="window.print()" class="flex items-center gap-1.5 px-4 py-2 bg-sand-900 text-sand-50 rounded-xl hover:bg-stone-800 transition font-semibold shadow-sm">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>Cetak / Simpan PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- OFFICIAL INVOICE PAPER CANVAS -->
+  <main class="invoice-container max-w-3xl mx-auto bg-white border border-sand-300 rounded-3xl p-6 sm:p-12 shadow-md space-y-8">
+    
+    <!-- HEADER: BRAND & PAID BADGE -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-sand-200">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="font-serif text-3xl tracking-tight text-sand-900">Karsa</span>
+          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-100 text-sand-800 rounded font-bold">Content Studio</span>
+        </div>
+        <p class="text-xs font-mono text-stone-500 mt-1">usekarsa.co &bull; hello.usekarsa@gmail.com</p>
+      </div>
+
+      <!-- PAID STAMP BADGE -->
+      <div class="flex items-center gap-2 px-4 py-2 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-xl font-mono text-xs font-bold uppercase tracking-wider">
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+        <span>Lunas &bull; Terverifikasi</span>
+      </div>
+    </div>
+
+    <!-- METADATA GRID: CLIENT & ORDER INFO -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs pt-1">
+      <div>
+        <span class="text-stone-400 text-[10px] uppercase block">Nomor Invoice</span>
+        <span id="invNumber" class="font-bold text-sand-900 mt-0.5 block text-sm">INV-849201</span>
+      </div>
+      <div>
+        <span class="text-stone-400 text-[10px] uppercase block">Tanggal Pembayaran</span>
+        <span id="invDate" class="font-bold text-sand-900 mt-0.5 block">19 Agustus 2026</span>
+      </div>
+      <div>
+        <span class="text-stone-400 text-[10px] uppercase block">Klien / Brand</span>
+        <span id="invBrand" class="font-bold text-sand-900 mt-0.5 block text-sm">Kopi Teras Senja</span>
+      </div>
+      <div>
+        <span class="text-stone-400 text-[10px] uppercase block">Metode Pembayaran</span>
+        <span id="invMethod" class="font-bold text-sand-900 mt-0.5 block">QRIS Terverifikasi</span>
+      </div>
+    </div>
+
+    <!-- DELIVERABLES TABLE -->
+    <div class="space-y-3 font-mono text-xs">
+      <div class="border-b border-sand-900 pb-2 flex justify-between font-bold text-sand-900 text-[11px] uppercase tracking-wider">
+        <span>Rincian Layanan & Deliverables</span>
+        <span>Jumlah</span>
+      </div>
+
+      <div class="divide-y divide-sand-200 text-stone-800">
+        <div class="py-3 flex justify-between items-start">
+          <div class="space-y-0.5">
+            <span class="font-bold text-sand-900 block font-sans text-sm">Paket Kalender Konten 30 Hari Karsa</span>
+            <span class="text-stone-500 text-[11px]">30 Naskah Video Pendek Kata-per-Kata, 30 Takarir AIDA, dan 4 Artikel SEO</span>
+          </div>
+          <span class="font-bold text-sand-900">Rp 299.000</span>
+        </div>
+
+        <div class="py-2.5 flex justify-between text-stone-600">
+          <span>Notion Content OS Database + Calendar Matrix View</span>
+          <span class="text-emerald-700 font-bold">Termasuk</span>
+        </div>
+
+        <div class="py-2.5 flex justify-between text-stone-600">
+          <span>Audit Celah 1 Akun Kompetitor & Positioning Blueprint</span>
+          <span class="text-emerald-700 font-bold">Termasuk</span>
+        </div>
+
+        <div class="py-2.5 flex justify-between text-stone-600">
+          <span>Panduan Shot-List B-Roll Kamera HP</span>
+          <span class="text-emerald-700 font-bold">Termasuk</span>
+        </div>
+
+        <div class="py-2.5 flex justify-between text-stone-600">
+          <span>Garansi Kalibrasi Sudut Pesan 48 Jam</span>
+          <span class="text-emerald-700 font-bold">Termasuk</span>
+        </div>
+      </div>
+
+      <!-- TOTAL BOX -->
+      <div class="pt-4 border-t-2 border-sand-900 flex justify-between items-center text-sm font-bold text-sand-900">
+        <span class="font-sans">Total Pembayaran Lunas</span>
+        <span class="text-2xl font-serif text-sand-900">Rp 299.000</span>
+      </div>
+    </div>
+
+    <!-- SLA GUARANTEE CALLOUT -->
+    <div class="p-4 bg-sand-50 border border-sand-200 rounded-2xl font-mono text-xs space-y-1 text-stone-700">
+      <div class="flex items-center gap-2 font-bold text-sand-900">
+        <i data-lucide="clock" class="w-4 h-4 text-emerald-600"></i>
+        <span>SLA Pengerjaan: Maksimal 24 Jam Kerja</span>
+      </div>
+      <p class="text-[11px] font-sans text-stone-600">
+        Tim Karsa sedang menyusun dan mengurasi 30 naskah kontenmu. Berkas Notion dan Studio Teleprompter akan otomatis aktif di Customer Hub kamu.
+      </p>
+    </div>
+
+    <!-- FOOTER LINK TO CUSTOMER DASHBOARD (NO PRINT) -->
+    <div class="pt-4 text-center no-print">
+      <a href="customer_dashboard.html" class="inline-flex items-center gap-2 px-8 py-4 bg-sand-900 text-sand-50 rounded-xl font-mono text-xs font-bold hover:bg-stone-800 transition shadow-md min-h-[48px]">
+        <span>Buka Customer Hub Sekarang</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // LOAD INVOICE DATA
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramId = urlParams.get('id');
+
+    if (paramId && localStorage.getItem('omni_order_' + paramId)) {
+      try {
+        const order = JSON.parse(localStorage.getItem('omni_order_' + paramId));
+        document.getElementById('invNumber').textContent = order.orderId;
+        document.getElementById('invBrand').textContent = order.brand;
+        if (order.paymentMethod) {
+          document.getElementById('invMethod').textContent = order.paymentMethod.replace('_', ' ') + ' Terverifikasi';
+        }
+      } catch(e) {}
+    }
+  </script>
+</body>
+</html>

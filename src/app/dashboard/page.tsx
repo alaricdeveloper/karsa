@@ -203,8 +203,9 @@ export default function DashboardPage() {
 
   const handleOrderSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newOrder: Order = {
-      orderId: "INV-" + Math.floor(100000 + Math.random() * 900000),
+    const orderId = "INV-" + Math.floor(100000 + Math.random() * 900000);
+    const orderData = {
+      orderId,
       brand: inBrand.trim(),
       category: inCategory,
       competitor: inCompetitor.trim(),
@@ -212,15 +213,11 @@ export default function DashboardPage() {
       email: inEmail.trim(),
       phone: inPhone.trim(),
       timestamp: new Date().toISOString(),
-      status: "IN_PROGRESS",
-      notionUrl: "",
-      notes: "Order brief dikirimkan melalui Member Console.",
+      status: "PENDING",
     };
-    localStorage.setItem("omni_order_" + newOrder.orderId, JSON.stringify(newOrder));
-    reloadOrders();
+    localStorage.setItem("karsa_checkout_" + orderId, JSON.stringify(orderData));
     setModalOpen(false);
-    alert(`Brief untuk ${newOrder.brand} berhasil dikirim! Mengalihkan ke Customer Hub...`);
-    router.push("/customer_dashboard");
+    router.push("/checkout?id=" + orderId);
   };
 
   const handleAvatarUpload = (e: ChangeEvent<HTMLInputElement>) => {

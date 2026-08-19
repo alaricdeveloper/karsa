@@ -1,23 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
 import { generateOrderId } from "@/lib/utils";
 
-interface OrderFormProps {
-  onOrderCreated: (order: {
-    orderId: string;
-    brand: string;
-    category: string;
-    competitor: string;
-    description: string;
-    email: string;
-    phone: string;
-  }) => void;
-}
-
-export function OrderForm({ onOrderCreated }: OrderFormProps) {
+export function OrderForm() {
+  const router = useRouter();
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [competitor, setCompetitor] = useState("");
@@ -50,8 +40,7 @@ export function OrderForm({ onOrderCreated }: OrderFormProps) {
     if (!validate()) return;
 
     const orderId = generateOrderId();
-
-    onOrderCreated({
+    const orderData = {
       orderId,
       brand: brand.trim(),
       category,
@@ -59,7 +48,12 @@ export function OrderForm({ onOrderCreated }: OrderFormProps) {
       description: description.trim(),
       email: email.trim(),
       phone: phone.trim(),
-    });
+      timestamp: new Date().toISOString(),
+      status: "PENDING",
+    };
+
+    localStorage.setItem("karsa_checkout_" + orderId, JSON.stringify(orderData));
+    router.push("/checkout?id=" + orderId);
   };
 
   return (
