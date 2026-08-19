@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import type { Order, ContentItem, SeoArticle } from "@/lib/types";
 import { StatusHero } from "@/components/portal/StatusHero";
 import { NotionCallout } from "@/components/portal/NotionCallout";
@@ -10,7 +11,7 @@ import { ScriptStudio } from "@/components/portal/ScriptStudio";
 import { SeoArticles } from "@/components/portal/SeoArticles";
 import { CompetitorRadar } from "@/components/portal/CompetitorRadar";
 import { RevisionForm } from "@/components/portal/RevisionForm";
-import { Calendar, FileText, Search, Compass, Edit3, Download, MessageSquare, Play, Pause, ArrowUpRight } from "lucide-react";
+import { Calendar, FileText, Search, Compass, Edit3, Download, MessageSquare, Play, Pause, ArrowUpRight, Lock } from "lucide-react";
 
 type Tab = "calendar" | "dayview" | "seo" | "radar" | "revision";
 
@@ -31,6 +32,7 @@ const MOB_TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
 
 export default function PortalPage() {
   const params = useParams();
+  const router = useRouter();
   const orderId = params.orderId as string;
 
   const [order, setOrder] = useState<Order | null>(null);
@@ -49,12 +51,28 @@ export default function PortalPage() {
   const tpIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (orderId) fetchData();
+    if (orderId) checkAuthAndFetch();
   }, [orderId]);
 
-  async function fetchData() {
+  async function checkAuthAndFetch() {
     setLoading(true);
     setError(null);
+
+    // 1. Check auth
+    const supabase = createClient();
+    if (!supabase) {
+      setError("Konfigurasi autentikasi tidak tersedia.");
+      setLoading(false);
+      return;
+    }
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      router.push("/login?redirect=/portal/" + orderId);
+      return;
+    }
+
+    // 2. Fetch order
     try {
       const res = await fetch(`/api/portal/${orderId}`);
       const json = await res.json();
@@ -63,6 +81,15 @@ export default function PortalPage() {
         setLoading(false);
         return;
       }
+
+      // 3. Check email ownership
+      const orderEmail = (json.order as Order).email;
+      if (orderEmail !== user.email) {
+        setError("Anda tidak memiliki akses ke portal ini.");
+        setLoading(false);
+        return;
+      }
+
       setOrder(json.order as Order);
       setContentItems((json.contentItems || []) as ContentItem[]);
       setSeoArticles((json.seoArticles || []) as SeoArticle[]);
@@ -139,11 +166,29 @@ export default function PortalPage() {
   }
 
   if (error || !order) {
+    const isAccessDenied = error === "Anda tidak memiliki akses ke portal ini.";
     return (
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
-        <div className="text-center space-y-2">
-          <p className="text-sm text-rose-600 font-semibold">{error || "Order tidak ditemukan"}</p>
-          <a href="/" className="text-xs text-indigo-700 hover:underline">← Kembali ke Beranda</a>
+      <div className="min-h-screen bg-sand-50 flex items-center justify-center px-4">
+        <div className="text-center space-y-4 max-w-sm">
+          {isAccessDenied && (
+            <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto">
+              <Lock className="w-7 h-7 text-red-500" />
+            </div>
+          )}
+          <div className="space-y-1">
+            <p className="text-sm text-rose-600 font-semibold">{error || "Order tidak ditemukan"}</p>
+            {isAccessDenied && (
+              <p className="text-xs text-stone-500">Portal ini hanya bisa diakses oleh pemilik pesanan.</p>
+            )}
+          </div>
+          <div className="flex items-center justify-center gap-3">
+            <a href="/dashboard" className="px-4 py-2 bg-sand-900 text-sand-50 text-xs font-mono rounded-xl hover:bg-stone-800 transition">
+              ke Dashboard
+            </a>
+            <a href="/" className="text-xs text-stone-500 hover:text-sand-900 transition">
+              ← Kembali ke Beranda
+            </a>
+          </div>
         </div>
       </div>
     );
