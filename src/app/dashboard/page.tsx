@@ -80,21 +80,28 @@ function loadProfileFromStorage(): Profile {
   return DEFAULT_PROFILE;
 }
 
-function loadOrdersFromStorage(userEmail?: string | null): Order[] {
-  const userOrders: Order[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key?.startsWith("omni_order_")) {
-      try {
-        const order: Order = JSON.parse(localStorage.getItem(key) || "{}");
-        if (!userEmail || order.email === userEmail) {
-          userOrders.push(order);
-        }
-      } catch {}
-    }
-  }
-  userOrders.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-  return userOrders;
+async function fetchOrdersFromSupabase(email: string): Promise<Order[]> {
+  const supabase = createClient();
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("email", email)
+    .order("created_at", { ascending: false });
+  if (!data) return [];
+  return data.map((o: Record<string, unknown>) => ({
+    orderId: o.order_id as string,
+    brand: o.brand as string,
+    category: o.category as string,
+    competitor: o.competitor as string || "",
+    description: o.description as string || "",
+    email: o.email as string,
+    phone: o.phone as string || "",
+    timestamp: (o.created_at as string) || "",
+    status: o.status as string,
+    notionUrl: o.notion_url as string || "",
+    notes: o.notes as string || "",
+  }));
 }
 
 export default function DashboardPage() {
@@ -156,7 +163,7 @@ export default function DashboardPage() {
           return;
         }
         userEmailRef.current = user.email || null;
-        setOrders(loadOrdersFromStorage(user.email));
+        fetchOrdersFromSupabase(user.email || "").then(setOrders);
         setProfile((prev) => {
           if (prev.email === DEFAULT_PROFILE.email || !prev.email) {
             const username = user.email ? user.email.split("@")[0] : prev.displayName;
@@ -192,11 +199,12 @@ export default function DashboardPage() {
     setInCompetitor(p.defaultCompetitor);
     setInEmail(p.email);
     setInPhone(p.phone);
-    setOrders(loadOrdersFromStorage());
   }, [router]);
 
   const reloadOrders = useCallback(() => {
-    setOrders(loadOrdersFromStorage(userEmailRef.current));
+    if (userEmailRef.current) {
+      fetchOrdersFromSupabase(userEmailRef.current).then(setOrders);
+    }
   }, []);
 
   const switchMainTab = useCallback((tab: MainTab) => {
