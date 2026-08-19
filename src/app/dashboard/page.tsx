@@ -523,7 +523,7 @@ export default function DashboardPage() {
                           <span className={`status-badge ${order.status} border px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-mono font-semibold`}>
                             {getOrderStatusLabel(order.status)}
                           </span>
-                          <a href="/customer_dashboard" className="px-3.5 py-2 bg-sand-900 text-sand-50 text-xs font-mono rounded-xl active:bg-stone-800 hover:bg-stone-800 transition flex items-center gap-1.5 min-h-[40px]">
+                          <a href={`/portal/${order.orderId}`} className="px-3.5 py-2 bg-sand-900 text-sand-50 text-xs font-mono rounded-xl active:bg-stone-800 hover:bg-stone-800 transition flex items-center gap-1.5 min-h-[40px]">
                             <span>Buka Hub</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </a>
