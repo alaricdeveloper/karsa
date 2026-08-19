@@ -80,13 +80,16 @@ function loadProfileFromStorage(): Profile {
   return DEFAULT_PROFILE;
 }
 
-function loadOrdersFromStorage(): Order[] {
+function loadOrdersFromStorage(userEmail?: string | null): Order[] {
   const userOrders: Order[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key?.startsWith("omni_order_")) {
       try {
-        userOrders.push(JSON.parse(localStorage.getItem(key) || "{}"));
+        const order: Order = JSON.parse(localStorage.getItem(key) || "{}");
+        if (!userEmail || order.email === userEmail) {
+          userOrders.push(order);
+        }
       } catch {}
     }
   }
@@ -138,6 +141,7 @@ export default function DashboardPage() {
   const [inputDefaultBrand, setInputDefaultBrand] = useState("");
   const [inputDefaultCategory, setInputDefaultCategory] = useState("Kuliner / F&B");
   const [inputDefaultCompetitor, setInputDefaultCompetitor] = useState("");
+  const userEmailRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (loadedRef.current) return;
@@ -151,6 +155,8 @@ export default function DashboardPage() {
           router.push("/login?redirect=/dashboard");
           return;
         }
+        userEmailRef.current = user.email || null;
+        setOrders(loadOrdersFromStorage(user.email));
         setProfile((prev) => {
           if (prev.email === DEFAULT_PROFILE.email || !prev.email) {
             const username = user.email ? user.email.split("@")[0] : prev.displayName;
@@ -190,7 +196,7 @@ export default function DashboardPage() {
   }, [router]);
 
   const reloadOrders = useCallback(() => {
-    setOrders(loadOrdersFromStorage());
+    setOrders(loadOrdersFromStorage(userEmailRef.current));
   }, []);
 
   const switchMainTab = useCallback((tab: MainTab) => {

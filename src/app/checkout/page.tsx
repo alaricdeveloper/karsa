@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 import {
   ShieldCheck,
   Award,
@@ -58,7 +59,7 @@ function CheckoutContent() {
   const [copied, setCopied] = useState(false);
   const [paymentComplete, setPaymentComplete] = useState(false);
 
-  // Load order from localStorage
+  // Load order from localStorage and lock email to logged-in user
   useEffect(() => {
     if (paramId) {
       try {
@@ -69,6 +70,16 @@ function CheckoutContent() {
           setPaymentMethod(parsed.paymentMethod || "QRIS");
         }
       } catch {}
+    }
+
+    const supabase = createClient();
+    if (supabase) {
+      supabase.auth.getUser().then((res: { data: { user: { email?: string } | null } }) => {
+        const user = res.data.user;
+        if (user?.email) {
+          setOrder((prev) => ({ ...prev, email: user.email! }));
+        }
+      });
     }
   }, [paramId]);
 
