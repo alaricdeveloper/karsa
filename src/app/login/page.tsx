@@ -31,22 +31,53 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              role: "customer",
+            },
+          },
         });
         if (error) throw error;
+
+        if (data.session) {
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get("redirect") || "/dashboard";
+          window.location.replace(redirectUrl);
+          return;
+        }
+
         setError("");
-        alert("Akun berhasil dibuat! Silakan cek email untuk verifikasi, lalu login.");
+        alert("Akun berhasil dibuat! Silakan cek email Anda jika diperlukan verifikasi, lalu masuk.");
         setIsSignUp(false);
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (error) throw error;
 
-        window.location.replace("/console");
+        const params = new URLSearchParams(window.location.search);
+        const redirectUrl = params.get("redirect");
+
+        if (redirectUrl && redirectUrl.startsWith("/")) {
+          window.location.replace(redirectUrl);
+          return;
+        }
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", data.user.id)
+          .single();
+
+        if (profile?.role === "admin") {
+          window.location.replace("/console");
+        } else {
+          window.location.replace("/dashboard");
+        }
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Terjadi kesalahan";

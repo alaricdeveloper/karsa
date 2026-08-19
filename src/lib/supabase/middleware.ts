@@ -46,6 +46,7 @@ export async function updateSession(request: NextRequest) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
+      url.searchParams.set("redirect", "/console");
       return NextResponse.redirect(url);
     }
 
@@ -58,16 +59,40 @@ export async function updateSession(request: NextRequest) {
 
     if (!profile || profile.role !== "admin") {
       const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // Protect /dashboard — must be logged in
+  if (pathname.startsWith("/dashboard")) {
+    if (!user) {
+      const url = request.nextUrl.clone();
       url.pathname = "/login";
-      url.searchParams.set("error", "Akses ditolak. Hanya admin yang diizinkan.");
+      url.searchParams.set("redirect", "/dashboard");
       return NextResponse.redirect(url);
     }
   }
 
   // Redirect logged-in users away from /login
   if (pathname === "/login" && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    const redirectParam = request.nextUrl.searchParams.get("redirect");
     const url = request.nextUrl.clone();
-    url.pathname = "/console";
+
+    if (redirectParam && redirectParam.startsWith("/")) {
+      url.pathname = redirectParam;
+      url.searchParams.delete("redirect");
+    } else if (profile?.role === "admin") {
+      url.pathname = "/console";
+    } else {
+      url.pathname = "/dashboard";
+    }
     return NextResponse.redirect(url);
   }
 

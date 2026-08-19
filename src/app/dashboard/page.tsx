@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import {
   Sparkles,
   LogOut,
@@ -141,6 +142,35 @@ export default function DashboardPage() {
   useEffect(() => {
     if (loadedRef.current) return;
     loadedRef.current = true;
+
+    const supabase = createClient();
+    if (supabase) {
+      supabase.auth.getUser().then((res: { data: { user: { email?: string } | null } }) => {
+        const user = res.data.user;
+        if (!user) {
+          router.push("/login?redirect=/dashboard");
+          return;
+        }
+        setProfile((prev) => {
+          if (prev.email === DEFAULT_PROFILE.email || !prev.email) {
+            const username = user.email ? user.email.split("@")[0] : prev.displayName;
+            const updated = {
+              ...prev,
+              email: user.email || prev.email,
+              displayName: prev.displayName === DEFAULT_PROFILE.displayName ? username : prev.displayName,
+              fullName: prev.fullName === DEFAULT_PROFILE.fullName ? username : prev.fullName,
+            };
+            setInputEmail(updated.email);
+            setInputDisplayName(updated.displayName);
+            setInputFullName(updated.fullName);
+            setInEmail(updated.email);
+            return updated;
+          }
+          return prev;
+        });
+      });
+    }
+
     const p = loadProfileFromStorage();
     setProfile(p);
     setInputFullName(p.fullName);
@@ -157,7 +187,7 @@ export default function DashboardPage() {
     setInEmail(p.email);
     setInPhone(p.phone);
     setOrders(loadOrdersFromStorage());
-  }, []);
+  }, [router]);
 
   const reloadOrders = useCallback(() => {
     setOrders(loadOrdersFromStorage());
@@ -296,9 +326,13 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (confirm("Apakah Anda ingin keluar dari Workspace Karsa?")) {
-      router.push("/");
+      const supabase = createClient();
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
+      window.location.href = "/login";
     }
   };
 
