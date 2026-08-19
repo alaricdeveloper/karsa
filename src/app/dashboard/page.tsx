@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { createBrowserClient } from "@supabase/ssr";
 import { createClient } from "@/lib/supabase/client";
 import {
   Sparkles,
@@ -81,13 +82,22 @@ function loadProfileFromStorage(): Profile {
 }
 
 async function fetchOrdersFromSupabase(email: string): Promise<Order[]> {
-  const supabase = createClient();
-  if (!supabase) return [];
-  const { data } = await supabase
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    console.error("[Dashboard] Missing Supabase env vars");
+    return [];
+  }
+  const supabase = createBrowserClient(url, key);
+  const { data, error } = await supabase
     .from("orders")
     .select("*")
     .eq("email", email)
     .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[Dashboard] Supabase query error:", error.message);
+    return [];
+  }
   if (!data) return [];
   return data.map((o: Record<string, unknown>) => ({
     orderId: o.order_id as string,
@@ -163,7 +173,11 @@ export default function DashboardPage() {
           return;
         }
         userEmailRef.current = user.email || null;
-        fetchOrdersFromSupabase(user.email || "").then(setOrders);
+        console.log("[Dashboard] Fetching orders for:", user.email);
+        fetchOrdersFromSupabase(user.email || "").then((o) => {
+          console.log("[Dashboard] Orders loaded:", o.length);
+          setOrders(o);
+        }).catch((e) => console.error("[Dashboard] Fetch orders failed:", e));
         setProfile((prev) => {
           if (prev.email === DEFAULT_PROFILE.email || !prev.email) {
             const username = user.email ? user.email.split("@")[0] : prev.displayName;
