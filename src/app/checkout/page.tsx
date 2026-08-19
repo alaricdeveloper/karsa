@@ -129,6 +129,8 @@ function CheckoutContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          orderId: order.orderId,
+          status: "IN_PROGRESS",
           brand: order.brand,
           category: order.category,
           competitor: order.competitor || "",

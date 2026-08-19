@@ -9,9 +9,21 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { brand, category, competitor, description, email, phone } = body;
+    const { brand, category, competitor, description, email, phone, status, orderId } = body;
 
-    // Validate required fields
+    // If orderId and status provided, update existing order (payment confirmed)
+    if (orderId && status) {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq("order_id", orderId);
+      if (error) {
+        return NextResponse.json({ error: "Gagal update status" }, { status: 500 });
+      }
+      return NextResponse.json({ order_id: orderId });
+    }
+
+    // Validate required fields for new order
     if (!brand || !category || !description || !email) {
       return NextResponse.json(
         { error: "Data tidak lengkap" },
