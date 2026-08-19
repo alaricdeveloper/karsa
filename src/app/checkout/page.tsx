@@ -19,6 +19,8 @@ interface OrderData {
   orderId: string;
   brand: string;
   category: string;
+  competitor?: string;
+  description?: string;
   email: string;
   phone: string;
   timestamp: string;
