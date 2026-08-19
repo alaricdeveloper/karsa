@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -36,7 +36,7 @@ const VA_LABELS: Record<string, string> = {
   MANDIRI_VA: "Mandiri Virtual Account",
 };
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const paramId = searchParams.get("id");
 
@@ -696,5 +696,17 @@ export default function CheckoutPage() {
         </p>
       </div>
     </>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
+        <p className="text-sm text-stone-500 font-mono">Memuat checkout...</p>
+      </div>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -17,7 +17,7 @@ interface OrderData {
   paymentMethod?: string;
 }
 
-export default function InvoicePage() {
+function InvoiceContent() {
   const searchParams = useSearchParams();
   const paramId = searchParams.get("id");
 
@@ -225,5 +225,17 @@ export default function InvoicePage() {
         </main>
       </div>
     </>
+  );
+}
+
+export default function InvoicePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
+        <p className="text-sm text-stone-500 font-mono">Memuat invoice...</p>
+      </div>
+    }>
+      <InvoiceContent />
+    </Suspense>
   );
 }
