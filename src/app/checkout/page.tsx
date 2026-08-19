@@ -60,7 +60,7 @@ function CheckoutContent() {
   useEffect(() => {
     if (paramId) {
       try {
-        const stored = localStorage.getItem("omni_order_" + paramId);
+        const stored = localStorage.getItem("karsa_checkout_" + paramId) || localStorage.getItem("omni_order_" + paramId);
         if (stored) {
           const parsed = JSON.parse(stored);
           setOrder(parsed);
@@ -103,13 +103,29 @@ function CheckoutContent() {
     });
   }, [paymentMethod]);
 
-  const confirmPayment = useCallback(() => {
+  const confirmPayment = useCallback(async () => {
     const updated = {
       ...order,
       status: "IN_PROGRESS",
       paidAt: new Date().toISOString(),
     };
     localStorage.setItem("omni_order_" + order.orderId, JSON.stringify(updated));
+
+    try {
+      await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          brand: order.brand,
+          category: order.category,
+          competitor: order.competitor || "",
+          description: order.description || "Order dari Member Workspace",
+          email: order.email,
+          phone: order.phone,
+        }),
+      });
+    } catch {}
+
     setPaymentComplete(true);
   }, [order]);
 
