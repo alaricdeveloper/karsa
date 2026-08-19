@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
 import { generateOrderId } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 export function OrderForm() {
   const router = useRouter();
@@ -35,9 +36,12 @@ export function OrderForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
     const orderId = generateOrderId();
     const orderData = {
@@ -53,7 +57,12 @@ export function OrderForm() {
     };
 
     localStorage.setItem("karsa_checkout_" + orderId, JSON.stringify(orderData));
-    router.push("/checkout?id=" + orderId);
+
+    if (!user) {
+      router.push("/login?redirect=/checkout&id=" + orderId);
+    } else {
+      router.push("/checkout?id=" + orderId);
+    }
   };
 
   return (

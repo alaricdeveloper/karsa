@@ -45,7 +45,9 @@ export default function LoginPage() {
         if (data.session) {
           const params = new URLSearchParams(window.location.search);
           const redirectUrl = params.get("redirect") || "/dashboard";
-          window.location.replace(redirectUrl);
+          const orderId = params.get("id");
+          const url = orderId ? `${redirectUrl}?id=${orderId}` : redirectUrl;
+          window.location.replace(url);
           return;
         }
 
@@ -61,9 +63,11 @@ export default function LoginPage() {
 
         const params = new URLSearchParams(window.location.search);
         const redirectUrl = params.get("redirect");
+        const orderId = params.get("id");
 
         if (redirectUrl && redirectUrl.startsWith("/")) {
-          window.location.replace(redirectUrl);
+          const url = orderId ? `${redirectUrl}?id=${orderId}` : redirectUrl;
+          window.location.replace(url);
           return;
         }
 
