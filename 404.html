@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>404 — Halaman Tidak Ditemukan | Karsa Studio</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            sand: {
+              50: '#FBFBFA',
+              100: '#F5F5F3',
+              200: '#EBEBE8',
+              300: '#DDDCD7',
+              700: '#4A4844',
+              800: '#2A2927',
+              900: '#171615',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bento-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E5E0;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .bento-card:hover {
+      border-color: #A3A39E;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-sand-50 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 min-h-screen flex flex-col justify-between">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-30 bg-sand-50/95 backdrop-blur-md border-b border-sand-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="landingpage.html" class="flex items-center space-x-2">
+        <span class="font-serif text-2xl sm:text-3xl tracking-tight text-sand-900 font-normal">Karsa</span>
+        <span class="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-200 text-sand-800 rounded font-semibold">Status 404</span>
+      </a>
+      <div class="flex items-center space-x-3 text-xs font-mono">
+        <a href="landingpage.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sand-300 rounded-xl hover:bg-sand-100 transition text-stone-700 shadow-sm">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Beranda</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 404 CONTENT -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20 my-auto text-center space-y-8">
+    
+    <!-- BIG EDITORIAL 404 DISPLAY -->
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-amber-900 bg-amber-100/70 border border-amber-200 px-3 py-1 rounded-full mx-auto">
+        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+        Alamat URL Tidak Ditemukan
+      </div>
+      
+      <h1 class="text-7xl sm:text-9xl font-serif text-sand-900 tracking-tight select-none">
+        404
+      </h1>
+
+      <h2 class="text-2xl sm:text-3xl font-serif text-stone-700 italic">
+        Naskah konten ini belum terbit atau tautannya berpindah.
+      </h2>
+      
+      <p class="text-xs sm:text-sm text-stone-600 font-sans max-w-md mx-auto leading-relaxed">
+        Halaman yang kamu cari tidak tersedia dalam arsip Karsa Studio. Mungkin tautan salah ketik atau telah dialihkan ke ruang kerja baru.
+      </p>
+    </div>
+
+    <!-- PRIMARY ACTION BUTTONS -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 font-mono text-xs max-w-md mx-auto">
+      <a href="landingpage.html" class="w-full sm:w-auto px-6 py-3.5 bg-sand-900 hover:bg-stone-800 text-sand-50 rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-sm min-h-[48px]">
+        <i data-lucide="arrow-left" class="w-4 h-4 text-emerald-400"></i>
+        <span>Kembali ke Beranda Utama</span>
+      </a>
+      <a href="user_dashboard.html" class="w-full sm:w-auto px-6 py-3.5 bg-white border border-sand-300 hover:bg-sand-100 text-sand-900 rounded-xl font-medium transition flex items-center justify-center gap-2 min-h-[48px]">
+        <i data-lucide="layout-grid" class="w-4 h-4 text-stone-500"></i>
+        <span>Buka Member Workspace</span>
+      </a>
+    </div>
+
+    <!-- QUICK DIRECTORY BENTO CARDS -->
+    <div class="pt-6 border-t border-sand-200 space-y-3 text-left font-mono text-xs">
+      <span class="text-[10px] text-stone-400 uppercase tracking-wider block text-center">Navigasi Langsung Portal Karsa</span>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        
+        <a href="customer_dashboard.html" class="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sand-900 font-sans">Customer Hub</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition"></i>
+          </div>
+          <p class="text-[11px] text-stone-500 font-sans">Akses 30 naskah, teleprompter, dan duplikasi Notion.</p>
+        </a>
+
+        <a href="user_dashboard.html" class="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sand-900 font-sans">Member Tools</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition"></i>
+          </div>
+          <p class="text-[11px] text-stone-500 font-sans">Generator Hook, Kalkulator ROI, dan Brand Vault.</p>
+        </a>
+
+        <a href="https://wa.me/6281288009920" target="_blank" class="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sand-900 font-sans">Bantuan CS</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition"></i>
+          </div>
+          <p class="text-[11px] text-stone-500 font-sans">Hubungi tim operasional langsung via WhatsApp.</p>
+        </a>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-sand-200 py-6 px-4 font-mono text-xs text-stone-500 text-center">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 text-[11px]">
+        <a href="terms.html" class="hover:text-sand-900 transition">Terms</a>
+        <span>&bull;</span>
+        <a href="privacy.html" class="hover:text-sand-900 transition">Privacy</a>
+        <span>&bull;</span>
+        <a href="refund.html" class="hover:text-sand-900 transition">SLA Guarantee</a>
+      </div>
+      <p class="text-[11px] text-stone-400">&copy; 2026 Karsa Studio (<span class="text-stone-600">usekarsa.co</span>). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
