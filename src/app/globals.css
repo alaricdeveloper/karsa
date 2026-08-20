@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sand-50: #FBFBFA;
-  --color-sand-100: #F5F5F3;
-  --color-sand-200: #EBEBE8;
-  --color-sand-300: #DDDCD7;
-  --color-sand-700: #4A4844;
-  --color-sand-800: #2A2927;
-  --color-sand-900: #171615;
+  --color-canvas: #FBF9F4;
+  --color-surface: #FFFFFF;
+  --color-ink: #181511;
+  --color-terracotta: #E75A3C;
+  --color-terracottaLight: #FDF0ED;
+  --color-wasabi: #D4E882;
+  --color-wasabiDark: #4A5B11;
+  --color-sunflower: #FCD34D;
+  --color-borderInk: #181511;
 
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-serif: "Instrument Serif", serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-mono: "Space Mono", monospace;
 }
 
 /* Scrollbar hiding */
@@ -36,31 +38,67 @@
   transform: translateY(0);
 }
 
+/* Brutalist card */
+.bento-pop {
+  background: #FFFFFF;
+  border: 2px solid #181511;
+  box-shadow: 3.5px 3.5px 0px #181511;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+@media (min-width: 640px) {
+  .bento-pop {
+    border-width: 2.5px;
+    box-shadow: 4px 4px 0px #181511;
+  }
+  .bento-pop:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #181511;
+  }
+}
+
+/* Badge tag */
+.badge-tag {
+  border: 1.5px solid #181511;
+  box-shadow: 2px 2px 0px #181511;
+}
+
 /* Tab active state */
 .tab-btn.active {
-  background-color: #171615;
+  background-color: #181511;
   color: #FFFFFF;
-  border-color: #171615;
+  border-color: #181511;
 }
 
 /* Sample pill active state */
 .sample-pill.active {
-  background-color: #171615;
-  font-weight: 600;
+  background-color: #181511;
+  font-weight: 700;
   color: #FFFFFF;
-  border-color: #171615;
+  border-color: #181511;
 }
 
 /* Calendar day card active */
 .cal-day-card.active {
-  border-color: #171615;
-  background-color: #F5F5F3;
+  border-color: #181511;
+  background-color: #FBF9F4;
 }
 
 /* Kanban tab pill active */
 .kanban-tab-pill.active {
-  background-color: #171615;
+  background-color: #181511;
   color: #FFFFFF;
+}
+
+/* Teleprompter animation */
+@keyframes teleprompterScroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.animate-teleprompter {
+  animation: teleprompterScroll 15s linear infinite;
+}
+.animate-teleprompter:hover {
+  animation-play-state: paused;
 }
 
 /* Smooth scroll */
@@ -70,6 +108,6 @@ html {
 
 /* Selection styling */
 ::selection {
-  background-color: #171615;
-  color: #FBFBFA;
+  background-color: #D4E882;
+  color: #181511;
 }

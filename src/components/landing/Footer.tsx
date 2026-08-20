@@ -4,19 +4,18 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="py-10 sm:py-12 bg-sand-50 text-xs font-mono text-stone-500 border-t border-sand-200">
+    <footer className="py-8 sm:py-12 bg-canvas text-xs font-mono text-stone-600 border-t-2 border-ink">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center space-x-2">
-          <span className="font-serif text-sand-900 text-base font-normal">Karsa Studio</span>
-          <span>&mdash; Automated Operations</span>
+          <span className="font-serif text-ink text-xl">Karsa Studio</span>
         </div>
         <div>
-          &copy; 2026 Karsa Inc. Hak Cipta Dilindungi.
+          &copy; 2026 Karsa Studio (usekarsa.co). All rights reserved.
         </div>
-        <div className="flex flex-wrap justify-center gap-4 text-stone-700 font-medium">
-          <Link href="/terms" className="hover:text-sand-900 transition underline underline-offset-4 py-1">Terms</Link>
-          <Link href="/privacy" className="hover:text-sand-900 transition underline underline-offset-4 py-1">Privacy</Link>
-          <Link href="/refund" className="hover:text-sand-900 transition underline underline-offset-4 py-1">Refund</Link>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link href="/terms" className="font-bold text-ink hover:text-terracotta transition py-1">Terms</Link>
+          <Link href="/privacy" className="font-bold text-ink hover:text-terracotta transition py-1">Privacy</Link>
+          <Link href="/refund" className="font-bold text-ink hover:text-terracotta transition py-1">SLA Guarantee</Link>
         </div>
       </div>
     </footer>

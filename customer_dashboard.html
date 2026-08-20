@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Karsa Studio — Client Content Hub</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            sand: {
+              50: '#FBFBFA',
+              100: '#F5F5F3',
+              200: '#EBEBE8',
+              300: '#DDDCD7',
+              700: '#4A4844',
+              800: '#2A2927',
+              900: '#171615',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bento-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E5E0;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .bento-card:hover {
+      border-color: #A3A39E;
+    }
+    .status-badge.PENDING_PAYMENT {
+      background-color: #FEF3C7;
+      color: #92400E;
+      border-color: #FDE68A;
+    }
+    .status-badge.IN_PROGRESS {
+      background-color: #E0E7FF;
+      color: #3730A3;
+      border-color: #C7D2FE;
+    }
+    .status-badge.QC_REVIEW {
+      background-color: #FCE7F3;
+      color: #9D174D;
+      border-color: #FBCFE8;
+    }
+    .status-badge.COMPLETED {
+      background-color: #D1FAE5;
+      color: #065F46;
+      border-color: #A7F3D0;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .cal-day-card.active {
+      border-color: #171615;
+      background-color: #F5F5F3;
+    }
+  </style>
+</head>
+<body class="bg-sand-50 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 pb-28 md:pb-16">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-30 bg-sand-50/95 backdrop-blur-md border-b border-sand-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <a href="index.html" class="font-serif text-xl sm:text-2xl tracking-tight text-sand-900">Karsa</a>
+        <span class="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-200 text-sand-800 rounded font-semibold">Client Hub</span>
+      </div>
+
+      <div class="flex items-center space-x-2 text-xs font-mono">
+        <select id="clientOrderSelector" onchange="changeActiveOrder(this.value)" class="bg-white border border-sand-300 rounded-lg px-2.5 py-1.5 text-xs text-sand-900 focus:outline-none focus:border-sand-900 font-mono">
+          <!-- Populated by JS -->
+        </select>
+        <button onclick="downloadMasterExport()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 border border-sand-300 rounded-lg hover:bg-sand-200 transition bg-white text-stone-700">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-stone-500"></i>
+          <span>Unduh .TXT</span>
+        </button>
+        <a href="https://wa.me/6281288009920" target="_blank" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-sand-900 text-sand-50 rounded-lg hover:bg-stone-800 transition">
+          <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="hidden sm:inline">Support 48 Jam</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CLIENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 sm:space-y-6">
+    
+    <!-- STATUS & SLA MONITOR HERO -->
+    <section class="bento-card p-5 sm:p-8 rounded-3xl relative overflow-hidden shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2 font-mono text-xs text-stone-500">
+            <span>Order ID: <strong id="dispOrderId" class="text-sand-900"></strong></span>
+            <span>&bull;</span>
+            <span id="dispTimestamp"></span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-serif text-sand-900" id="dispBrandName">Memuat data brief...</h1>
+          <p class="text-xs sm:text-sm text-stone-600 font-mono mt-1" id="dispCategory"></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          <div class="p-2.5 sm:p-3 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs">
+            <span class="text-stone-500 block text-[9px] sm:text-[10px] uppercase">Status Produksi</span>
+            <span id="dispStatusBadge" class="status-badge px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold inline-block mt-1"></span>
+          </div>
+          <div class="p-2.5 sm:p-3 bg-sand-50 border border-sand-200 rounded-xl font-mono text-xs">
+            <span class="text-stone-500 block text-[9px] sm:text-[10px] uppercase">SLA Kurasi</span>
+            <span id="dispSlaBadge" class="font-bold inline-block mt-1 text-sand-900 text-[10px] sm:text-[11px]"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESS STEPPER -->
+      <div class="mt-6 pt-5 border-t border-sand-200">
+        <div class="grid grid-cols-4 gap-2 text-center font-mono text-[9px] sm:text-xs">
+          <div id="step-1" class="space-y-1">
+            <div class="h-1.5 rounded-full bg-emerald-600"></div>
+            <span class="font-bold text-sand-900 block">1. Brief Masuk</span>
+          </div>
+          <div id="step-2" class="space-y-1">
+            <div class="h-1.5 rounded-full bg-sand-200"></div>
+            <span class="text-stone-500 block">2. AI Engine</span>
+          </div>
+          <div id="step-3" class="space-y-1">
+            <div class="h-1.5 rounded-full bg-sand-200"></div>
+            <span class="text-stone-500 block">3. Kurasi QC</span>
+          </div>
+          <div id="step-4" class="space-y-1">
+            <div class="h-1.5 rounded-full bg-sand-200"></div>
+            <span class="text-stone-500 block">4. Notion Siap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTION WORKSPACE ACCESS CALLOUT -->
+    <section id="notionAccessBox" class="bento-card p-5 sm:p-6 rounded-2xl border-2 border-sand-900 bg-sand-50/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-sand-900 text-sand-50 flex items-center justify-center shrink-0">
+          <i data-lucide="layout" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-base text-sand-900">Ruang Kerja Notion 30 Hari Anda</h3>
+          <p class="text-xs text-stone-600 font-mono mt-0.5" id="notionStatusText">Workspace sedang disusun oleh tim operasional kami.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <a id="btnOpenNotion" href="#" target="_blank" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-sand-900 hover:bg-stone-800 text-sand-50 rounded-xl text-xs font-mono font-medium transition flex items-center justify-center gap-1.5 pointer-events-none opacity-50 min-h-[44px] sm:min-h-0">
+          <span>Buka Notion Workspace</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- DESKTOP CLIENT TAB NAVIGATION -->
+    <div class="hidden md:flex border-b border-sand-200 space-x-6 text-xs font-mono overflow-x-auto no-scrollbar">
+      <button onclick="switchClientTab('calendar')" id="ctab-calendar" class="client-tab-btn py-3.5 border-b-2 border-sand-900 font-bold text-sand-900 flex items-center gap-1.5 shrink-0">
+        <i data-lucide="calendar" class="w-4 h-4"></i>
+        <span>Kalender Konten 30 Hari</span>
+      </button>
+      <button onclick="switchClientTab('dayview')" id="ctab-dayview" class="client-tab-btn py-3.5 border-b-2 border-transparent text-stone-500 hover:text-sand-900 flex items-center gap-1.5 shrink-0">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+        <span>Studio Detail Naskah</span>
+      </button>
+      <button onclick="switchClientTab('seo')" id="ctab-seo" class="client-tab-btn py-3.5 border-b-2 border-transparent text-stone-500 hover:text-sand-900 flex items-center gap-1.5 shrink-0">
+        <i data-lucide="search" class="w-4 h-4"></i>
+        <span>4 Artikel SEO Website</span>
+      </button>
+      <button onclick="switchClientTab('radar')" id="ctab-radar" class="client-tab-btn py-3.5 border-b-2 border-transparent text-stone-500 hover:text-sand-900 flex items-center gap-1.5 shrink-0">
+        <i data-lucide="compass" class="w-4 h-4"></i>
+        <span>Audit Kompetitor</span>
+      </button>
+      <button onclick="switchClientTab('revision')" id="ctab-revision" class="client-tab-btn py-3.5 border-b-2 border-transparent text-stone-500 hover:text-sand-900 flex items-center gap-1.5 shrink-0">
+        <i data-lucide="edit-3" class="w-4 h-4"></i>
+        <span>Portal Kalibrasi / Revisi</span>
+      </button>
+    </div>
+
+    <!-- ==================== TAB 1: INTERACTIVE 30-DAY CALENDAR MATRIX ==================== -->
+    <section id="cview-calendar" class="space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs font-mono">
+        <div>
+          <h2 class="font-bold font-serif text-lg text-sand-900">Matriks Jadwal 30 Hari</h2>
+          <p class="text-stone-500 text-[11px]">Klik salah satu tanggal untuk membuka studio naskah lengkap.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1 text-[10px] text-stone-600"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Edukasi</span>
+          <span class="inline-flex items-center gap-1 text-[10px] text-stone-600"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> Cerita</span>
+          <span class="inline-flex items-center gap-1 text-[10px] text-stone-600"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hard Sell</span>
+        </div>
+      </div>
+
+      <!-- 30-Day Grid Layout (Adaptive Mobile & Desktop) -->
+      <div id="calendarGrid" class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-3">
+        <!-- 30 Days Generated by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: SCRIPT STUDIO & TELEPROMPTER ==================== -->
+    <section id="cview-dayview" class="hidden space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 font-mono text-xs">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <span class="text-stone-500 shrink-0">Pilih Hari:</span>
+          <select id="dayStudioSelector" onchange="loadDayStudio(this.value)" class="w-full sm:w-auto bg-white border border-sand-300 rounded-lg px-3 py-2 text-base sm:text-xs text-sand-900 font-mono focus:outline-none min-h-[44px] sm:min-h-0"></select>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <button onclick="openTeleprompter()" class="px-3.5 py-2 bg-sand-900 text-sand-50 rounded-lg font-medium transition flex items-center gap-1.5 min-h-[44px] sm:min-h-0">
+            <i data-lucide="play" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Buka Teleprompter</span>
+          </button>
+          <button onclick="copyDayScript()" class="px-3 py-2 border border-sand-300 rounded-lg bg-white hover:bg-sand-200 text-stone-800 transition flex items-center gap-1 min-h-[44px] sm:min-h-0">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Salin Naskah</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Script Studio Card -->
+      <div class="bento-card p-5 sm:p-8 rounded-2xl font-mono text-xs space-y-5">
+        <div class="flex justify-between items-center pb-3 border-b border-sand-200">
+          <div>
+            <span id="studioPillarBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">Pilar: Edukasi Nilai</span>
+            <h3 id="studioDayHeading" class="font-serif font-bold text-lg text-sand-900 mt-1">Day 01 — Masalah Utama Konsumen</h3>
+          </div>
+          <span class="text-[10px] text-stone-500 font-mono">Durasi: 20-30 Detik</span>
+        </div>
+
+        <!-- Script Segments -->
+        <div class="space-y-3.5 font-sans text-xs sm:text-sm text-stone-800 leading-relaxed">
+          <div class="p-3.5 bg-amber-50/70 border border-amber-200 rounded-xl">
+            <strong class="text-amber-950 font-mono text-[11px] block mb-1">[00:00 - 00:03] VISUAL & AUDIO HOOK</strong>
+            <p id="studioHookText" class="text-stone-800"></p>
+          </div>
+
+          <div class="p-3.5 bg-white border border-sand-200 rounded-xl">
+            <strong class="text-stone-500 font-mono text-[11px] block mb-1">[00:03 - 00:18] VALUE DELIVERY & SOCIAL PROOF</strong>
+            <p id="studioBodyText" class="text-stone-800"></p>
+          </div>
+
+          <div class="p-3.5 bg-emerald-50/70 border border-emerald-200 rounded-xl">
+            <strong class="text-emerald-950 font-mono text-[11px] block mb-1">[00:18 - 00:25] DIRECT CALL TO ACTION (CTA)</strong>
+            <p id="studioCtaText" class="text-stone-800"></p>
+          </div>
+        </div>
+
+        <!-- Takarir Instagram -->
+        <div class="pt-4 border-t border-sand-200 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-sand-900 font-serif text-sm">Takarir Instagram & Threads</span>
+            <button onclick="copyDayCaption()" class="text-stone-600 hover:text-sand-900 underline text-[11px]">Salin Takarir</button>
+          </div>
+          <div class="p-3.5 bg-sand-50 border border-sand-200 rounded-xl font-sans text-xs text-stone-700 whitespace-pre-line leading-relaxed" id="studioCaptionText"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: 4 SEO ARTICLES VIEWER ==================== -->
+    <section id="cview-seo" class="hidden space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+        <div class="bento-card p-5 sm:p-6 rounded-2xl space-y-3">
+          <span class="text-[10px] text-stone-400">Artikel 01 &bull; Pillar Content</span>
+          <h4 class="font-serif font-bold text-base text-sand-900" id="seoTitle1">Panduan Lengkap Memilih Produk Berkualitas</h4>
+          <p class="text-stone-600 font-sans text-xs leading-relaxed" id="seoDesc1"></p>
+          <button onclick="copySeoOutline(1)" class="w-full py-2 bg-sand-100 hover:bg-sand-200 border border-sand-300 rounded-lg text-sand-900 font-medium transition">Salin Kerangka Artikel 1</button>
+        </div>
+
+        <div class="bento-card p-5 sm:p-6 rounded-2xl space-y-3">
+          <span class="text-[10px] text-stone-400">Artikel 02 &bull; Commercial Intent</span>
+          <h4 class="font-serif font-bold text-base text-sand-900" id="seoTitle2">Perbandingan Produk vs Metode Konvensional</h4>
+          <p class="text-stone-600 font-sans text-xs leading-relaxed" id="seoDesc2"></p>
+          <button onclick="copySeoOutline(2)" class="w-full py-2 bg-sand-100 hover:bg-sand-200 border border-sand-300 rounded-lg text-sand-900 font-medium transition">Salin Kerangka Artikel 2</button>
+        </div>
+
+        <div class="bento-card p-5 sm:p-6 rounded-2xl space-y-3">
+          <span class="text-[10px] text-stone-400">Artikel 03 &bull; Problem Solving</span>
+          <h4 class="font-serif font-bold text-base text-sand-900" id="seoTitle3">5 Kesalahan Umum yang Sering Dilakukan Konsumen</h4>
+          <p class="text-stone-600 font-sans text-xs leading-relaxed" id="seoDesc3"></p>
+          <button onclick="copySeoOutline(3)" class="w-full py-2 bg-sand-100 hover:bg-sand-200 border border-sand-300 rounded-lg text-sand-900 font-medium transition">Salin Kerangka Artikel 3</button>
+        </div>
+
+        <div class="bento-card p-5 sm:p-6 rounded-2xl space-y-3">
+          <span class="text-[10px] text-stone-400">Artikel 04 &bull; How-To Guide</span>
+          <h4 class="font-serif font-bold text-base text-sand-900" id="seoTitle4">Tips Perawatan & Penggunaan Maksimal</h4>
+          <p class="text-stone-600 font-sans text-xs leading-relaxed" id="seoDesc4"></p>
+          <button onclick="copySeoOutline(4)" class="w-full py-2 bg-sand-100 hover:bg-sand-200 border border-sand-300 rounded-lg text-sand-900 font-medium transition">Salin Kerangka Artikel 4</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: COMPETITOR RADAR ==================== -->
+    <section id="cview-radar" class="hidden space-y-4">
+      <div class="bento-card p-6 rounded-2xl font-mono text-xs space-y-4">
+        <div>
+          <span class="text-xs font-mono uppercase text-stone-500">Positioning & Gap Analysis</span>
+          <h3 class="font-serif font-bold text-lg text-sand-900 mt-1">Audit Celah Pasar & Sudut Diferensiasi</h3>
+        </div>
+        <p class="text-stone-700 font-sans text-xs sm:text-sm leading-relaxed" id="radarFullAnalysis"></p>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: 48-HOUR REVISION PORTAL ==================== -->
+    <section id="cview-revision" class="hidden space-y-4">
+      <div class="bento-card p-5 sm:p-8 rounded-2xl font-mono text-xs space-y-4 max-w-2xl mx-auto">
+        <div>
+          <h3 class="font-serif font-bold text-lg text-sand-900">Ajukan Penyesuaian Sudut Pesan (Revisi)</h3>
+          <p class="text-stone-600 text-xs font-sans mt-1">Garansi kalibrasi gratis 48 jam jika ada istilah teknis atau tone brand yang perlu diselaraskan.</p>
+        </div>
+
+        <form id="revisionForm" class="space-y-4">
+          <div>
+            <label class="block text-stone-700 mb-1">Pilih Nomor Hari yang Ingin Diubah:</label>
+            <input type="text" id="revDays" required placeholder="Contoh: Day 03, Day 12" class="w-full bg-sand-50 border border-sand-300 rounded-lg p-2.5 text-sand-900 focus:outline-none focus:border-sand-900 min-h-[44px]">
+          </div>
+          <div>
+            <label class="block text-stone-700 mb-1">Catatan Detail Perubahan:</label>
+            <textarea id="revNotes" rows="4" required placeholder="Jelaskan penyesuaian yang diinginkan..." class="w-full bg-sand-50 border border-sand-300 rounded-lg p-2.5 text-sand-900 focus:outline-none focus:border-sand-900 text-xs sm:text-sm font-sans"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3.5 bg-sand-900 hover:bg-stone-800 text-sand-50 rounded-xl font-medium transition min-h-[44px]">Kirim Catatan Revisi ke Tim</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SMART STICKY BOTTOM NAVIGATION (MOBILE EXCLUSIVE) -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-sand-300 p-2 md:hidden z-40 flex items-center justify-around font-mono text-[10px]">
+    <button onclick="switchClientTab('calendar')" id="mob-ctab-calendar" class="mob-client-btn flex flex-col items-center py-1 text-sand-900 font-bold">
+      <i data-lucide="calendar" class="w-5 h-5 mb-0.5"></i>
+      <span>Kalender</span>
+    </button>
+    <button onclick="switchClientTab('dayview')" id="mob-ctab-dayview" class="mob-client-btn flex flex-col items-center py-1 text-stone-500">
+      <i data-lucide="file-text" class="w-5 h-5 mb-0.5"></i>
+      <span>Naskah</span>
+    </button>
+    <button onclick="openTeleprompter()" class="flex flex-col items-center justify-center -mt-4 w-11 h-11 bg-sand-900 text-sand-50 rounded-full shadow-lg">
+      <i data-lucide="play" class="w-5 h-5 ml-0.5 text-emerald-400"></i>
+    </button>
+    <button onclick="switchClientTab('seo')" id="mob-ctab-seo" class="mob-client-btn flex flex-col items-center py-1 text-stone-500">
+      <i data-lucide="search" class="w-5 h-5 mb-0.5"></i>
+      <span>SEO</span>
+    </button>
+    <button onclick="switchClientTab('revision')" id="mob-ctab-revision" class="mob-client-btn flex flex-col items-center py-1 text-stone-500">
+      <i data-lucide="edit-3" class="w-5 h-5 mb-0.5"></i>
+      <span>Revisi</span>
+    </button>
+  </div>
+
+  <!-- FULLSCREEN TELEPROMPTER OVERLAY -->
+  <div id="teleprompterModal" class="fixed inset-0 bg-black text-white z-50 hidden flex flex-col font-sans select-none">
+    <!-- Teleprompter Top Bar -->
+    <div class="p-4 bg-stone-900 border-b border-stone-800 flex items-center justify-between font-mono text-xs">
+      <div class="flex items-center gap-3">
+        <button onclick="togglePromptScroll()" id="btnPromptPlay" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-bold flex items-center gap-1.5">
+          <i data-lucide="play" class="w-4 h-4"></i> Play
+        </button>
+        <div class="flex items-center gap-1">
+          <span>Speed:</span>
+          <button onclick="adjustPromptSpeed(-1)" class="w-7 h-7 bg-stone-800 rounded font-bold">-</button>
+          <span id="promptSpeedDisp" class="px-2 font-bold">2x</span>
+          <button onclick="adjustPromptSpeed(1)" class="w-7 h-7 bg-stone-800 rounded font-bold">+</button>
+        </div>
+      </div>
+      <button onclick="closeTeleprompter()" class="px-3 py-2 bg-stone-800 rounded-lg text-stone-400 hover:text-white">Tutup &times;</button>
+    </div>
+
+    <!-- Scrolling Text Canvas -->
+    <div id="promptScrollCanvas" class="flex-1 overflow-y-auto p-6 sm:p-12 text-center text-2xl sm:text-4xl font-bold leading-relaxed space-y-8 max-w-3xl mx-auto">
+      <div id="promptTextContent" class="py-20 text-stone-200"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT CLIENT ENGINE -->
+  <script>
+    lucide.createIcons();
+
+    let clientOrders = [];
+    let currentOrder = null;
+    let activeDay = 1;
+
+    // Teleprompter state
+    let promptInterval = null;
+    let promptSpeed = 2;
+    let isPromptPlaying = false;
+
+    // 1. INITIALIZE PORTAL
+    function initClientPortal() {
+      const orders = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('omni_order_')) {
+          try {
+            orders.push(JSON.parse(localStorage.getItem(key)));
+          } catch(e) {}
+        }
+      }
+
+      if (orders.length === 0) {
+        const fallback = {
+          orderId: 'INV-993810',
+          brand: 'Aroma Sambal Tempong Ibu Sri',
+          category: 'Kuliner / F&B',
+          competitor: '@sambal_bu_rudy',
+          description: 'Sambal tempong khas Banyuwangi botolan pedas segar tanpa pengawet.',
+          email: 'sri.tempong@gmail.com',
+          phone: '081298112233',
+          timestamp: new Date().toISOString(),
+          status: 'IN_PROGRESS',
+          notionUrl: 'https://notion.so/karsa/sample-workspace'
+        };
+        orders.push(fallback);
+      }
+
+      orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      clientOrders = orders;
+
+      const selector = document.getElementById('clientOrderSelector');
+      selector.innerHTML = '';
+      clientOrders.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o.orderId;
+        opt.textContent = `${o.brand} (${o.orderId})`;
+        selector.appendChild(opt);
+      });
+
+      // Populate Day Studio Selectors
+      const dayStudioSel = document.getElementById('dayStudioSelector');
+      dayStudioSel.innerHTML = '';
+      for (let d = 1; d <= 30; d++) {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = `Day ${d < 10 ? '0' + d : d} — Naskah Harian`;
+        dayStudioSel.appendChild(opt);
+      }
+
+      changeActiveOrder(clientOrders[0].orderId);
+    }
+
+    // 2. CHANGE ACTIVE ORDER
+    function changeActiveOrder(orderId) {
+      currentOrder = clientOrders.find(o => o.orderId === orderId) || clientOrders[0];
+      
+      document.getElementById('dispOrderId').textContent = currentOrder.orderId;
+      document.getElementById('dispBrandName').textContent = currentOrder.brand;
+      document.getElementById('dispCategory').textContent = `${currentOrder.category} &bull; Target: ${currentOrder.competitor || 'General'}`;
+      
+      const dateStr = new Date(currentOrder.timestamp).toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      document.getElementById('dispTimestamp').textContent = dateStr;
+
+      // Status Badge
+      const stBadge = document.getElementById('dispStatusBadge');
+      stBadge.className = `status-badge ${currentOrder.status} px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold inline-block mt-1`;
+      
+      let stText = 'Menunggu Bayar';
+      if (currentOrder.status === 'IN_PROGRESS') stText = 'Penyusunan Konten';
+      if (currentOrder.status === 'QC_REVIEW') stText = 'Tahap Kurasi QC';
+      if (currentOrder.status === 'COMPLETED') stText = 'Selesai Terkirim';
+      stBadge.textContent = stText;
+
+      // SLA
+      const slaElem = document.getElementById('dispSlaBadge');
+      if (currentOrder.status === 'COMPLETED') {
+        slaElem.textContent = 'Terkirim Sesuai SLA';
+        slaElem.className = 'font-bold text-emerald-700 mt-1 block';
+      } else {
+        slaElem.textContent = 'Estimasi < 24 Jam';
+        slaElem.className = 'font-bold text-indigo-800 mt-1 block';
+      }
+
+      // Stepper
+      const s2 = document.querySelector('#step-2 div');
+      const s3 = document.querySelector('#step-3 div');
+      const s4 = document.querySelector('#step-4 div');
+
+      s2.className = 'h-1.5 rounded-full bg-sand-200';
+      s3.className = 'h-1.5 rounded-full bg-sand-200';
+      s4.className = 'h-1.5 rounded-full bg-sand-200';
+
+      if (currentOrder.status === 'IN_PROGRESS') {
+        s2.className = 'h-1.5 rounded-full bg-sand-900 animate-pulse';
+      } else if (currentOrder.status === 'QC_REVIEW') {
+        s2.className = 'h-1.5 rounded-full bg-emerald-600';
+        s3.className = 'h-1.5 rounded-full bg-sand-900 animate-pulse';
+      } else if (currentOrder.status === 'COMPLETED') {
+        s2.className = 'h-1.5 rounded-full bg-emerald-600';
+        s3.className = 'h-1.5 rounded-full bg-emerald-600';
+        s4.className = 'h-1.5 rounded-full bg-emerald-600';
+      }
+
+      // Notion Callout
+      const btnNotion = document.getElementById('btnOpenNotion');
+      const txtNotion = document.getElementById('notionStatusText');
+      if (currentOrder.notionUrl && currentOrder.notionUrl.trim() !== '') {
+        btnNotion.href = currentOrder.notionUrl;
+        btnNotion.classList.remove('opacity-50', 'pointer-events-none');
+        txtNotion.textContent = 'Workspace Notion 30 Hari Anda aktif & siap diduplikasi.';
+      } else {
+        btnNotion.href = '#';
+        btnNotion.classList.add('opacity-50', 'pointer-events-none');
+        txtNotion.textContent = 'Workspace sedang disusun tim operasional kami (SLA < 24 jam).';
+      }
+
+      renderCalendarGrid();
+      loadDayStudio(1);
+      renderSeoAndRadar();
+    }
+
+    // 3. GENERATE 30-DAY CALENDAR GRID
+    function renderCalendarGrid() {
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+
+      const pillars = ['Edukasi Nilai', 'Storytelling', 'Hard Sell & Promo', 'Relatable Mitos'];
+      const pillarColors = ['bg-amber-500', 'bg-indigo-500', 'bg-emerald-500', 'bg-pink-500'];
+
+      for (let day = 1; day <= 30; day++) {
+        const pillarIdx = (day - 1) % 4;
+        const card = document.createElement('div');
+        card.className = `cal-day-card bento-card p-3 rounded-xl cursor-pointer hover:border-sand-900 transition flex flex-col justify-between min-h-[90px] font-mono text-xs ${day === activeDay ? 'active' : ''}`;
+        card.onclick = () => {
+          activeDay = day;
+          document.getElementById('dayStudioSelector').value = day;
+          loadDayStudio(day);
+          switchClientTab('dayview');
+        };
+
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-sand-900 text-[11px]">Day ${day < 10 ? '0' + day : day}</span>
+            <span class="w-2 h-2 rounded-full ${pillarColors[pillarIdx]}"></span>
+          </div>
+          <div class="font-sans text-[10px] text-stone-600 line-clamp-2 mt-1">
+            ${pillars[pillarIdx]} untuk ${currentOrder.brand}
+          </div>
+          <span class="text-[9px] text-stone-400 block text-right mt-1">Lihat &rarr;</span>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    // 4. LOAD SCRIPT STUDIO
+    function loadDayStudio(day) {
+      activeDay = parseInt(day);
+      const dayStr = activeDay < 10 ? '0' + activeDay : activeDay;
+      const pillars = ['Edukasi Solusi', 'Storytelling Nyata', 'Penawaran Spesial', 'Mitos vs Fakta'];
+      const pIdx = (activeDay - 1) % 4;
+
+      document.getElementById('studioDayHeading').textContent = `Day ${dayStr} — ${pillars[pIdx]}`;
+      document.getElementById('studioPillarBadge').textContent = `Pilar: ${pillars[pIdx]}`;
+
+      const hook = `[Hook 3s] Kenapa banyak orang masih salah pakai produk di industri ${currentOrder.category}? Ini perbandingan nyatanya...`;
+      const body = `Di ${currentOrder.brand}, kami merancang: "${currentOrder.description}". Hasilnya jauh lebih praktis dan hemat waktu tanpa drama.`;
+      const cta = `"Ketik 'MAU' di DM ${currentOrder.brand} untuk klaim penawaran batch ini sekarang juga!"`;
+
+      document.getElementById('studioHookText').textContent = hook;
+      document.getElementById('studioBodyText').textContent = body;
+      document.getElementById('studioCtaText').textContent = cta;
+
+      const caption = `Bukan produk Anda yang salah, cara penyampaiannya yang perlu diperjelas! 👇\n\nDi ${currentOrder.brand}, kami mengutamakan kualitas terbaik untuk Anda. ${currentOrder.description}\n\n📌 Simpan postingan ini untuk referensi nanti!\n#${currentOrder.brand.toLowerCase().replace(/[^a-z0-9]/g,'')} #umkmindonesia #kontenviral`;
+      document.getElementById('studioCaptionText').textContent = caption;
+
+      // Teleprompter canvas text
+      document.getElementById('promptTextContent').innerHTML = `
+        <div class="text-amber-400 text-sm mb-4 font-mono">[HOOK 00:00 - 00:03]</div>
+        <p class="mb-10">${hook}</p>
+        <div class="text-stone-400 text-sm mb-4 font-mono">[BODY 00:03 - 00:18]</div>
+        <p class="mb-10">${body}</p>
+        <div class="text-emerald-400 text-sm mb-4 font-mono">[CTA 00:18 - 00:25]</div>
+        <p>${cta}</p>
+      `;
+    }
+
+    // 5. SEO & RADAR DETAILS
+    function renderSeoAndRadar() {
+      document.getElementById('seoTitle1').textContent = `Panduan Lengkap Memilih Produk di Sektor ${currentOrder.category}`;
+      document.getElementById('seoDesc1').textContent = `Struktur artikel 1.000 kata dengan fokus target kata kunci komersial untuk ${currentOrder.brand}.`;
+
+      document.getElementById('seoTitle2').textContent = `Mengapa ${currentOrder.brand} Lebih Efisien Dibanding Kompetitor`;
+      document.getElementById('seoDesc2').textContent = `Menjawab keraguan calon pembeli saat membandingkan dengan ${currentOrder.competitor || 'kompetitor konvensional'}.`;
+
+      document.getElementById('seoTitle3').textContent = `5 Kesalahan Umum Saat Membeli Produk ${currentOrder.category}`;
+      document.getElementById('seoDesc3').textContent = `Artikel edukasi problem-solving yang mengarahkan pembaca ke solusi produk Anda.`;
+
+      document.getElementById('seoTitle4').textContent = `Tips Perawatan & Penggunaan Maksimal untuk Hasil Terbaik`;
+      document.getElementById('seoDesc4').textContent = `Meningkatkan retensi pelanggan dan kepuasan review pasca-pembelian.`;
+
+      document.getElementById('radarFullAnalysis').textContent = `
+        Berdasarkan audit terhadap ${currentOrder.competitor || 'kompetitor utama'}, pasar saat ini jenuh dengan konten hard-selling statis. Kelemahan terbesar kompetitor adalah kurangnya video edukasi personal.
+
+        Rekomendasi positioning ${currentOrder.brand}:
+        1. Angkat transparansi bahan & proses pembuatan pada 10 hari pertama.
+        2. Terapkan visual hook perbandingan langsung (before-after) pada naskah video pendek.
+        3. Gunakan CTA langsung ke WhatsApp/DM untuk melayani konsultasi ramah.
+      `.trim();
+    }
+
+    // 6. TAB SWITCHING
+    function switchClientTab(tabName) {
+      document.getElementById('cview-calendar').classList.add('hidden');
+      document.getElementById('cview-dayview').classList.add('hidden');
+      document.getElementById('cview-seo').classList.add('hidden');
+      document.getElementById('cview-radar').classList.add('hidden');
+      document.getElementById('cview-revision').classList.add('hidden');
+
+      document.querySelectorAll('.client-tab-btn').forEach(b => {
+        b.classList.remove('border-sand-900', 'font-bold', 'text-sand-900');
+        b.classList.add('border-transparent', 'text-stone-500');
+      });
+      const activeTab = document.getElementById('ctab-' + tabName);
+      if(activeTab) {
+        activeTab.classList.remove('border-transparent', 'text-stone-500');
+        activeTab.classList.add('border-sand-900', 'font-bold', 'text-sand-900');
+      }
+
+      document.querySelectorAll('.mob-client-btn').forEach(b => {
+        b.classList.remove('text-sand-900', 'font-bold');
+        b.classList.add('text-stone-500');
+      });
+      const mobTab = document.getElementById('mob-ctab-' + tabName);
+      if(mobTab) {
+        mobTab.classList.remove('text-stone-500');
+        mobTab.classList.add('text-sand-900', 'font-bold');
+      }
+
+      document.getElementById('cview-' + tabName).classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    // 7. COPY UTILITIES
+    function copyDayScript() {
+      const h = document.getElementById('studioHookText').textContent;
+      const b = document.getElementById('studioBodyText').textContent;
+      const c = document.getElementById('studioCtaText').textContent;
+      const text = `NASKAH DAY ${activeDay} - ${currentOrder.brand}\n\n${h}\n\n${b}\n\n${c}`;
+      navigator.clipboard.writeText(text);
+      alert('Naskah berhasil disalin!');
+    }
+
+    function copyDayCaption() {
+      const text = document.getElementById('studioCaptionText').textContent;
+      navigator.clipboard.writeText(text);
+      alert('Takarir berhasil disalin!');
+    }
+
+    function copySeoOutline(num) {
+      const title = document.getElementById('seoTitle' + num).textContent;
+      const desc = document.getElementById('seoDesc' + num).textContent;
+      navigator.clipboard.writeText(`JUDUL: ${title}\nDESKRIPSI: ${desc}`);
+      alert(`Kerangka Artikel ${num} berhasil disalin!`);
+    }
+
+    // 8. TELEPROMPTER LOGIC
+    function openTeleprompter() {
+      document.getElementById('teleprompterModal').classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      lucide.createIcons();
+    }
+
+    function closeTeleprompter() {
+      stopPromptScroll();
+      document.getElementById('teleprompterModal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function togglePromptScroll() {
+      if (isPromptPlaying) {
+        stopPromptScroll();
+      } else {
+        startPromptScroll();
+      }
+    }
+
+    function startPromptScroll() {
+      isPromptPlaying = true;
+      document.getElementById('btnPromptPlay').innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i> Pause`;
+      lucide.createIcons();
+
+      const canvas = document.getElementById('promptScrollCanvas');
+      promptInterval = setInterval(() => {
+        canvas.scrollTop += promptSpeed;
+      }, 30);
+    }
+
+    function stopPromptScroll() {
+      isPromptPlaying = false;
+      clearInterval(promptInterval);
+      document.getElementById('btnPromptPlay').innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Play`;
+      lucide.createIcons();
+    }
+
+    function adjustPromptSpeed(delta) {
+      promptSpeed = Math.max(1, Math.min(8, promptSpeed + delta));
+      document.getElementById('promptSpeedDisp').textContent = promptSpeed + 'x';
+    }
+
+    // 9. DOWNLOAD MASTER TXT
+    function downloadMasterExport() {
+      let content = `MASTER KALENDER KONTEN 30 HARI - ${currentOrder.brand}\n`;
+      content += `Order ID: ${currentOrder.orderId} | Kategori: ${currentOrder.category}\n`;
+      content += `==========================================================\n\n`;
+
+      for (let d = 1; d <= 30; d++) {
+        content += `--- DAY ${d < 10 ? '0' + d : d} ---\n`;
+        content += `[Hook]: Talent memperlihatkan solusi nyata ${currentOrder.brand}...\n`;
+        content += `[Body]: ${currentOrder.description}...\n`;
+        content += `[CTA]: Cek link bio ${currentOrder.brand} sekarang!\n\n`;
+      }
+
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `karsa_${currentOrder.orderId}_30days.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // 10. REVISION FORM
+    document.getElementById('revisionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const days = document.getElementById('revDays').value;
+      const notes = document.getElementById('revNotes').value;
+      
+      const phone = '6281288009920';
+      const msg = `Halo Tim Karsa, saya ingin mengajukan kalibrasi untuk Order ${currentOrder.orderId} (${currentOrder.brand}):\n\nHari: ${days}\nCatatan: ${notes}`;
+      
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
+    // Booting
+    initClientPortal();
+  </script>
+</body>
+</html>

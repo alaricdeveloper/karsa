@@ -9,20 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ['"Plus Jakarta Sans"', "sans-serif"],
         serif: ['"Instrument Serif"', "serif"],
-        mono: ['"JetBrains Mono"', "monospace"],
+        mono: ['"Space Mono"', "monospace"],
       },
       colors: {
-        sand: {
-          50: "#FBFBFA",
-          100: "#F5F5F3",
-          200: "#EBEBE8",
-          300: "#DDDCD7",
-          700: "#4A4844",
-          800: "#2A2927",
-          900: "#171615",
-        },
+        canvas: "#FBF9F4",
+        surface: "#FFFFFF",
+        ink: "#181511",
+        terracotta: "#E75A3C",
+        terracottaLight: "#FDF0ED",
+        wasabi: "#D4E882",
+        wasabiDark: "#4A5B11",
+        sunflower: "#FCD34D",
+        borderInk: "#181511",
+      },
+      boxShadow: {
+        "brutal-sm": "2px 2px 0px #181511",
+        brutal: "3.5px 3.5px 0px #181511",
+        "brutal-lg": "5px 5px 0px #181511",
       },
     },
   },

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Karsa Studio",
+  title: "Karsa Studio — 30-Day Automated Content Calendar & Video Scripts",
   description:
-    "30-Day Content Calendar untuk UMKM Indonesia. Produksi konten viral dalam 1x24 jam.",
+    "Inventaris 30 hari konten lengkap: 30 video scripts kata-per-kata, 30 captions AIDA, 4 artikel SEO, 5 bonus stack, dan Notion OS dalam 24 jam kerja.",
   icons: {
     icon: [
       { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -36,11 +36,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-sand-50 text-sand-900 font-sans antialiased">
+      <body className="bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink overflow-x-hidden">
         {children}
       </body>
     </html>

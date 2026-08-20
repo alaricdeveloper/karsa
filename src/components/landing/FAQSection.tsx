@@ -40,9 +40,24 @@ const FAQ_ITEMS: FAQItem[] = [
       "Bukan langganan mengikat (*no auto-debit*). Anda hanya membayar flat Rp299.000 per paket saat membutuhkan batch kalender 30 hari yang baru. Tidak ada biaya siluman di bulan berikutnya.",
   },
   {
-    question: "Bagaimana metode pembayaran yang didukung?",
+    question: "Bagaimana jika industri bisnis saya sangat unik / niche?",
+    answer:
+      "Form brief kami menyediakan kolom deskripsi detail serta kolom kompetitor, sehingga Anda bisa menjelaskan istilah khusus, persona audiens, atau referensi konten yang relevan. Tim kreatif kami akan melakukan riset mini sebelum menghasilkan naskah.",
+  },
+  {
+    question: "Metode pembayaran apa saja yang didukung?",
     answer:
       "Kami menerima pembayaran instan via QRIS (BCA Mobile, GoPay, OVO, Dana, ShopeePay) serta Virtual Account bank utama di Indonesia. Verifikasi berjalan otomatis setelah transaksi selesai.",
+  },
+  {
+    question: "Apakah naskah ini bisa dipakai untuk iklan berbayar?",
+    answer:
+      "Ya. Setiap naskah dirancang dengan struktur hook psychology dan CTA yang kuat, sehingga sangat cocok digunakan sebagai materi iklan berbayar di Meta Ads, TikTok Ads, maupun Google Ads tanpa perlu modifikasi signifikan.",
+  },
+  {
+    question: "Bagaimana jika pengiriman melebihi 24 jam kerja?",
+    answer:
+      "Jika pengiriman melebihi SLA 24 jam kerja, Anda berhak menerima kompensasi berupa 5 script viral gratis yang bisa digunakan untuk konten organik atau paid ads.",
   },
 ];
 
@@ -57,14 +72,15 @@ export function FAQSection() {
   );
 
   return (
-    <section id="faq" className="py-14 sm:py-20 border-b border-sand-200">
+    <section id="faq" className="py-12 sm:py-20 border-b-2 border-ink bg-surface">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 sm:mb-10">
-          <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-stone-500">Pusat Informasi</span>
-          <h2 className="text-2xl sm:text-4xl font-serif text-sand-900 mt-1">Pertanyaan yang Sering Diajukan</h2>
+          <span className="inline-block badge-tag bg-sunflower px-3 py-1 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-3">
+            Pusat Informasi
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-serif text-ink">10 Pertanyaan yang Sering Diajukan</h2>
         </div>
 
-        {/* FAQ Search */}
         <div className="max-w-md mx-auto mb-6 sm:mb-8 relative">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
           <input
@@ -72,7 +88,7 @@ export function FAQSection() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari pertanyaan (misal: revisi, notion, format)..."
-            className="w-full bg-white border border-sand-300 rounded-xl pl-10 pr-4 py-3 text-base sm:text-xs text-sand-900 focus:outline-none focus:border-sand-900 font-mono transition min-h-[44px]"
+            className="w-full bg-canvas border-2 border-ink rounded-xl pl-10 pr-4 py-3 text-base sm:text-xs text-ink focus:outline-none font-mono transition min-h-[44px]"
           />
         </div>
 
@@ -80,13 +96,13 @@ export function FAQSection() {
           {filtered.map((item, idx) => (
             <div
               key={idx}
-              className="faq-item bento-card p-4 sm:p-6 rounded-xl cursor-pointer"
+              className="bento-pop rounded-2xl bg-white cursor-pointer p-4 sm:p-6"
               onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
             >
               <div className="flex justify-between items-center gap-3">
-                <span className="text-xs font-mono text-stone-400">{String(idx + 1).padStart(2, "0")}</span>
-                <h4 className="text-xs sm:text-base font-semibold text-sand-900 flex-1">{item.question}</h4>
-                <Plus className={`w-4 h-4 text-stone-500 transition-transform shrink-0 ${openIdx === idx ? "rotate-45" : ""}`} />
+                <span className="text-xs font-bold text-terracotta">{String(idx + 1).padStart(2, "0")}</span>
+                <h4 className="text-xs sm:text-base font-semibold text-ink flex-1">{item.question}</h4>
+                <Plus className={`w-4 h-4 text-ink transition-transform shrink-0 ${openIdx === idx ? "rotate-45" : ""}`} />
               </div>
               {openIdx === idx && (
                 <p className="text-xs sm:text-sm text-stone-600 mt-3 pl-6 sm:pl-8 leading-relaxed font-normal">

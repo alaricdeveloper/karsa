@@ -66,102 +66,113 @@ export function OrderForm() {
   };
 
   return (
-    <form id="orderForm" onSubmit={handleSubmit} className="bento-card p-5 sm:p-10 rounded-2xl space-y-4 sm:space-y-6">
-      <div>
-        <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">Nama Brand / Bisnis *</label>
-        <input
-          type="text"
-          required
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          placeholder="Contoh: Kopi Teras Senja"
-          className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition min-h-[44px]"
-        />
-        {errors.brand && (
-          <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.brand}</p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">Kategori Industri *</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition min-h-[44px]"
-          >
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
+    <section id="order" className="py-12 sm:py-20 bg-canvas border-b-2 border-ink">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-10">
+          <span className="inline-block badge-tag bg-terracotta text-white px-3 py-1 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-3">
+            SLA Maks. 24 Jam
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-serif text-ink">Isi Brief Sekarang</h2>
         </div>
-        <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">1 Akun Kompetitor Utama</label>
-          <input
-            type="text"
-            value={competitor}
-            onChange={(e) => setCompetitor(e.target.value)}
-            placeholder="@namakompetitor"
-            className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition min-h-[44px]"
-          />
-        </div>
-      </div>
 
-      <div>
-        <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">Produk Utama & Target Pembeli *</label>
-        <textarea
-          rows={3}
-          required
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Jelaskan produk unggulan, rentang harga, dan siapa pembeli utama Anda (misal: pekerja kantoran 22-30 tahun yang butuh opsi kopi rendah asam)."
-          className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition"
-        />
-        {errors.description && (
-          <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.description}</p>
-        )}
-      </div>
+        <form id="orderForm" onSubmit={handleSubmit} className="bento-pop p-5 sm:p-10 rounded-3xl bg-white space-y-4 sm:space-y-6">
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Nama Brand / Bisnis *</label>
+            <input
+              type="text"
+              required
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              placeholder="Contoh: Kopi Teras Senja"
+              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+            />
+            {errors.brand && (
+              <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.brand}</p>
+            )}
+          </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">Email Pengiriman File *</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="nama@email.com"
-            className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition min-h-[44px]"
-          />
-          {errors.email && (
-            <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.email}</p>
-          )}
-        </div>
-        <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-stone-700 mb-1.5">Nomor WhatsApp Aktif *</label>
-          <input
-            type="tel"
-            required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="081234567890"
-            className="w-full bg-sand-50 border border-sand-300 rounded-lg px-3.5 py-3 text-base sm:text-sm text-sand-900 focus:outline-none focus:border-sand-900 font-sans transition min-h-[44px]"
-          />
-          {errors.phone && (
-            <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.phone}</p>
-          )}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Kategori Industri *</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">1 Akun Kompetitor Utama</label>
+              <input
+                type="text"
+                value={competitor}
+                onChange={(e) => setCompetitor(e.target.value)}
+                placeholder="@namakompetitor"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+              />
+            </div>
+          </div>
 
-      <div className="pt-2">
-        <button type="submit" className="w-full py-4 bg-sand-900 hover:bg-stone-800 text-sand-50 font-medium rounded-xl text-sm transition flex items-center justify-center gap-2 min-h-[48px] shadow-sm">
-          <span>Kirim Brief &amp; Buat Invoice (Rp299.000)</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
-        <p className="text-center text-[10px] sm:text-[11px] font-mono text-stone-500 mt-3">
-          Garansi kalibrasi sudut pesan selama 48 jam gratis.
-        </p>
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Produk Utama & Target Pembeli *</label>
+            <textarea
+              rows={3}
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Jelaskan produk unggulan, rentang harga, dan siapa pembeli utama Anda (misal: pekerja kantoran 22-30 tahun yang butuh opsi kopi rendah asam)."
+              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition"
+            />
+            {errors.description && (
+              <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.description}</p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Email Pengiriman File *</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="nama@email.com"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+              />
+              {errors.email && (
+                <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Nomor WhatsApp Aktif *</label>
+              <input
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="081234567890"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+              />
+              {errors.phone && (
+                <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.phone}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl shadow-brutal text-sm transition flex items-center justify-center gap-2 min-h-[48px]">
+              <span>Kirim Brief &amp; Lanjut ke Checkout (Rp299.000)</span>
+              <ArrowRight className="w-4 h-4 text-wasabi" />
+            </button>
+            <p className="text-center text-[10px] sm:text-[11px] font-mono text-stone-500 mt-3">
+              Garansi kalibrasi sudut pesan selama 48 jam gratis.
+            </p>
+          </div>
+        </form>
       </div>
-    </form>
+    </section>
   );
 }
