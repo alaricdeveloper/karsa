@@ -67,15 +67,16 @@ export function OrderForm() {
 
   return (
     <section id="order" className="py-12 sm:py-20 bg-canvas border-b-2 border-ink">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 sm:mb-10">
-          <span className="inline-block badge-tag bg-terracotta text-white px-3 py-1 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-3">
+          <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-terracotta text-white">
             SLA Maks. 24 Jam
           </span>
-          <h2 className="text-2xl sm:text-4xl font-serif text-ink">Isi Brief Sekarang</h2>
+          <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">Formulir Brief Kalender 30 Hari</h2>
+          <p className="text-stone-600 text-xs sm:text-sm mt-1 font-mono">Detail di bawah digunakan sebagai parameter penulisan seluruh kalender konten Anda.</p>
         </div>
 
-        <form id="orderForm" onSubmit={handleSubmit} className="bento-pop p-5 sm:p-10 rounded-3xl bg-white space-y-4 sm:space-y-6">
+        <form id="orderForm" onSubmit={handleSubmit} className="bento-pop p-5 sm:p-10 rounded-3xl space-y-4 bg-white">
           <div>
             <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Nama Brand / Bisnis *</label>
             <input
@@ -84,7 +85,7 @@ export function OrderForm() {
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
               placeholder="Contoh: Kopi Teras Senja"
-              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans min-h-[46px]"
             />
             {errors.brand && (
               <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.brand}</p>
@@ -97,7 +98,7 @@ export function OrderForm() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans min-h-[46px]"
               >
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -111,7 +112,7 @@ export function OrderForm() {
                 value={competitor}
                 onChange={(e) => setCompetitor(e.target.value)}
                 placeholder="@namakompetitor"
-                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans min-h-[46px]"
               />
             </div>
           </div>
@@ -123,8 +124,8 @@ export function OrderForm() {
               required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Jelaskan produk unggulan, rentang harga, dan siapa pembeli utama Anda (misal: pekerja kantoran 22-30 tahun yang butuh opsi kopi rendah asam)."
-              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition"
+              placeholder="Jelaskan produk unggulan, rentang harga, dan siapa target pembeli utama Anda..."
+              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans"
             />
             {errors.description && (
               <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.description}</p>
@@ -133,14 +134,14 @@ export function OrderForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Email Pengiriman File *</label>
+              <label className="block text-xs font-mono font-bold uppercase text-ink mb-1.5">Email Penerima File *</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nama@email.com"
-                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans min-h-[46px]"
               />
               {errors.email && (
                 <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.email}</p>
@@ -154,7 +155,7 @@ export function OrderForm() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="081234567890"
-                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans transition min-h-[44px]"
+                className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-3 text-base sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-sans min-h-[46px]"
               />
               {errors.phone && (
                 <p className="text-rose-600 text-[11px] font-mono mt-1">{errors.phone}</p>
@@ -162,12 +163,12 @@ export function OrderForm() {
             </div>
           </div>
 
-          <div className="pt-2">
-            <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl shadow-brutal text-sm transition flex items-center justify-center gap-2 min-h-[48px]">
+          <div className="pt-2 sm:pt-3">
+            <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl text-xs sm:text-sm min-h-[48px] sm:min-h-[50px] shadow-brutal transition flex items-center justify-center gap-2">
               <span>Kirim Brief &amp; Lanjut ke Checkout (Rp299.000)</span>
               <ArrowRight className="w-4 h-4 text-wasabi" />
             </button>
-            <p className="text-center text-[10px] sm:text-[11px] font-mono text-stone-500 mt-3">
+            <p className="text-center text-[10px] sm:text-[11px] font-mono text-stone-500 mt-2.5 sm:mt-3 font-bold">
               Garansi kalibrasi sudut pesan selama 48 jam gratis.
             </p>
           </div>

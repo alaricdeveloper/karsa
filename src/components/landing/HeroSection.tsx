@@ -2,145 +2,112 @@ import { ArrowRight, Eye, Play } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="py-12 sm:py-20 border-b-2 border-ink bg-canvas">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-          {/* Left Column - Copy */}
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-ink bg-sunflower border-2 border-ink px-3 py-1 shadow-brutal-sm mb-6">
-              Stop pusing mikirin ide konten tiap malam!
+    <section className="pt-8 pb-12 sm:pt-20 sm:pb-24 border-b-2 border-ink bg-canvas relative overflow-hidden">
+      <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-wasabi/40 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 -left-12 w-64 h-64 rounded-full bg-sunflower/30 blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+
+          {/* Left Hero Text (7 Cols) */}
+          <div className="lg:col-span-7 text-center lg:text-left space-y-4 sm:space-y-6">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 badge-tag bg-sunflower px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-mono font-bold">
+              <span>👋 Stop pusing mikirin ide konten tiap malam!</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-ink leading-[1.12]">
-              30 Hari konten organik, naskah kata-per-kata siap rekam.{" "}
-              <span className="italic text-terracotta">Siap jadi.</span>
+            <h1 className="text-3xl sm:text-6xl lg:text-[62px] font-serif tracking-tight text-ink leading-[1.1] sm:leading-[1.08]">
+              30 Hari konten organik,{" "}
+              <br className="hidden sm:inline" />
+              <span className="italic text-terracotta">naskah kata-per-kata siap rekam.</span>
             </h1>
 
-            <p className="mt-4 sm:mt-6 text-sm sm:text-base text-ink/70 max-w-xl font-normal leading-relaxed">
-              Bukan agensi lambat dengan rapat berminggu-minggu. Dapatkan 30 naskah video TikTok/Reels, 30 takarir Instagram, 4 artikel SEO Google, dan ruang kerja Notion terstruktur dalam 1x24 jam.
+            <p className="text-xs sm:text-base text-stone-700 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans font-medium">
+              Tinggalkan cara lama yang bikin burnout. Kamu dapet 30 video script vertikal (TikTok/Reels), 30 caption berstruktur AIDA, 4 artikel SEO, 5 bonus stack eksklusif, dan Notion OS rapi dalam 1x24 jam kerja.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-1 sm:pt-2">
               <a
                 href="#order"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-terracotta hover:bg-terracotta/90 text-surface border-2 border-ink rounded-xl font-bold text-sm shadow-brutal transition min-h-[48px]"
+                className="bento-pop bg-terracotta text-white px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl font-mono text-xs font-bold transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px]"
               >
-                <span>Mulai Order Batch</span>
-                <span className="inline-flex items-center justify-center w-6 h-6 bg-wasabi rounded-full border border-ink">
-                  <ArrowRight className="w-3.5 h-3.5 text-ink" />
-                </span>
+                <span>Mulai Order Batch (Rp299.000)</span>
+                <ArrowRight className="w-4 h-4 text-wasabi" />
               </a>
               <a
-                href="#portfolio"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-surface hover:bg-canvas text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-brutal-sm transition badge-tag min-h-[48px]"
+                href="#compare-scripts"
+                className="badge-tag bg-white hover:bg-canvas text-ink px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl font-mono text-xs font-bold transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px]"
               >
-                <Eye className="w-4 h-4" />
+                <Eye className="w-4 h-4 text-stone-500" />
                 <span>Lihat Contoh Script</span>
               </a>
             </div>
 
-            {/* Proof Tiles */}
-            <div className="mt-10 sm:mt-12 grid grid-cols-3 gap-3 max-w-md sm:max-w-lg font-mono text-[11px] sm:text-xs text-ink/60">
-              <div className="bg-surface border-2 border-ink rounded-xl px-3 py-3 shadow-brutal-sm">
-                <div className="text-ink font-bold text-sm sm:text-base">30</div>
-                <div>Video Scripts</div>
+            {/* Hero Proof Tiles */}
+            <div className="pt-4 sm:pt-6 border-t-2 border-ink/20 grid grid-cols-3 gap-2 sm:gap-3 font-mono text-xs text-stone-600 max-w-lg mx-auto lg:mx-0">
+              <div className="p-2.5 sm:p-3 bg-white border-2 border-ink rounded-xl shadow-brutal-sm">
+                <span className="font-serif font-bold text-sm sm:text-xl text-ink block">30 Video Scripts</span>
+                <span className="text-[9px] sm:text-[10px] text-stone-500">Format vertikal 9:16</span>
               </div>
-              <div className="bg-wasabi border-2 border-ink rounded-xl px-3 py-3 shadow-brutal-sm">
-                <div className="text-ink font-bold text-sm sm:text-base">&lt; 24 Jam</div>
-                <div>Waktu Proses</div>
+              <div className="p-2.5 sm:p-3 bg-wasabi border-2 border-ink rounded-xl shadow-brutal-sm">
+                <span className="font-serif font-bold text-sm sm:text-xl text-ink block">&lt; 24 Jam</span>
+                <span className="text-[9px] sm:text-[10px] text-wasabiDark font-bold">Turnaround SLA</span>
               </div>
-              <div className="bg-terracotta border-2 border-ink rounded-xl px-3 py-3 shadow-brutal-sm text-surface">
-                <div className="font-bold text-sm sm:text-base">Rp299k</div>
-                <div>Flat Harga</div>
+              <div className="p-2.5 sm:p-3 bg-white border-2 border-ink rounded-xl shadow-brutal-sm">
+                <span className="font-serif font-bold text-sm sm:text-xl text-terracotta block">Rp299k</span>
+                <span className="text-[9px] sm:text-[10px] text-stone-500">Flat tanpa langganan</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right 9:16 Vertical Teleprompter Mockup (5 Cols) */}
+          <div className="lg:col-span-5 flex justify-center pt-2 lg:pt-0">
+            <div className="w-[280px] sm:w-[320px] h-[480px] sm:h-[540px] bg-ink rounded-[38px] sm:rounded-[44px] p-3.5 sm:p-4 shadow-brutal-lg border-4 border-ink relative overflow-hidden flex flex-col justify-between select-none">
+
+              {/* Phone Notch & Status */}
+              <div className="flex justify-between items-center px-2 sm:px-3 pt-1 z-20 text-[10px] font-mono text-stone-400">
+                <span className="font-bold text-white">09:41</span>
+                <div className="w-20 sm:w-24 h-4 sm:h-5 bg-stone-900 rounded-full flex items-center justify-center gap-1.5 px-2 border border-stone-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-terracotta animate-pulse" />
+                  <span className="text-[7px] sm:text-[8px] text-white uppercase font-bold">Teleprompter</span>
+                </div>
+                <div className="flex items-center gap-1 text-wasabi font-bold text-[9px] sm:text-[10px]">
+                  <span>REC</span>
+                </div>
+              </div>
+
+              {/* Rolling Teleprompter Canvas */}
+              <div className="relative flex-1 overflow-hidden my-2 sm:my-3">
+                <div className="animate-teleprompter space-y-3 font-mono text-xs text-stone-300 px-1">
+                  <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
+                    <span className="text-[9px] font-bold text-sunflower uppercase block tracking-wider">[00:00 - 00:03] HOOK PENYANGKALAN</span>
+                    <p className="text-white text-xs mt-1 leading-snug">"Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?"</p>
+                  </div>
+                  <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
+                    <span className="text-[9px] font-bold text-wasabi uppercase block tracking-wider">[00:04 - 00:18] VALUE DELIVERY</span>
+                    <p className="text-stone-200 text-xs mt-1 leading-snug">"Metode slow-drip 12 jam kami memecah asam klorogenat secara alami tanpa ngurangin kadar kafein."</p>
+                  </div>
+                  <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
+                    <span className="text-[9px] font-bold text-terracotta uppercase block tracking-wider">[00:19 - 00:25] DIRECT CALL TO ACTION</span>
+                    <p className="text-white text-xs mt-1 leading-snug">"Cek link di bio sekarang buat amankan sampler pack ramah lambung minggu ini!"</p>
+                  </div>
+                  <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
+                    <span className="text-[9px] font-bold text-sunflower uppercase block tracking-wider">[00:00 - 00:03] HOOK PENYANGKALAN</span>
+                    <p className="text-white text-xs mt-1 leading-snug">"Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?"</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Teleprompter Bottom Controls Bar */}
+              <div className="bg-stone-900 rounded-2xl p-2 sm:p-2.5 flex items-center justify-between text-stone-400 font-mono text-[9px] sm:text-[10px] z-20 border border-stone-800">
+                <div className="flex items-center gap-1 text-white font-bold">
+                  <Play className="w-3.5 h-3.5 text-wasabi" />
+                  <span>Speed: 1.0x</span>
+                </div>
+                <span className="px-2 py-0.5 bg-stone-800 text-stone-300 rounded font-bold">Day 04 / 30</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Phone Mockup */}
-          <div className="lg:col-span-5 mt-12 lg:mt-0 flex justify-center">
-            <div className="relative">
-              {/* Phone Frame */}
-              <div className="relative w-[280px] sm:w-[300px] h-[580px] sm:h-[620px] bg-ink rounded-[38px] border-4 border-ink shadow-brutal-lg p-3">
-                {/* Notch */}
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-32 h-7 bg-ink rounded-b-2xl z-20 flex items-center justify-between px-5">
-                  <span className="text-[10px] font-mono text-white/90">09:41</span>
-                </div>
-
-                {/* Screen */}
-                <div className="w-full h-full bg-stone-950 rounded-[30px] overflow-hidden flex flex-col relative">
-                  {/* Header Bar */}
-                  <div className="flex items-center justify-between px-5 pt-10 pb-3">
-                    <span className="text-[10px] font-mono text-white/50 tracking-wider uppercase">Teleprompter</span>
-                    <span className="inline-flex items-center gap-1.5 text-[9px] font-mono text-terracotta bg-terracotta/20 border border-terracotta/40 rounded-full px-2 py-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta animate-pulse" />
-                      REC
-                    </span>
-                  </div>
-
-                  {/* Rolling Script Content */}
-                  <div className="flex-1 overflow-hidden relative">
-                    <div className="animate-teleprompter absolute inset-x-0 top-0 flex flex-col gap-3 px-4 pb-10">
-                      {/* Script Block 1 */}
-                      <div className="bg-stone-900 rounded-lg p-3 border border-stone-800">
-                        <div className="text-[9px] font-mono text-terracotta mb-1 uppercase tracking-wider">Hook</div>
-                        <div className="text-[11px] text-white/90 leading-relaxed font-mono">
-                          Kamu masih bikin konten satu-satu? Stop. Ada cara 30x lebih cepat...
-                        </div>
-                      </div>
-
-                      {/* Script Block 2 */}
-                      <div className="bg-stone-900 rounded-lg p-3 border border-stone-800">
-                        <div className="text-[9px] font-mono text-wasabi mb-1 uppercase tracking-wider">Value</div>
-                        <div className="text-[11px] text-white/90 leading-relaxed font-mono">
-                          Bayangkan punya 30 naskah siap rekam, ditulis kata-per-kata, semua dalam 24 jam.
-                        </div>
-                      </div>
-
-                      {/* Script Block 3 */}
-                      <div className="bg-stone-900 rounded-lg p-3 border border-stone-800">
-                        <div className="text-[9px] font-mono text-sunflower mb-1 uppercase tracking-wider">Story</div>
-                        <div className="text-[11px] text-white/90 leading-relaxed font-mono">
-                          Dulu aku spend 3 jam semalam cuma buat caption. Sekarang? Tinggal rekam.
-                        </div>
-                      </div>
-
-                      {/* Script Block 4 */}
-                      <div className="bg-stone-900 rounded-lg p-3 border border-stone-800">
-                        <div className="text-[9px] font-mono text-terracotta mb-1 uppercase tracking-wider">Hook</div>
-                        <div className="text-[11px] text-white/90 leading-relaxed font-mono">
-                          Ternyata rahasia konten viral bukan editing yang fancy...
-                        </div>
-                      </div>
-
-                      {/* Script Block 5 */}
-                      <div className="bg-stone-900 rounded-lg p-3 border border-stone-800">
-                        <div className="text-[9px] font-mono text-wasabi mb-1 uppercase tracking-wider">CTA</div>
-                        <div className="text-[11px] text-white/90 leading-relaxed font-mono">
-                          Klik link di bio, ambil slot batch minggu ini. Bonus script IG Reels gratis.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Controls */}
-                  <div className="flex items-center justify-between px-5 py-3 border-t border-stone-800 bg-stone-950/80 backdrop-blur">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-terracotta animate-pulse" />
-                      <span className="text-[9px] font-mono text-white/60">02:34</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center">
-                        <Play className="w-3 h-3 text-white fill-white" />
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-terracotta flex items-center justify-center border border-terracotta">
-                        <span className="text-[9px] font-bold text-white">GO</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

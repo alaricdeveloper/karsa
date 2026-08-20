@@ -16,98 +16,71 @@ export function ComparisonCalculator() {
   return (
     <section id="calculator" className="py-12 sm:py-20 border-b-2 border-ink bg-canvas">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8 sm:mb-12">
-          <span className="badge-tag bg-wasabi text-ink px-3 py-1 text-[11px] sm:text-xs font-mono uppercase tracking-wider">
+        <div className="text-center mb-8 sm:mb-10">
+          <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-wasabi text-ink">
             Kalkulator Penghematan
           </span>
-          <h2 className="text-2xl sm:text-3xl font-serif text-ink mt-3">
+          <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">
             Berapa Banyak Waktu &amp; Uang yang Kamu Hemat?
           </h2>
+          <p className="text-xs sm:text-sm text-stone-600 font-mono mt-1">
+            Bandingkan biaya Karsa dengan pengeluaran hire tim atau agensi bulanan.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {/* LEFT — Sliders */}
-          <div className="bento-pop rounded-3xl p-6 sm:p-8 bg-canvas">
-            <div className="space-y-8">
-              {/* Hours slider */}
-              <div>
-                <label className="text-xs font-mono text-ink/70 block mb-2">
-                  Jam Mikir Konten / Minggu:
-                </label>
-                <input
-                  type="range"
-                  min={2}
-                  max={15}
-                  value={hours}
-                  onChange={(e) => setHours(Number(e.target.value))}
-                  className="w-full accent-terracotta cursor-pointer"
-                />
-                <div className="flex justify-between text-[10px] font-mono text-ink/50 mt-1">
-                  <span>2 jam</span>
-                  <span className="font-bold text-terracotta text-sm">{hours} jam</span>
-                  <span>15 jam</span>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 font-mono text-xs">
+          <div className="bento-pop p-5 sm:p-6 rounded-3xl bg-surface space-y-4 sm:space-y-5">
+            <div>
+              <div className="flex justify-between font-bold text-ink mb-2">
+                <span>Jam Mikir Konten / Minggu:</span>
+                <span className="text-terracotta text-sm font-bold">{hours} Jam</span>
               </div>
+              <input
+                type="range"
+                min={2}
+                max={15}
+                value={hours}
+                onChange={(e) => setHours(Number(e.target.value))}
+                className="w-full accent-terracotta cursor-pointer py-1.5"
+              />
+            </div>
 
-              {/* Agency cost slider */}
-              <div>
-                <label className="text-xs font-mono text-ink/70 block mb-2">
-                  Biaya Hire Agensi Bulanan:
-                </label>
-                <input
-                  type="range"
-                  min={1_500_000}
-                  max={8_000_000}
-                  step={250_000}
-                  value={agencyCost}
-                  onChange={(e) => setAgencyCost(Number(e.target.value))}
-                  className="w-full accent-terracotta cursor-pointer"
-                />
-                <div className="flex justify-between text-[10px] font-mono text-ink/50 mt-1">
-                  <span>Rp 1,5M</span>
-                  <span className="font-bold text-terracotta text-sm">
-                    {formatRupiah(agencyCost)}
-                  </span>
-                  <span>Rp 8M</span>
-                </div>
+            <div>
+              <div className="flex justify-between font-bold text-ink mb-2">
+                <span>Biaya Hire Agensi Bulanan:</span>
+                <span className="text-terracotta text-sm font-bold">{formatRupiah(agencyCost)}</span>
               </div>
+              <input
+                type="range"
+                min={1_500_000}
+                max={8_000_000}
+                step={250_000}
+                value={agencyCost}
+                onChange={(e) => setAgencyCost(Number(e.target.value))}
+                className="w-full accent-terracotta cursor-pointer py-1.5"
+              />
             </div>
           </div>
 
-          {/* RIGHT — Results */}
-          <div className="bento-pop rounded-3xl p-6 sm:p-8 bg-wasabi/20">
-            <div className="space-y-5">
-              <div>
-                <span className="text-[11px] font-mono uppercase text-ink/60">
-                  Waktu yang Dihemat:
-                </span>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-ink mt-0.5">
-                  {monthlySaved} Jam / Bulan
-                </p>
+          <div className="bento-pop p-5 sm:p-6 rounded-3xl flex flex-col justify-between space-y-4 bg-wasabi/20">
+            <div className="space-y-2.5 sm:space-y-3">
+              <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
+                <span className="text-stone-700 font-bold">Waktu yang Dihemat:</span>
+                <span className="text-sm sm:text-base font-bold text-ink font-serif">{monthlySaved} Jam / Bulan</span>
               </div>
-
-              <div className="border-t-2 border-ink/10 pt-4">
-                <span className="text-[11px] font-mono uppercase text-ink/60">
-                  Biaya Karsa Studio:
-                </span>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-ink mt-0.5">
-                  {formatRupiah(karsaFee)}
-                </p>
+              <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
+                <span className="text-stone-700 font-bold">Biaya Karsa Studio:</span>
+                <span className="text-sm sm:text-base font-bold text-ink font-serif">{formatRupiah(karsaFee)}</span>
               </div>
-
-              <div className="border-t-2 border-ink/10 pt-4">
-                <span className="text-[11px] font-mono uppercase text-ink/60">
-                  Total Penghematan:
-                </span>
-                <p className="text-2xl sm:text-3xl font-bold font-serif text-terracotta mt-0.5">
-                  {formatRupiah(totalSaved)}
-                </p>
+              <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
+                <span className="text-stone-700 font-bold">Total Penghematan Anda:</span>
+                <span className="text-lg sm:text-2xl font-bold text-terracotta font-serif">{formatRupiah(totalSaved)} / Bulan</span>
               </div>
-
-              <button className="bento-pop bg-ink text-canvas font-bold text-sm px-6 py-3 rounded-2xl w-full hover:bg-terracotta transition-colors mt-2">
-                Klaim Penghematan — Buat Brief →
-              </button>
             </div>
+
+            <a href="#order" className="bento-pop bg-ink text-canvas hover:bg-terracotta hover:text-white py-3.5 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-center min-h-[46px] sm:min-h-[48px]">
+              <span>Klaim Penghematan — Buat Brief &rarr;</span>
+            </a>
           </div>
         </div>
       </div>

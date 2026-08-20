@@ -31,10 +31,7 @@ export default function LandingPage() {
       <ComparisonCalculator />
       <SamplePreview />
 
-      {/* Order Form Section */}
-      <section id="order">
-        <OrderForm />
-      </section>
+      <OrderForm />
 
       <FAQSection />
       <Footer />

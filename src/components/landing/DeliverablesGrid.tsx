@@ -1,196 +1,161 @@
-import { Video, MessageSquare, Search, Compass, Calendar, Film } from "lucide-react";
-
 export function DeliverablesGrid() {
   return (
     <section id="deliverables" className="py-12 sm:py-20 border-b-2 border-ink bg-canvas">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12">
           <div>
-            <span className="badge-tag inline-block text-[11px] sm:text-xs font-mono uppercase tracking-wider bg-sunflower text-ink px-2.5 py-1 mb-2">
+            <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunflower text-ink">
               Output Komplit
             </span>
-            <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-1 sm:mt-2">
-              Semua yang Anda terima dalam 1 Paket
+            <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">
+              6 Output Utama yang Kamu Terima
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-ink/60 mt-2 md:mt-0 font-mono">
-            Format Master: Notion Dynamic Database + Backup Docs
-          </p>
+          <span className="text-xs font-mono text-stone-600 mt-2 md:mt-0 font-bold">
+            Format: Notion Dynamic Database + Docs Backup
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {/* Module 1: Video Scripts */}
-          <div
-            id="modul-video"
-            className="md:col-span-2 bento-pop p-6 sm:p-8 rounded-3xl"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <span className="inline-flex items-center justify-center w-8 h-8 bg-wasabi border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+          <div id="modul-video" className="md:col-span-2 bento-pop p-5 sm:p-8 rounded-3xl">
+            <div className="flex justify-between items-start mb-3">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-wasabi border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                 01
-              </span>
-              <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink">
-                Modul 01 &bull; Video Engine
+              </div>
+              <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas rounded font-bold">
+                Video Scripts
               </span>
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-ink">
-              30 Naskah Video Pendek (TikTok, Reels, Shorts)
+            <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
+              30 Video Scripts Kata-per-Kata
             </h3>
-            <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-              Naskah kata-per-kata yang dirancang dengan formula retensi tinggi untuk durasi ideal 15–30 detik.
+            <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+              Format vertikal 15-30 detik untuk TikTok, Reels, dan Shorts lengkap dengan pembagian per detik: Visual &amp; Audio Hook (0-3s), Problem Framing, Value Solution, dan Call To Action (CTA).
             </p>
-            <div className="mt-4 p-3.5 bg-white border-2 border-ink rounded-xl font-mono text-[11px] sm:text-xs text-ink space-y-1">
+            <div className="mt-4 p-3 sm:p-3.5 bg-canvas border-2 border-ink rounded-2xl font-mono text-xs space-y-1 shadow-brutal-sm">
               <div>
-                <span className="font-bold text-terracotta">Hook:</span>{" "}
-                Menghentikan scroll penonton seketika.
+                <strong className="text-terracotta">&bull; Hook:</strong> Pancingan scroll instan tanpa basa-basi.
               </div>
               <div>
-                <span className="font-bold text-ink">Audio Cues:</span>{" "}
-                Membedah masalah spesifik audiens Anda.
-              </div>
-              <div>
-                <span className="font-bold text-terracotta">Hook:</span>{" "}
-                Menampilkan produk Anda sebagai solusi logis.
-              </div>
-              <div>
-                <span className="font-bold text-ink">Audio Cues:</span>{" "}
-                Memicu komentar, klik link bio, atau direct message.
+                <strong className="text-ink">&bull; Audio Cues:</strong> Rekomendasi sound komersial aman lisensi.
               </div>
             </div>
           </div>
 
           {/* Module 2: Captions */}
-          <div
-            id="modul-caption"
-            className="bento-pop p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
-          >
+          <div id="modul-caption" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-sunflower border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sunflower border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                   02
-                </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-sunflower text-ink">
-                  Modul 02
+                </div>
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas rounded font-bold">
+                  Captions &amp; Copy
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-ink">
-                30 Takarir AIDA &amp; 15 Riset Tagar
+              <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
+                30 Captions AIDA &amp; 15 Tagar
               </h3>
-              <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-                Takarir media sosial terstruktur untuk memicu interaksi (saves &amp; shares) lengkap dengan kurasi tagar relevan tanpa spam.
+              <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+                Copywriting formula Attention, Interest, Desire, Action siap copy-paste ke Instagram &amp; Threads lengkap dengan 3 tier tagar relevan.
               </p>
             </div>
-            <div className="mt-6 pt-3 border-t-2 border-ink flex items-center justify-between text-[11px] font-mono text-ink/50">
-              <span>Panjang</span>
-              <span>120–180 Kata / Post</span>
-            </div>
+            <span className="text-xs font-mono text-stone-500 mt-4 block pt-3 border-t-2 border-ink">
+              120-180 Kata per Post
+            </span>
           </div>
 
           {/* Module 3: SEO Articles */}
-          <div
-            id="modul-seo"
-            className="bento-pop p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
-          >
+          <div id="modul-seo" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-canvas border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-canvas border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                   03
-                </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas text-ink">
-                  Modul 03
+                </div>
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi rounded font-bold">
+                  Google Traffic
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-ink">
-                4 Artikel Blog SEO
+              <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
+                4 Artikel Blog SEO (1.000 Kata)
               </h3>
-              <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-                Artikel 800–1.200 kata dengan penataan judul (H1/H2/H3), density kata kunci natural, dan meta deskripsi untuk mendatangkan pembeli dari Google.
+              <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+                Artikel pilar panjang dengan susunan heading H1/H2/H3 dan meta deskripsi untuk mendatangkan traffic pembeli gratis dari Google.
               </p>
             </div>
-            <div className="mt-6 pt-3 border-t-2 border-ink flex items-center justify-between text-[11px] font-mono text-ink/50">
-              <span>Format</span>
-              <span className="text-wasabi font-semibold">Markdown &amp; Docs</span>
-            </div>
+            <span className="text-xs font-mono text-emerald-800 font-bold mt-4 block pt-3 border-t-2 border-ink">
+              Format Markdown &amp; Docs
+            </span>
           </div>
 
           {/* Module 4: Competitor Radar */}
-          <div
-            id="modul-radar"
-            className="bento-pop p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
-          >
+          <div id="modul-radar" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-terracottaLight border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-terracottaLight text-terracotta border-2 border-ink flex items-center justify-center font-mono font-bold shadow-brutal-sm">
                   04
-                </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-terracottaLight text-ink">
-                  Modul 04
+                </div>
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas rounded font-bold">
+                  Teardown
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-ink">
+              <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
                 Audit Angle &amp; Gap Kompetitor
               </h3>
-              <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-                Analisis terhadap 1 akun kompetitor utama untuk menemukan sudut pandang pesan yang belum digarap di industri Anda.
+              <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+                Analisis positioning 1 akun kompetitor utama untuk menemukan sudut pesan unik yang belum digarap di pasar tokomu.
               </p>
             </div>
-            <div className="mt-6 pt-3 border-t-2 border-ink flex items-center justify-between text-[11px] font-mono text-ink/50">
-              <span>Output</span>
-              <span>Positioning Blueprint</span>
-            </div>
+            <span className="text-xs font-mono text-stone-500 mt-4 block pt-3 border-t-2 border-ink">
+              Positioning Blueprint
+            </span>
           </div>
 
           {/* Module 5: Notion Dynamic OS */}
-          <div
-            id="modul-notion"
-            className="bento-pop p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
-          >
+          <div id="modul-notion" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-sunflower border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sunflower border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                   05
-                </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-sunflower text-ink">
-                  Modul 05
+                </div>
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas rounded font-bold">
+                  Database
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-ink">
+              <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
                 Notion Content OS
               </h3>
-              <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-                Database Notion terintegrasi dengan Calendar View, Kanban Status Posting, dan manajemen aset yang siap diduplikasi.
+              <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+                Database Notion siap 1-klik duplicate dengan Calendar View, Kanban status produksi, dan kolom asset management yang rapi.
               </p>
             </div>
-            <div className="mt-6 pt-3 border-t-2 border-ink flex items-center justify-between text-[11px] font-mono text-ink/50">
-              <span>Akses</span>
-              <span>1-Click Duplicate</span>
-            </div>
+            <span className="text-xs font-mono text-stone-500 mt-4 block pt-3 border-t-2 border-ink">
+              1-Click Duplicate
+            </span>
           </div>
 
           {/* Module 6: B-Roll & Shot List */}
-          <div
-            id="modul-broll"
-            className="md:col-span-2 bento-pop p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
-          >
+          <div id="modul-broll" className="md:col-span-2 bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
-              <div className="flex justify-between items-start mb-4">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-wasabi border-2 border-ink shadow-brutal-sm rounded-lg font-mono text-xs font-bold text-ink">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-wasabi border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                   06
-                </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink">
-                  Modul 06
+                </div>
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-canvas rounded font-bold">
+                  Shot List
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-ink">
+              <h3 className="text-lg sm:text-xl font-bold text-ink font-serif">
                 Panduan B-Roll &amp; Visual Kamera HP
               </h3>
-              <p className="text-ink/60 text-xs sm:text-sm mt-2 leading-relaxed">
-                Daftar referensi pengambilan visual b-roll (sudut kamera, pencahayaan alami, gestur tangan) yang bisa dieksekusi sendiri menggunakan kamera smartphone standar tanpa peralatan mahal.
+              <p className="text-stone-600 text-xs sm:text-sm mt-2 font-sans leading-relaxed">
+                Panduan sudut kamera, pencahayaan alami jendela, dan gestur visual yang gampang direkam sendiri pakai HP tanpa perlu sewa studio atau alat mahal.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t-2 border-ink flex items-center justify-between text-[11px] font-mono text-ink/50">
-              <span>Tingkat Kesulitan</span>
-              <span className="text-wasabi font-semibold">Ramah Pemula Total</span>
-            </div>
+            <span className="text-xs font-mono text-emerald-800 font-bold mt-4 block pt-3 border-t-2 border-ink">
+              Level: Ramah Pemula Total
+            </span>
           </div>
         </div>
       </div>

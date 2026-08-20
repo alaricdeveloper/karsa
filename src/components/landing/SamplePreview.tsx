@@ -91,8 +91,8 @@ const sampleData: Record<Category, SampleItem[]> = {
 };
 
 const categories: { key: Category; label: string }[] = [
-  { key: "script", label: "Naskah Video" },
-  { key: "caption", label: "Takarir Instagram" },
+  { key: "script", label: "Video Scripts" },
+  { key: "caption", label: "Captions AIDA" },
   { key: "seo", label: "Struktur SEO" },
 ];
 
@@ -111,25 +111,24 @@ export function SamplePreview() {
   return (
     <section id="preview" className="py-12 sm:py-20 border-b-2 border-ink bg-surface">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-6 sm:mb-10">
-          <span className="badge-tag bg-sunflower text-ink px-3 py-1 text-[11px] sm:text-xs font-mono uppercase tracking-wider">
+        <div className="text-center mb-6 sm:mb-8">
+          <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunflower text-ink">
             Transparansi Mutu
           </span>
-          <h2 className="text-2xl sm:text-3xl font-serif text-ink mt-3">
-            Contoh Output Nyata Berbagai Sektor
+          <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">
+            Contoh Output Nyata Naskah Karsa
           </h2>
         </div>
 
-        {/* Main Category Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:justify-center mb-3">
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => switchCategory(cat.key)}
-              className={`badge-tag shrink-0 px-4 py-2.5 rounded-lg text-xs font-medium transition ${
+              className={`badge-tag px-3.5 sm:px-4 py-2 rounded-xl text-xs font-mono font-bold transition shrink-0 ${
                 activeCategory === cat.key
-                  ? "bg-ink text-white border-ink"
-                  : "bg-canvas text-ink"
+                  ? "bg-ink text-white"
+                  : "bg-white text-ink"
               }`}
             >
               {cat.label}
@@ -137,16 +136,15 @@ export function SamplePreview() {
           ))}
         </div>
 
-        {/* Niche Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:justify-center mb-5 font-mono text-[11px]">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:justify-center mb-4 sm:mb-5 font-mono text-xs">
           {samples.map((s, idx) => (
             <button
               key={idx}
               onClick={() => setActiveSampleIdx(idx)}
-              className={`badge-tag shrink-0 px-3 py-1.5 rounded-md transition ${
+              className={`px-3 py-1.5 rounded-lg border-2 border-ink font-bold shrink-0 ${
                 activeSampleIdx === idx
-                  ? "bg-ink text-white border-ink"
-                  : "bg-canvas text-ink/60"
+                  ? "bg-ink text-white"
+                  : "bg-white text-ink"
               }`}
             >
               {idx === 0 ? "Sample 1: Kuliner (F&B)" : "Sample 2: Skincare / D2C"}
@@ -154,19 +152,15 @@ export function SamplePreview() {
           ))}
         </div>
 
-        {/* Reader Container */}
-        <div className="bento-pop rounded-3xl p-5 sm:p-8 font-mono text-xs min-h-[260px] bg-canvas">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pb-3 border-b-2 border-ink text-ink/60 gap-1 mb-4">
+        <div className="bento-pop p-5 sm:p-8 rounded-3xl bg-white font-mono text-xs min-h-[240px]">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pb-2.5 sm:pb-3 border-b-2 border-ink text-stone-500 gap-1 mb-3 sm:mb-4">
             <span className="font-bold text-ink sm:font-normal">{current.title}</span>
-            <span className="text-[10px]">{current.niche}</span>
-          </div>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="badge-tag bg-wasabi text-ink px-2 py-0.5 text-[10px]">
-              {current.niche.split(": ")[1] ?? current.niche}
+            <span className="text-[10px] badge-tag bg-wasabi px-2 py-0.5 rounded text-ink font-bold self-start sm:self-auto">
+              {current.niche}
             </span>
           </div>
           <div
-            className="space-y-4 font-sans text-xs sm:text-sm text-ink leading-relaxed"
+            className="space-y-3 sm:space-y-4 font-sans text-xs sm:text-sm text-stone-800 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: current.html }}
           />
         </div>
