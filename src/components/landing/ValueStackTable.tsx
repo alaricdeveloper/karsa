@@ -28,7 +28,7 @@ export function ValueStackTable() {
           </h2>
         </div>
 
-        <div className="bento-pop rounded-3xl overflow-hidden font-mono text-xs">
+        <div className="bento-pop bg-white rounded-3xl overflow-hidden font-mono text-xs">
           <div className="p-3.5 sm:p-5 bg-ink text-canvas flex justify-between items-center font-bold">
             <span>Komponen Deliverables &amp; Bonus</span>
             <span>Estimasi Nilai Pasar</span>

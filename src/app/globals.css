@@ -40,7 +40,6 @@
 
 /* Brutalist card */
 .bento-pop {
-  background: #FFFFFF;
   border: 2px solid #181511;
   box-shadow: 3.5px 3.5px 0px #181511;
   transition: transform 0.15s ease, box-shadow 0.15s ease;

@@ -18,7 +18,7 @@ export function DeliverablesGrid() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {/* Module 1: Video Scripts */}
-          <div id="modul-video" className="md:col-span-2 bento-pop p-5 sm:p-8 rounded-3xl">
+          <div id="modul-video" className="md:col-span-2 bento-pop bg-white p-5 sm:p-8 rounded-3xl">
             <div className="flex justify-between items-start mb-3">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-wasabi border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
                 01
@@ -44,7 +44,7 @@ export function DeliverablesGrid() {
           </div>
 
           {/* Module 2: Captions */}
-          <div id="modul-caption" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
+          <div id="modul-caption" className="bento-pop bg-white p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-3">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sunflower border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
@@ -67,7 +67,7 @@ export function DeliverablesGrid() {
           </div>
 
           {/* Module 3: SEO Articles */}
-          <div id="modul-seo" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
+          <div id="modul-seo" className="bento-pop bg-white p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-3">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-canvas border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
@@ -90,7 +90,7 @@ export function DeliverablesGrid() {
           </div>
 
           {/* Module 4: Competitor Radar */}
-          <div id="modul-radar" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
+          <div id="modul-radar" className="bento-pop bg-white p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-3">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-terracottaLight text-terracotta border-2 border-ink flex items-center justify-center font-mono font-bold shadow-brutal-sm">
@@ -113,7 +113,7 @@ export function DeliverablesGrid() {
           </div>
 
           {/* Module 5: Notion Dynamic OS */}
-          <div id="modul-notion" className="bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
+          <div id="modul-notion" className="bento-pop bg-white p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-3">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sunflower border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
@@ -136,7 +136,7 @@ export function DeliverablesGrid() {
           </div>
 
           {/* Module 6: B-Roll & Shot List */}
-          <div id="modul-broll" className="md:col-span-2 bento-pop p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
+          <div id="modul-broll" className="md:col-span-2 bento-pop bg-white p-5 sm:p-8 rounded-3xl flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-3">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-wasabi border-2 border-ink flex items-center justify-center font-mono font-bold text-ink shadow-brutal-sm">
