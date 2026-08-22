@@ -3,37 +3,37 @@ export function BonusStack() {
     {
       number: "01",
       price: "Rp250.000",
-      title: "50 Viral Hook Swipe File Template",
+       title: "50 Template Hook untuk Membuka Video",
       description:
-        "Koleksi 50 kalimat pembuka video teruji yang dapat diadaptasi untuk variasi promosi kilat produk tokomu.",
+         "Koleksi 50 kalimat pembuka yang bisa kamu adaptasi untuk berbagai jenis promosi produk.",
     },
     {
       number: "02",
       price: "Rp200.000",
       title: "Panduan Optimasi Bio & Highlight",
       description:
-        "Struktur penataan profil Instagram agar pengunjung langsung paham value tokomu dalam 5 detik.",
+         "Struktur profil Instagram agar pengunjung langsung memahami value bisnismu dalam 5 detik.",
     },
     {
       number: "03",
       price: "Rp300.000",
       title: "Content Repurposing Framework",
       description:
-        "SOP mengubah 1 ide video pendek menjadi carousel Instagram, thread X, dan status WhatsApp promosi.",
+         "SOP untuk mengubah satu ide video menjadi carousel Instagram, thread X, dan status WhatsApp.",
     },
     {
       number: "04",
       price: "Rp350.000",
       title: "Garansi Kalibrasi Sudut Pesan 48 Jam",
       description:
-        "Fasilitas penyesuaian istilah produk dan tone naskah jika ada yang kurang pas dalam 48 jam pertama.",
+         "Penyesuaian istilah produk dan tone naskah jika ada bagian yang kurang pas dalam 48 jam pertama.",
     },
     {
       number: "05",
       price: "Rp350.000",
-      title: "Trending Audio & Pacing Blueprint",
+       title: "Audio & Pacing Blueprint",
       description:
-        "Panduan memilih latar suara komersial yang aman copyright dan panduan tempo jeda bicara agar penonton betah.",
+         "Panduan memilih referensi audio dan tempo jeda bicara agar video terasa lebih hidup.",
       colSpan: "sm:col-span-2 lg:col-span-2",
     },
   ];
@@ -46,10 +46,10 @@ export function BonusStack() {
             Bonus Stack Eksklusif
           </span>
           <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">
-            5 Bonus Tambahan (Gratis dalam Batch Ini)
+             5 Bonus Tambahan untuk Memaksimalkan Konten
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 font-mono mt-1">
-            Diberikan langsung di dalam link Notion Workspace Anda tanpa biaya ekstra.
+             Semua bonus langsung masuk ke Notion Workspace kamu tanpa biaya ekstra.
           </p>
         </div>
 
@@ -71,8 +71,8 @@ export function BonusStack() {
                   {b.description}
                 </p>
               </div>
-              <span className="badge-tag text-[10px] font-mono text-ink font-bold bg-wasabi px-2.5 py-1 rounded-lg mt-4 inline-block text-center">
-                GRATIS Hari Ini
+             <span className="badge-tag text-[10px] font-mono text-ink font-bold bg-wasabi px-2.5 py-1 rounded-lg mt-4 inline-block text-center">
+                 SUDAH TERMASUK
               </span>
             </div>
           ))}

@@ -99,7 +99,7 @@ export default function TermsPage() {
             <span className="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-200 text-sand-800 rounded font-semibold">Legal Council</span>
           </Link>
           <div className="flex items-center space-x-3 text-xs font-mono">
-            <Link href="/dashboard" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sand-300 rounded-xl hover:bg-sand-100 transition text-stone-700 shadow-sm">
+            <Link href="/login" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sand-300 rounded-xl hover:bg-sand-100 transition text-stone-700 shadow-sm">
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Workspace</span>
             </Link>

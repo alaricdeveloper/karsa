@@ -11,6 +11,9 @@ export interface Order {
   category: string;
   competitor: string | null;
   description: string;
+  content_goal?: string | null;
+  content_tone?: string | null;
+  priority_channel?: string | null;
   email: string;
   phone: string;
   status: OrderStatus;

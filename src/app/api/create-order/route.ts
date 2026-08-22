@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { brand, category, competitor, description, email, phone, status, orderId } = body;
+    const { brand, category, competitor, description, goal, tone, channel, email, phone, status, orderId } = body;
 
     // If orderId and status provided, update existing order (payment confirmed)
     if (orderId && status) {
@@ -48,6 +48,9 @@ export async function POST(request: NextRequest) {
         category,
         competitor: competitor || "",
         description,
+        content_goal: goal || "",
+        content_tone: tone || "",
+        priority_channel: channel || "",
         email,
         phone: phone || "",
         status: "PENDING_PAYMENT",

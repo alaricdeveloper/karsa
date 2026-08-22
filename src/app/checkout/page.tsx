@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { startTransition, useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -12,8 +12,6 @@ import {
   Lock,
   Copy,
   FileText,
-  CreditCard,
-  Truck,
 } from "lucide-react";
 
 interface OrderData {
@@ -22,6 +20,9 @@ interface OrderData {
   category: string;
   competitor?: string;
   description?: string;
+  goal?: string;
+  tone?: string;
+  channel?: string;
   email: string;
   phone: string;
   timestamp: string;
@@ -44,7 +45,7 @@ function CheckoutContent() {
   const paramId = searchParams.get("id");
 
   const [order, setOrder] = useState<OrderData>({
-    orderId: "INV-" + Math.floor(100000 + Math.random() * 900000),
+    orderId: "INV-PREVIEW",
     brand: "Kopi Teras Senja",
     category: "Kuliner / F&B",
     email: "hello.usekarsa@gmail.com",
@@ -66,8 +67,10 @@ function CheckoutContent() {
         const stored = localStorage.getItem("karsa_checkout_" + paramId) || localStorage.getItem("omni_order_" + paramId);
         if (stored) {
           const parsed = JSON.parse(stored);
-          setOrder(parsed);
-          setPaymentMethod(parsed.paymentMethod || "QRIS");
+          startTransition(() => {
+            setOrder(parsed);
+            setPaymentMethod(parsed.paymentMethod || "QRIS");
+          });
         }
       } catch {}
     }
@@ -135,6 +138,9 @@ function CheckoutContent() {
           category: order.category,
           competitor: order.competitor || "",
           description: order.description || "Order dari Member Workspace",
+          goal: order.goal || "",
+          tone: order.tone || "",
+          channel: order.channel || "",
           email: order.email,
           phone: order.phone,
         }),

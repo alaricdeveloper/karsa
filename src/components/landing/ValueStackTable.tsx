@@ -21,17 +21,17 @@ export function ValueStackTable() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunflower text-ink">
-            Transparansi Nilai
+             Rincian Paket
           </span>
           <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">
-            Rincian Akumulasi Nilai Produk
+             Satu batch, semua fondasi kontenmu.
           </h2>
         </div>
 
         <div className="bento-pop bg-white rounded-3xl overflow-hidden font-mono text-xs">
           <div className="p-3.5 sm:p-5 bg-ink text-canvas flex justify-between items-center font-bold">
-            <span>Komponen Deliverables &amp; Bonus</span>
-            <span>Estimasi Nilai Pasar</span>
+             <span>Komponen yang Kamu Terima</span>
+             <span>Nilai Referensi</span>
           </div>
           <div className="divide-y-2 divide-ink p-2 sm:p-4 text-ink bg-white">
             {rows.map((row) => (
@@ -49,7 +49,7 @@ export function ValueStackTable() {
           <div className="p-4 sm:p-6 bg-wasabi/40 border-t-2 border-ink flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
               <span className="text-stone-600 block text-[11px] font-bold">
-                Total Nilai Akumulasi Nyata:
+                 Total Nilai Referensi:
               </span>
               <span className="line-through text-stone-400 text-sm sm:text-base">
                 Rp5.300.000
@@ -57,7 +57,7 @@ export function ValueStackTable() {
             </div>
             <div className="text-left sm:text-right">
               <span className="text-stone-600 block text-[11px] font-bold">
-                Biaya Flat Batch Anda Hari Ini:
+                 Harga satu kali per batch:
               </span>
               <span className="text-2xl sm:text-3xl font-bold font-serif text-ink">
                 Rp299.000

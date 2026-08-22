@@ -85,7 +85,7 @@ export default function PrivacyPage() {
             </a>
             <div className="flex items-center space-x-3 text-xs font-mono">
               <a
-                href="/dashboard"
+                href="/login"
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sand-300 rounded-xl hover:bg-sand-100 transition text-stone-700 shadow-sm"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />

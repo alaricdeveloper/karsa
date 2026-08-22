@@ -12,7 +12,7 @@ export function HeroSection() {
           {/* Left Hero Text (7 Cols) */}
           <div className="lg:col-span-7 text-center lg:text-left space-y-4 sm:space-y-6">
             <div className="inline-flex items-center gap-1.5 sm:gap-2 badge-tag bg-sunflower px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-mono font-bold">
-              <span>👋 Stop pusing mikirin ide konten tiap malam!</span>
+               <span><span aria-hidden="true">👋 </span>Stop pusing mikirin ide konten tiap malam!</span>
             </div>
 
             <h1 className="text-3xl sm:text-6xl lg:text-[62px] font-serif tracking-tight text-ink leading-[1.1] sm:leading-[1.08]">
@@ -22,7 +22,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-xs sm:text-base text-stone-700 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans font-medium">
-              Tinggalkan cara lama yang bikin burnout. Kamu dapet 30 video script vertikal (TikTok/Reels), 30 caption berstruktur AIDA, 4 artikel SEO, 5 bonus stack eksklusif, dan Notion OS rapi dalam 1x24 jam kerja.
+              Tinggalkan cara lama yang bikin burnout. Kamu dapat 30 video script vertikal (TikTok/Reels), 30 caption berstruktur AIDA, 4 artikel SEO, 5 bonus eksklusif, dan Notion OS yang rapi dalam 1x24 jam kerja.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-1 sm:pt-2">
@@ -30,7 +30,7 @@ export function HeroSection() {
                 href="#order"
                 className="bento-pop bg-terracotta text-white px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl font-mono text-xs font-bold transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px]"
               >
-                <span>Mulai Order Batch (Rp299.000)</span>
+                 <span>Mulai dengan Brief (Rp299.000)</span>
                 <ArrowRight className="w-4 h-4 text-wasabi" />
               </a>
               <a
@@ -80,19 +80,19 @@ export function HeroSection() {
                 <div className="animate-teleprompter space-y-3 font-mono text-xs text-stone-300 px-1">
                   <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
                     <span className="text-[9px] font-bold text-sunflower uppercase block tracking-wider">[00:00 - 00:03] HOOK PENYANGKALAN</span>
-                    <p className="text-white text-xs mt-1 leading-snug">"Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?"</p>
+                    <p className="text-white text-xs mt-1 leading-snug">&quot;Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?&quot;</p>
                   </div>
                   <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
                     <span className="text-[9px] font-bold text-wasabi uppercase block tracking-wider">[00:04 - 00:18] VALUE DELIVERY</span>
-                    <p className="text-stone-200 text-xs mt-1 leading-snug">"Metode slow-drip 12 jam kami memecah asam klorogenat secara alami tanpa ngurangin kadar kafein."</p>
+                    <p className="text-stone-200 text-xs mt-1 leading-snug">&quot;Metode slow-drip 12 jam kami memecah asam klorogenat secara alami tanpa ngurangin kadar kafein.&quot;</p>
                   </div>
                   <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
                     <span className="text-[9px] font-bold text-terracotta uppercase block tracking-wider">[00:19 - 00:25] DIRECT CALL TO ACTION</span>
-                    <p className="text-white text-xs mt-1 leading-snug">"Cek link di bio sekarang buat amankan sampler pack ramah lambung minggu ini!"</p>
+                    <p className="text-white text-xs mt-1 leading-snug">&quot;Cek link di bio sekarang buat amankan sampler pack ramah lambung minggu ini!&quot;</p>
                   </div>
                   <div className="p-3 bg-stone-900 border border-stone-700 rounded-2xl">
                     <span className="text-[9px] font-bold text-sunflower uppercase block tracking-wider">[00:00 - 00:03] HOOK PENYANGKALAN</span>
-                    <p className="text-white text-xs mt-1 leading-snug">"Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?"</p>
+                    <p className="text-white text-xs mt-1 leading-snug">&quot;Kenapa kopi sachet kamu sering bikin perut kembung padahal baru 3 teguk?&quot;</p>
                   </div>
                 </div>
               </div>

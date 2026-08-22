@@ -8,15 +8,15 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center space-x-2">
           <span className="font-serif text-ink text-xl font-normal">Karsa Studio</span>
-          <span>&mdash; Automated Content Operations</span>
+           <span>&mdash; Sistem Konten Siap Eksekusi</span>
         </div>
         <div>
           &copy; 2026 Karsa Studio (<span className="text-ink font-bold">usekarsa.co</span>). All rights reserved.
         </div>
         <div className="flex flex-wrap justify-center gap-4 font-bold text-ink">
-          <Link href="/terms" className="hover:text-terracotta transition underline">Terms</Link>
-          <Link href="/privacy" className="hover:text-terracotta transition underline">Privacy</Link>
-          <Link href="/refund" className="hover:text-terracotta transition underline">SLA Guarantee</Link>
+           <Link href="/terms" className="hover:text-terracotta transition underline">Syarat</Link>
+           <Link href="/privacy" className="hover:text-terracotta transition underline">Privasi</Link>
+           <Link href="/refund" className="hover:text-terracotta transition underline">Jaminan SLA</Link>
         </div>
       </div>
     </footer>

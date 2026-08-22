@@ -32,7 +32,7 @@ export function ComparisonCalculator() {
           <div className="bento-pop p-5 sm:p-6 rounded-3xl bg-surface space-y-4 sm:space-y-5">
             <div>
               <div className="flex justify-between font-bold text-ink mb-2">
-                <span>Jam Mikir Konten / Minggu:</span>
+             <span>Jam Merencanakan Konten / Minggu:</span>
                 <span className="text-terracotta text-sm font-bold">{hours} Jam</span>
               </div>
               <input
@@ -41,13 +41,14 @@ export function ComparisonCalculator() {
                 max={15}
                 value={hours}
                 onChange={(e) => setHours(Number(e.target.value))}
-                className="w-full accent-terracotta cursor-pointer py-1.5"
+                 aria-label="Jam merencanakan konten per minggu"
+                 className="w-full accent-terracotta cursor-pointer py-1.5"
               />
             </div>
 
             <div>
               <div className="flex justify-between font-bold text-ink mb-2">
-                <span>Biaya Hire Agensi Bulanan:</span>
+               <span>Biaya Tim / Agensi per Bulan:</span>
                 <span className="text-terracotta text-sm font-bold">{formatRupiah(agencyCost)}</span>
               </div>
               <input
@@ -57,7 +58,8 @@ export function ComparisonCalculator() {
                 step={250_000}
                 value={agencyCost}
                 onChange={(e) => setAgencyCost(Number(e.target.value))}
-                className="w-full accent-terracotta cursor-pointer py-1.5"
+                 aria-label="Biaya tim atau agensi per bulan"
+                 className="w-full accent-terracotta cursor-pointer py-1.5"
               />
             </div>
           </div>
@@ -65,7 +67,7 @@ export function ComparisonCalculator() {
           <div className="bento-pop p-5 sm:p-6 rounded-3xl flex flex-col justify-between space-y-4 bg-wasabi/20">
             <div className="space-y-2.5 sm:space-y-3">
               <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
-                <span className="text-stone-700 font-bold">Waktu yang Dihemat:</span>
+                 <span className="text-stone-700 font-bold">Waktu Perencanaan / Bulan:</span>
                 <span className="text-sm sm:text-base font-bold text-ink font-serif">{monthlySaved} Jam / Bulan</span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
@@ -73,13 +75,13 @@ export function ComparisonCalculator() {
                 <span className="text-sm sm:text-base font-bold text-ink font-serif">{formatRupiah(karsaFee)}</span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b-2 border-ink">
-                <span className="text-stone-700 font-bold">Total Penghematan Anda:</span>
+                 <span className="text-stone-700 font-bold">Selisih Biaya:</span>
                 <span className="text-lg sm:text-2xl font-bold text-terracotta font-serif">{formatRupiah(totalSaved)} / Bulan</span>
               </div>
             </div>
 
             <a href="#order" className="bento-pop bg-ink text-canvas hover:bg-terracotta hover:text-white py-3.5 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-center min-h-[46px] sm:min-h-[48px]">
-              <span>Klaim Penghematan — Buat Brief &rarr;</span>
+               <span>Lihat paket &amp; isi brief <span aria-hidden="true">&rarr;</span></span>
             </a>
           </div>
         </div>

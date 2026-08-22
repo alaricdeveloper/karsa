@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS public.orders (
   category TEXT NOT NULL,
   competitor TEXT,
   description TEXT NOT NULL,
+  content_goal TEXT,
+  content_tone TEXT,
+  priority_channel TEXT,
   email TEXT NOT NULL,
   phone TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'PENDING_PAYMENT'

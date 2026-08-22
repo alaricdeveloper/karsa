@@ -55,7 +55,7 @@ export default function NotFound() {
             <span className="w-4 h-4 text-emerald-400">&#8592;</span>
             <span>Kembali ke Beranda Utama</span>
           </Link>
-          <Link href="/dashboard" className="w-full sm:w-auto px-6 py-3.5 bg-white border border-sand-300 hover:bg-sand-100 text-sand-900 rounded-xl font-medium transition flex items-center justify-center gap-2 min-h-[48px]">
+          <Link href="/login" className="w-full sm:w-auto px-6 py-3.5 bg-white border border-sand-300 hover:bg-sand-100 text-sand-900 rounded-xl font-medium transition flex items-center justify-center gap-2 min-h-[48px]">
             <LayoutGrid className="w-4 h-4 text-stone-500" />
             <span>Buka Member Workspace</span>
           </Link>
@@ -74,7 +74,7 @@ export default function NotFound() {
               <p className="text-[11px] text-stone-500 font-sans">Akses 30 naskah, teleprompter, dan duplikasi Notion.</p>
             </Link>
 
-            <Link href="/dashboard" className="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
+            <Link href="/login" className="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-sand-900 font-sans">Member Tools</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition" />
