@@ -141,45 +141,29 @@ textarea::placeholder {
 }
 
 input[type="range"] {
-  height: 1.25rem;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  height: 0.35rem;
-  border: 2px solid #181511;
-  border-radius: 999px;
-  background: #FDF0ED;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  width: 1.15rem;
-  height: 1.15rem;
-  margin-top: -0.5rem;
-  border: 2px solid #181511;
-  border-radius: 999px;
-  background: #E75A3C;
+  -webkit-appearance: none;
   appearance: none;
-  cursor: grab;
-}
-
-input[type="range"]::-webkit-slider-thumb:active {
-  cursor: grabbing;
-}
-
-input[type="range"]::-moz-range-track {
-  height: 0.35rem;
+  height: 10px;
+  background: #FFFFFF;
   border: 2px solid #181511;
-  border-radius: 999px;
-  background: #FDF0ED;
+  border-radius: 9999px;
+  cursor: pointer;
 }
-
-input[type="range"]::-moz-range-thumb {
-  width: 1.15rem;
-  height: 1.15rem;
-  border: 2px solid #181511;
-  border-radius: 999px;
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; height: 24px;
   background: #E75A3C;
-  cursor: grab;
+  border: 2px solid #181511;
+  border-radius: 6px;
+  box-shadow: 2px 2px 0 #181511;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px;
+  background: #E75A3C;
+  border: 2px solid #181511;
+  border-radius: 6px;
+  box-shadow: 2px 2px 0 #181511;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -203,4 +187,68 @@ input[type="range"]::-moz-range-thumb {
 ::selection {
   background-color: #D4E882;
   color: #181511;
+}
+
+/* ===== Member console primitives (ported from user_dashboard.html) ===== */
+/* Instrument Serif ships 400/italic only — never synthesize faux bold */
+.member-console .font-serif.font-bold { font-weight: 400 !important; }
+
+/* Readout strip: one plate, internal ink rules */
+.readout-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
+.readout-cell { padding: 1rem 1.25rem; border-top: 2px solid #181511; }
+.readout-cell:nth-child(even) { border-left: 2px solid #181511; }
+.readout-cell:nth-child(1), .readout-cell:nth-child(2) { border-top: 0; }
+@media (min-width: 1024px) {
+  .readout-grid { grid-template-columns: repeat(4, 1fr); }
+  .readout-cell { border-top: 0; border-left: 2px solid #181511; }
+  .readout-cell:first-child { border-left: 0; }
+}
+
+/* Trio strip: one plate, three internal columns */
+.trio-grid { display: grid; grid-template-columns: 1fr; }
+.trio-cell { padding: 1.25rem 1.25rem 1.5rem; border-top: 2px solid #181511; }
+.trio-cell:first-child { border-top: 0; }
+@media (min-width: 768px) {
+  .trio-grid { grid-template-columns: repeat(3, 1fr); }
+  .trio-cell { border-top: 0; border-left: 2px solid #181511; padding: 1.5rem 1.5rem 1.75rem; }
+  .trio-cell:first-child { border-left: 0; }
+}
+
+/* Demo sample tab */
+.sample-tab-btn.active {
+  background-color: #181511;
+  color: #FFFFFF;
+  border-color: #181511;
+}
+details[open] .faq-chev { transform: rotate(180deg); }
+
+/* Live SLA pulse */
+.pulse-dot { animation: karsa-pulse 1.6s ease-in-out infinite; }
+@keyframes karsa-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Pipeline progress dots */
+.pipe-dot {
+  width: 10px; height: 10px;
+  border: 1.5px solid #181511;
+  border-radius: 9999px;
+  background: #FFFFFF;
+}
+.pipe-dot.on { background: #181511; }
+
+/* Browser surfaces carry the design */
+input, select, textarea { caret-color: #E75A3C; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #FBF9F4; border-left: 2px solid #181511; }
+::-webkit-scrollbar-thumb { background: #181511; border: 3px solid #FBF9F4; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #E75A3C; }
+:focus-visible {
+  outline: 3px solid #E75A3C;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot { animation: none; }
 }
