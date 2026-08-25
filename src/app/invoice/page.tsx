@@ -42,68 +42,56 @@ function InvoiceContent() {
     : "QRIS Terverifikasi";
 
   return (
-    <>
-      <style>{`
-        @media print {
-          body {
-            background-color: #FFFFFF !important;
-            padding: 0 !important;
-          }
-          .no-print {
-            display: none !important;
-          }
-          .invoice-container {
-            border: none !important;
-            box-shadow: none !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            padding: 0 !important;
-          }
-        }
-      `}</style>
-
-      <div className="bg-sand-100 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 py-6 sm:py-12 px-3 sm:px-6 min-h-screen">
-        {/* ACTION BAR (HIDDEN IN PRINT) */}
-        <div className="max-w-3xl mx-auto mb-5 flex items-center justify-between no-print font-mono text-xs">
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 px-3 py-2 bg-white border border-sand-300 rounded-xl hover:bg-sand-200 transition text-stone-700 shadow-sm"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Kembali ke Workspace</span>
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink print:bg-white!">
+      {/* ACTION BAR + WORDMARK (HIDDEN IN PRINT) */}
+      <header className="sticky top-0 z-50 bg-canvas/95 backdrop-blur-md border-b-2 border-ink print:hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
+            <span className="font-serif text-2xl sm:text-4xl tracking-tight group-hover:rotate-1 transition-transform">
+              Karsa
+            </span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-mono text-xs">
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] bg-white border-2 border-ink rounded-xl hover:bg-canvas transition text-ink font-bold shadow-brutal-sm"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Kembali ke Workspace</span>
+            </Link>
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-1.5 px-4 py-2 bg-sand-900 text-sand-50 rounded-xl hover:bg-stone-800 transition font-semibold shadow-sm"
+              className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] bg-ink text-canvas rounded-xl hover:bg-terracotta transition font-bold shadow-brutal"
             >
-              <Printer className="w-3.5 h-3.5" />
+              <Printer className="w-3.5 h-3.5 text-wasabi" />
               <span>Cetak / Simpan PDF</span>
             </button>
           </div>
         </div>
+      </header>
 
-        {/* OFFICIAL INVOICE PAPER CANVAS */}
-        <main className="invoice-container max-w-3xl mx-auto bg-white border border-sand-300 rounded-3xl p-6 sm:p-12 shadow-md space-y-8">
+      {/* OFFICIAL INVOICE PAPER CANVAS */}
+      <div className="px-3.5 sm:px-6 pt-6 sm:pt-12 pb-28 md:pb-16 print:px-0! print:pt-0! print:pb-0!">
+        <main className="invoice-container max-w-3xl mx-auto bento-pop rounded-3xl p-6 sm:p-12 space-y-8 bg-white print:max-w-full print:w-full print:p-6 print:m-0! print:shadow-none! print:border-ink!">
           {/* HEADER: BRAND & PAID BADGE */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-sand-200">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b-2 border-ink">
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-serif text-3xl tracking-tight text-sand-900">
+                <span className="font-serif text-3xl sm:text-4xl tracking-tight text-ink">
                   Karsa
                 </span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-100 text-sand-800 rounded font-bold">
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink rounded font-bold">
                   Content Studio
                 </span>
               </div>
-              <p className="text-xs font-mono text-stone-500 mt-1">
+              <p className="text-xs font-mono text-stone-600 mt-1 font-bold">
                 usekarsa.co &bull; hello.usekarsa@gmail.com
               </p>
             </div>
 
             {/* PAID STAMP BADGE */}
-            <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-xl font-mono text-xs font-bold uppercase tracking-wider">
-              <CheckCircle className="w-4 h-4 text-emerald-600" />
+            <div className="flex items-center gap-2 px-4 py-2 bg-wasabi border-2 border-ink text-ink rounded-2xl font-mono text-xs font-bold uppercase tracking-wider shadow-brutal-sm">
+              <CheckCircle className="w-4 h-4 text-emerald-800" />
               <span>Lunas &bull; Terverifikasi</span>
             </div>
           </div>
@@ -111,34 +99,34 @@ function InvoiceContent() {
           {/* METADATA GRID: CLIENT & ORDER INFO */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs pt-1">
             <div>
-              <span className="text-stone-400 text-[10px] uppercase block">
+              <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Nomor Invoice
               </span>
-              <span className="font-bold text-sand-900 mt-0.5 block text-sm">
+              <span className="font-bold text-terracotta mt-0.5 block text-sm sm:text-base font-serif">
                 {invNumber}
               </span>
             </div>
             <div>
-              <span className="text-stone-400 text-[10px] uppercase block">
+              <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Tanggal Pembayaran
               </span>
-              <span className="font-bold text-sand-900 mt-0.5 block">
+              <span className="font-bold text-ink mt-0.5 block">
                 19 Agustus 2026
               </span>
             </div>
             <div>
-              <span className="text-stone-400 text-[10px] uppercase block">
+              <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Klien / Brand
               </span>
-              <span className="font-bold text-sand-900 mt-0.5 block text-sm">
+              <span className="font-bold text-ink mt-0.5 block text-sm sm:text-base font-serif">
                 {invBrand}
               </span>
             </div>
             <div>
-              <span className="text-stone-400 text-[10px] uppercase block">
+              <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Metode Pembayaran
               </span>
-              <span className="font-bold text-sand-900 mt-0.5 block">
+              <span className="font-bold text-ink mt-0.5 block">
                 {invMethod}
               </span>
             </div>
@@ -146,66 +134,68 @@ function InvoiceContent() {
 
           {/* DELIVERABLES TABLE */}
           <div className="space-y-3 font-mono text-xs">
-            <div className="border-b border-sand-900 pb-2 flex justify-between font-bold text-sand-900 text-[11px] uppercase tracking-wider">
+            <div className="border-b-2 border-ink pb-2 flex justify-between font-bold text-ink text-[11px] uppercase tracking-wider">
               <span>Rincian Layanan &amp; Deliverables</span>
               <span>Jumlah</span>
             </div>
 
-            <div className="divide-y divide-sand-200 text-stone-800">
-              <div className="py-3 flex justify-between items-start">
+            <div className="divide-y-2 divide-ink text-stone-800">
+              <div className="py-3.5 flex justify-between items-start">
                 <div className="space-y-0.5">
-                  <span className="font-bold text-sand-900 block font-sans text-sm">
+                  <span className="font-bold text-ink block font-sans text-sm sm:text-base">
                     Paket Kalender Konten 30 Hari Karsa
                   </span>
-                  <span className="text-stone-500 text-[11px]">
+                  <span className="text-stone-600 text-xs">
                     30 Naskah Video Pendek Kata-per-Kata, 30 Takarir AIDA, dan
                     4 Artikel SEO
                   </span>
                 </div>
-                <span className="font-bold text-sand-900">Rp 299.000</span>
+                <span className="font-bold text-ink text-sm sm:text-base font-serif">
+                  Rp 299.000
+                </span>
               </div>
 
-              <div className="py-2.5 flex justify-between text-stone-600">
+              <div className="py-2.5 flex justify-between text-stone-700">
                 <span>
                   Notion Content OS Database + Calendar Matrix View
                 </span>
-                <span className="text-emerald-700 font-bold">Termasuk</span>
+                <span className="text-emerald-800 font-bold">Termasuk</span>
               </div>
 
-              <div className="py-2.5 flex justify-between text-stone-600">
+              <div className="py-2.5 flex justify-between text-stone-700">
                 <span>
                   Audit Celah 1 Akun Kompetitor &amp; Positioning Blueprint
                 </span>
-                <span className="text-emerald-700 font-bold">Termasuk</span>
+                <span className="text-emerald-800 font-bold">Termasuk</span>
               </div>
 
-              <div className="py-2.5 flex justify-between text-stone-600">
+              <div className="py-2.5 flex justify-between text-stone-700">
                 <span>Panduan Shot-List B-Roll Kamera HP</span>
-                <span className="text-emerald-700 font-bold">Termasuk</span>
+                <span className="text-emerald-800 font-bold">Termasuk</span>
               </div>
 
-              <div className="py-2.5 flex justify-between text-stone-600">
+              <div className="py-2.5 flex justify-between text-stone-700">
                 <span>Garansi Kalibrasi Sudut Pesan 48 Jam</span>
-                <span className="text-emerald-700 font-bold">Termasuk</span>
+                <span className="text-emerald-800 font-bold">Termasuk</span>
               </div>
             </div>
 
             {/* TOTAL BOX */}
-            <div className="pt-4 border-t-2 border-sand-900 flex justify-between items-center text-sm font-bold text-sand-900">
+            <div className="pt-4 border-t-2 border-ink flex justify-between items-center text-sm font-bold text-ink">
               <span className="font-sans">Total Pembayaran Lunas</span>
-              <span className="text-2xl font-serif text-sand-900">
+              <span className="text-2xl sm:text-3xl font-serif text-terracotta">
                 Rp 299.000
               </span>
             </div>
           </div>
 
           {/* SLA GUARANTEE CALLOUT */}
-          <div className="p-4 bg-sand-50 border border-sand-200 rounded-2xl font-mono text-xs space-y-1 text-stone-700">
-            <div className="flex items-center gap-2 font-bold text-sand-900">
-              <Clock className="w-4 h-4 text-emerald-600" />
+          <div className="p-4 bg-canvas border-2 border-ink rounded-2xl font-mono text-xs space-y-1 text-stone-800 shadow-brutal-sm">
+            <div className="flex items-center gap-2 font-bold text-ink">
+              <Clock className="w-4 h-4 text-terracotta" />
               <span>SLA Pengerjaan: Maksimal 24 Jam Kerja</span>
             </div>
-            <p className="text-[11px] font-sans text-stone-600">
+            <p className="text-xs font-sans text-stone-600 leading-relaxed">
               Tim Karsa sedang menyusun dan mengurasi 30 naskah kontenmu.
               Berkas Notion dan Studio Teleprompter akan otomatis aktif di
               Customer Hub kamu.
@@ -213,28 +203,30 @@ function InvoiceContent() {
           </div>
 
           {/* FOOTER LINK TO CUSTOMER DASHBOARD (NO PRINT) */}
-          <div className="pt-4 text-center no-print">
+          <div className="pt-4 text-center print:hidden">
             <Link
               href={`/portal/${invNumber}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-sand-900 text-sand-50 rounded-xl font-mono text-xs font-bold hover:bg-stone-800 transition shadow-md min-h-[48px]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-terracotta text-white rounded-2xl font-mono text-xs font-bold hover:bg-ink transition shadow-brutal min-h-[48px]"
             >
               <span>Buka Customer Hub Sekarang</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-wasabi" />
             </Link>
           </div>
         </main>
       </div>
-    </>
+    </div>
   );
 }
 
 export default function InvoicePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
-        <p className="text-sm text-stone-500 font-mono">Memuat invoice...</p>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-canvas flex items-center justify-center">
+          <p className="text-sm text-stone-500 font-mono">Memuat invoice...</p>
+        </div>
+      }
+    >
       <InvoiceContent />
     </Suspense>
   );

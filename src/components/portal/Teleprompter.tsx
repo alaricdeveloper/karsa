@@ -1,146 +1,112 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ContentItem } from "@/lib/types";
+import { Play, Pause, X } from "lucide-react";
+import { dayStr } from "./hub-lib";
 
-interface TeleprompterProps {
-  contentItems: ContentItem[];
-  selectedDay: number;
-}
-
-const SPEEDS = [1, 2, 3, 4, 5, 6, 7, 8];
-
-export function Teleprompter({ contentItems, selectedDay }: TeleprompterProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+export function Teleprompter({
+  open,
+  item,
+  day,
+  onClose,
+}: {
+  open: boolean;
+  item: ContentItem | null;
+  day: number;
+  onClose: () => void;
+}) {
+  const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(2);
-  const [scrollPos, setScrollPos] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  const item = contentItems.find((c) => c.day_number === selectedDay);
-  const fullScript = item
-    ? `${item.hook}\n\n${item.body}\n\n${item.cta}`
-    : "";
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (isPlaying && isOpen && containerRef.current) {
+    if (open) {
+      setPlaying(true);
+      setSpeed(2);
+      if (canvasRef.current) canvasRef.current.scrollTop = 0;
+    }
+  }, [open, day]);
+
+  useEffect(() => {
+    if (!open) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      setPlaying(false);
+      return;
+    }
+    if (playing && canvasRef.current) {
       intervalRef.current = setInterval(() => {
-        setScrollPos((prev) => {
-          const maxScroll = containerRef.current
-            ? containerRef.current.scrollHeight - containerRef.current.clientHeight
-            : 0;
-          const next = prev + speed;
-          return next >= maxScroll ? 0 : next;
-        });
+        if (canvasRef.current) canvasRef.current.scrollTop += speed;
       }, 30);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPlaying, isOpen, speed]);
+  }, [playing, open, speed]);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = scrollPos;
-    }
-  }, [scrollPos]);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
-  if (!item) return null;
+  if (!open) return null;
 
   return (
-    <>
-      {/* Trigger Button */}
-      <button
-        onClick={() => {
-          setIsOpen(true);
-          setScrollPos(0);
-          setIsPlaying(true);
-        }}
-        className="w-full py-3 bg-sand-900 text-white rounded-xl font-semibold text-sm hover:bg-sand-800 transition min-h-[44px]"
-      >
-        🎬 Buka Teleprompter (Hari {selectedDay})
-      </button>
-
-      {/* Fullscreen Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 bg-sand-900 text-white flex flex-col">
-          {/* Top Bar */}
-          <div className="flex items-center justify-between p-4 border-b border-sand-700">
-            <div className="flex items-center gap-3">
-              <span className="text-[10px] font-mono text-sand-400">
-                Hari ke-{selectedDay} • {speed}x
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* Speed Controls */}
-              <div className="flex items-center gap-1">
-                {SPEEDS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSpeed(s)}
-                    className={`w-8 h-8 rounded-lg text-[10px] font-mono font-bold transition ${
-                      speed === s
-                        ? "bg-white text-sand-900"
-                        : "bg-sand-700 text-sand-300 hover:bg-sand-600"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="px-4 py-2 bg-sand-700 rounded-lg text-xs font-semibold hover:bg-sand-600 transition"
-              >
-                {isPlaying ? "⏸ Pause" : "▶ Play"}
-              </button>
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  setIsPlaying(false);
-                }}
-                className="px-4 py-2 bg-rose-600 rounded-lg text-xs font-semibold hover:bg-rose-700 transition"
-              >
-                ✕ Tutup
-              </button>
-            </div>
-          </div>
-
-          {/* Script Content */}
-          <div
-            ref={containerRef}
-            className="flex-1 overflow-y-auto p-8 sm:p-16"
-            onClick={() => setIsPlaying(!isPlaying)}
+    <div
+      className="fixed inset-0 bg-ink text-canvas z-50 flex flex-col font-sans select-none"
+      role="dialog"
+      aria-label="Teleprompter naskah"
+    >
+      <div className="p-4 border-b-2 border-ink flex items-center justify-between font-mono text-xs flex-wrap gap-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            onClick={() => setPlaying(!playing)}
+            className="px-4 py-2 bg-wasabi text-ink rounded-xl font-bold flex items-center gap-1.5 min-h-[44px] border-2 border-ink shadow-brutal-sm"
           >
-            <div className="max-w-3xl mx-auto space-y-12 text-2xl sm:text-3xl md:text-4xl font-serif leading-relaxed">
-              {/* Hook */}
-              <div className="border-l-4 border-amber-400 pl-6">
-                <p className="text-xs font-mono text-amber-400 mb-2 uppercase">
-                  🪝 Hook (0–3 detik)
-                </p>
-                <p>{item.hook}</p>
-              </div>
-
-              {/* Body */}
-              <div className="border-l-4 border-indigo-400 pl-6">
-                <p className="text-xs font-mono text-indigo-400 mb-2 uppercase">
-                  📝 Body / Isi
-                </p>
-                <p>{item.body}</p>
-              </div>
-
-              {/* CTA */}
-              <div className="border-l-4 border-emerald-400 pl-6">
-                <p className="text-xs font-mono text-emerald-400 mb-2 uppercase">
-                  📢 Call-to-Action
-                </p>
-                <p>{item.cta}</p>
-              </div>
-            </div>
+            {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />} {playing ? "Pause" : "Play"}
+          </button>
+          <div className="flex items-center gap-1.5">
+            <span className="text-inkMuted font-bold">Speed:</span>
+            <button
+              onClick={() => setSpeed(Math.max(1, speed - 1))}
+              aria-label="Kurangi kecepatan"
+              className="w-9 h-9 bg-canvas/10 rounded-lg font-bold hover:bg-canvas/20 min-h-[44px] min-w-[44px]"
+            >
+              -
+            </button>
+            <span className="px-2 font-bold text-wasabi">{speed}x</span>
+            <button
+              onClick={() => setSpeed(Math.min(8, speed + 1))}
+              aria-label="Tambah kecepatan"
+              className="w-9 h-9 bg-canvas/10 rounded-lg font-bold hover:bg-canvas/20 min-h-[44px] min-w-[44px]"
+            >
+              +
+            </button>
           </div>
+          <span className="text-inkMuted font-bold hidden sm:inline">Day {dayStr(day)} — {item?.pillar || "Konten"}</span>
         </div>
-      )}
-    </>
+        <button onClick={onClose} className="px-4 py-2 bg-canvas/10 rounded-xl text-canvas hover:bg-canvas/20 font-bold min-h-[44px]">
+          Tutup <X className="w-3.5 h-3.5 inline" />
+        </button>
+      </div>
+
+      <div ref={canvasRef} className="flex-1 overflow-y-auto p-6 sm:p-12 text-center text-xl sm:text-3xl font-bold leading-relaxed space-y-8 max-w-3xl mx-auto sheet-scroll">
+        {item ? (
+          <div className="py-16 text-canvas/90">
+            <div className="text-sunflower text-sm mb-4 font-mono font-bold">[HOOK 00:00 - 00:03]</div>
+            <p className="mb-10 text-canvas">{item.hook}</p>
+            <div className="text-wasabi text-sm mb-4 font-mono font-bold">[BODY 00:03 - 00:18]</div>
+            <p className="mb-10 text-canvas/80">{item.body}</p>
+            <div className="text-terracotta text-sm mb-4 font-mono font-bold">[CTA 00:18 - 00:25]</div>
+            <p className="text-canvas">{item.cta}</p>
+          </div>
+        ) : (
+          <p className="py-16 text-canvas/60">Naskah hari ini belum tersedia.</p>
+        )}
+      </div>
+    </div>
   );
 }

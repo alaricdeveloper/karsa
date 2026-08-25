@@ -1,26 +1,80 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Home, LayoutGrid, ArrowUpRight } from "lucide-react";
+import { Home, LayoutGrid, ArrowUpRight, ArrowLeft, Search } from "lucide-react";
 
 export default function NotFound() {
-  return (
-    <div className="min-h-screen bg-sand-50 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 flex flex-col justify-between">
-      <style>{`
-        .bento-card { background: #FFFFFF; border: 1px solid #E5E5E0; transition: border-color 0.2s ease, transform 0.2s ease; }
-        .bento-card:hover { border-color: #A3A39E; }
-      `}</style>
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const directoryCards = [
+    {
+      title: "Customer Hub",
+      desc: "Akses 30 naskah, teleprompter, dan duplikasi Notion.",
+      href: "/portal/demo",
+      external: false,
+      bg: "bg-white",
+      iconColor: "text-terracotta",
+    },
+    {
+      title: "Member Tools",
+      desc: "Generator Hook, Kalkulator ROI, dan Brand Vault.",
+      href: "/login",
+      external: false,
+      bg: "bg-white",
+      iconColor: "text-terracotta",
+    },
+    {
+      title: "Checkout Gateway",
+      desc: "Pembayaran instan QRIS & Virtual Account.",
+      href: "/checkout",
+      external: false,
+      bg: "bg-white",
+      iconColor: "text-terracotta",
+    },
+    {
+      title: "Terms & IP Transfer",
+      desc: "Syarat ketentuan resmi & 100% hak cipta.",
+      href: "/terms",
+      external: false,
+      bg: "bg-canvas",
+      iconColor: "text-inkMuted",
+    },
+    {
+      title: "SLA & Guarantee",
+      desc: "Garansi 24 jam & revisi kalibrasi 48 jam.",
+      href: "/refund",
+      external: false,
+      bg: "bg-canvas",
+      iconColor: "text-inkMuted",
+    },
+    {
+      title: "Bantuan CS",
+      desc: "Hubungi tim operasional langsung via WhatsApp.",
+      href: "https://wa.me/6281288009920",
+      external: true,
+      bg: "bg-wasabi/40",
+      iconColor: "text-ink",
+    },
+  ];
+
+  const isCardVisible = (title: string, desc: string) => {
+    if (!searchQuery) return true;
+    return `${title} ${desc}`.toLowerCase().includes(searchQuery.toLowerCase());
+  };
+
+  return (
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink flex flex-col justify-between">
       {/* TOP APP BAR */}
-      <header className="sticky top-0 z-30 bg-sand-50/95 backdrop-blur-md border-b border-sand-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="font-serif text-2xl sm:text-3xl tracking-tight text-sand-900 font-normal">Karsa</span>
-            <span className="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-200 text-sand-800 rounded font-semibold">Status 404</span>
+      <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
+          <Link href="/" className="flex items-center space-x-2 shrink-0 group">
+            <span className="font-serif text-3xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
+            <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-terracotta text-white rounded font-bold">Status 404</span>
           </Link>
           <div className="flex items-center space-x-3 text-xs font-mono">
-            <Link href="/" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sand-300 rounded-xl hover:bg-sand-100 transition text-stone-700 shadow-sm">
-              <Home className="w-3.5 h-3.5" />
+            <Link href="/" className="badge-tag bg-white hover:bg-canvas text-ink px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 shadow-brutal-sm min-h-[44px]">
+              <Home className="w-3.5 h-3.5 text-inkMuted" />
               <span>Beranda</span>
             </Link>
           </div>
@@ -28,82 +82,103 @@ export default function NotFound() {
       </header>
 
       {/* MAIN 404 CONTENT */}
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20 my-auto text-center space-y-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 my-auto text-center space-y-8 relative">
+        {/* Decorative Ambient Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-sunflower/30 blur-3xl pointer-events-none -z-10"></div>
+
         {/* BIG EDITORIAL 404 DISPLAY */}
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-amber-900 bg-amber-100/70 border border-amber-200 px-3 py-1 rounded-full mx-auto">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-            Alamat URL Tidak Ditemukan
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2 badge-tag bg-sunflower px-3.5 py-1.5 rounded-full text-xs font-mono font-bold text-ink">
+            <span className="w-2 h-2 rounded-full bg-terracotta animate-ping"></span>
+            <span>Alamat URL Tidak Ditemukan</span>
           </div>
 
-          <h1 className="text-7xl sm:text-9xl font-serif text-sand-900 tracking-tight select-none">
+          <h1 className="text-7xl sm:text-9xl font-serif text-ink tracking-tight select-none leading-none">
             404
           </h1>
 
-          <h2 className="text-2xl sm:text-3xl font-serif text-stone-700 italic">
+          <h2 className="text-2xl sm:text-4xl font-serif text-terracotta italic leading-tight">
             Naskah konten ini belum terbit atau tautannya berpindah.
           </h2>
 
-          <p className="text-xs sm:text-sm text-stone-600 font-sans max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-inkMuted font-sans max-w-lg mx-auto leading-relaxed font-medium">
             Halaman yang kamu cari tidak tersedia dalam arsip Karsa Studio. Mungkin tautan salah ketik atau telah dialihkan ke ruang kerja baru.
           </p>
         </div>
 
+        {/* INTERACTIVE REAL-TIME SEARCH BOX */}
+        <div className="max-w-md mx-auto relative">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-inkMuted" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Cari halaman (workspace, hub, legal, brief)..."
+            className="w-full bg-white border-2 border-ink rounded-2xl pl-10 pr-4 py-3 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-mono shadow-brutal-sm transition min-h-[44px] caret-terracotta"
+          />
+        </div>
+
         {/* PRIMARY ACTION BUTTONS */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 font-mono text-xs max-w-md mx-auto">
-          <Link href="/" className="w-full sm:w-auto px-6 py-3.5 bg-sand-900 hover:bg-stone-800 text-sand-50 rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-sm min-h-[48px]">
-            <span className="w-4 h-4 text-emerald-400">&#8592;</span>
+          <Link href="/" className="w-full sm:w-auto px-6 py-3.5 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <ArrowLeft className="w-4 h-4 text-wasabi" />
             <span>Kembali ke Beranda Utama</span>
           </Link>
-          <Link href="/login" className="w-full sm:w-auto px-6 py-3.5 bg-white border border-sand-300 hover:bg-sand-100 text-sand-900 rounded-xl font-medium transition flex items-center justify-center gap-2 min-h-[48px]">
-            <LayoutGrid className="w-4 h-4 text-stone-500" />
+          <Link href="/login" className="w-full sm:w-auto px-6 py-3.5 bg-white border-2 border-ink hover:bg-canvas text-ink rounded-2xl font-bold transition flex items-center justify-center gap-2 min-h-[48px] shadow-brutal-sm">
+            <LayoutGrid className="w-4 h-4 text-inkMuted" />
             <span>Buka Member Workspace</span>
           </Link>
         </div>
 
         {/* QUICK DIRECTORY BENTO CARDS */}
-        <div className="pt-6 border-t border-sand-200 space-y-3 text-left font-mono text-xs">
-          <span className="text-[10px] text-stone-400 uppercase tracking-wider block text-center">Navigasi Langsung Portal Karsa</span>
+        <div className="pt-8 border-t-2 border-ink space-y-4 text-left font-mono text-xs">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-inkMuted uppercase tracking-wider font-bold">Direktori Portal Karsa</span>
+            <span className="text-[10px] text-inkMuted">6 Saluran Aktif</span>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <Link href="/portal/demo" className="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-sand-900 font-sans">Customer Hub</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            {directoryCards.map((card) => (
+              <div key={card.title} className={isCardVisible(card.title, card.desc) ? "" : "hidden"}>
+                {card.external ? (
+                  <a
+                    href={card.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`dir-card bento-pop p-4 rounded-2xl space-y-1 block ${card.bg}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-ink font-sans text-sm">{card.title}</span>
+                      <ArrowUpRight className={`w-4 h-4 ${card.iconColor}`} />
+                    </div>
+                    <p className="text-[11px] text-inkMuted font-sans leading-snug">{card.desc}</p>
+                  </a>
+                ) : (
+                  <Link href={card.href} className={`dir-card bento-pop p-4 rounded-2xl space-y-1 block ${card.bg}`}>
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-ink font-sans text-sm">{card.title}</span>
+                      <ArrowUpRight className={`w-4 h-4 ${card.iconColor}`} />
+                    </div>
+                    <p className="text-[11px] text-inkMuted font-sans leading-snug">{card.desc}</p>
+                  </Link>
+                )}
               </div>
-              <p className="text-[11px] text-stone-500 font-sans">Akses 30 naskah, teleprompter, dan duplikasi Notion.</p>
-            </Link>
-
-            <Link href="/login" className="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-sand-900 font-sans">Member Tools</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition" />
-              </div>
-              <p className="text-[11px] text-stone-500 font-sans">Generator Hook, Kalkulator ROI, dan Brand Vault.</p>
-            </Link>
-
-            <a href="https://wa.me/6281288009920" target="_blank" rel="noopener noreferrer" className="bento-card p-4 rounded-2xl space-y-1 block group hover:border-sand-900 transition">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-sand-900 font-sans">Bantuan CS</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-sand-900 transition" />
-              </div>
-              <p className="text-[11px] text-stone-500 font-sans">Hubungi tim operasional langsung via WhatsApp.</p>
-            </a>
+            ))}
           </div>
         </div>
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-sand-200 py-6 px-4 font-mono text-xs text-stone-500 text-center">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-3 text-[11px]">
-            <Link href="/terms" className="hover:text-sand-900 transition">Terms</Link>
+      <footer className="border-t-2 border-ink py-6 px-4 font-mono text-xs text-inkMuted text-center bg-surface">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-3 text-[11px] font-bold text-ink">
+            <Link href="/terms" className="hover:text-terracotta transition underline">Terms</Link>
             <span>&bull;</span>
-            <Link href="/privacy" className="hover:text-sand-900 transition">Privacy</Link>
+            <Link href="/privacy" className="hover:text-terracotta transition underline">Privacy</Link>
             <span>&bull;</span>
-            <Link href="/refund" className="hover:text-sand-900 transition">SLA Guarantee</Link>
+            <Link href="/refund" className="hover:text-terracotta transition underline">SLA Guarantee</Link>
           </div>
-          <p className="text-[11px] text-stone-400">&copy; 2026 Karsa Studio (<span className="text-stone-600">usekarsa.co</span>). All rights reserved.</p>
+          <p className="text-[11px] text-inkMuted font-bold">&copy; 2026 Karsa Studio (<span className="text-ink">usekarsa.co</span>). All rights reserved.</p>
         </div>
       </footer>
     </div>

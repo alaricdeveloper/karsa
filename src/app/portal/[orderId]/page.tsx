@@ -1,34 +1,40 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { Order, ContentItem, SeoArticle } from "@/lib/types";
-import { StatusHero } from "@/components/portal/StatusHero";
+import { ReadoutPlate } from "@/components/portal/ReadoutPlate";
 import { NotionCallout } from "@/components/portal/NotionCallout";
 import { CalendarGrid } from "@/components/portal/CalendarGrid";
 import { ScriptStudio } from "@/components/portal/ScriptStudio";
 import { SeoArticles } from "@/components/portal/SeoArticles";
-import { CompetitorRadar } from "@/components/portal/CompetitorRadar";
+import { AuditView } from "@/components/portal/AuditView";
 import { RevisionForm } from "@/components/portal/RevisionForm";
-import { Calendar, FileText, Search, Compass, Edit3, Download, MessageSquare, Play, Pause, ArrowUpRight, Lock } from "lucide-react";
+import { ChecklistView } from "@/components/portal/ChecklistView";
+import { Teleprompter } from "@/components/portal/Teleprompter";
+import { Download, MessageSquare, Calendar, FileText, Search, Compass, Edit3, ClipboardCheck, Lock } from "lucide-react";
+import { readRevisions, readChecklist, buildMasterExport, downloadText, type RevisionEntry } from "@/components/portal/hub-lib";
 
-type Tab = "calendar" | "dayview" | "seo" | "radar" | "revision";
+type Tab = "kalender" | "studio" | "seo" | "audit" | "revisi" | "checklist";
 
-const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
-  { key: "calendar", label: "Kalender Konten 30 Hari", icon: Calendar },
-  { key: "dayview", label: "Studio Detail Naskah", icon: FileText },
-  { key: "seo", label: "4 Artikel SEO Website", icon: Search },
-  { key: "radar", label: "Audit Kompetitor", icon: Compass },
-  { key: "revision", label: "Portal Kalibrasi / Revisi", icon: Edit3 },
+const TABS: { key: Tab; label: string; short: string; num: string; icon: React.ElementType }[] = [
+  { key: "kalender", label: "Kalender 30 Hari", short: "Kalender", num: "01", icon: Calendar },
+  { key: "studio", label: "Studio Naskah", short: "Studio", num: "02", icon: FileText },
+  { key: "seo", label: "Artikel SEO", short: "SEO", num: "03", icon: Search },
+  { key: "audit", label: "Audit Kompetitor", short: "Audit", num: "04", icon: Compass },
+  { key: "revisi", label: "Portal Revisi", short: "Revisi", num: "05", icon: Edit3 },
+  { key: "checklist", label: "Checklist", short: "Checklist", num: "06", icon: ClipboardCheck },
 ];
 
-const MOB_TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
-  { key: "calendar", label: "Kalender", icon: Calendar },
-  { key: "dayview", label: "Naskah", icon: FileText },
-  { key: "seo", label: "SEO", icon: Search },
-  { key: "revision", label: "Revisi", icon: Edit3 },
-];
+const RAIL_COLORS: Record<string, string> = {
+  "01": "bg-sunflower text-ink",
+  "02": "bg-terracotta text-ink",
+  "03": "bg-wasabi text-ink",
+  "04": "bg-terracottaLight text-terracotta",
+  "05": "bg-ink text-canvas",
+  "06": "bg-sunflower text-ink",
+};
 
 export default function PortalPage() {
   const params = useParams();
@@ -38,118 +44,139 @@ export default function PortalPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [seoArticles, setSeoArticles] = useState<SeoArticle[]>([]);
+  const [clientOrders, setClientOrders] = useState<Order[]>([]);
   const [selectedDay, setSelectedDay] = useState(1);
-  const [activeTab, setActiveTab] = useState<Tab>("calendar");
+  const [activeTab, setActiveTab] = useState<Tab>("kalender");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Teleprompter state
+  const [now, setNow] = useState(() => Date.now());
+  const [checklist, setChecklist] = useState<Record<string, boolean>>({});
+  const [revisions, setRevisions] = useState<RevisionEntry[]>([]);
   const [tpOpen, setTpOpen] = useState(false);
-  const [tpPlaying, setTpPlaying] = useState(false);
-  const [tpSpeed, setTpSpeed] = useState(2);
-  const tpCanvasRef = useRef<HTMLDivElement>(null);
-  const tpIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
-    if (orderId) checkAuthAndFetch();
-  }, [orderId]);
+  const persistChecklist = useCallback(
+    (next: Record<string, boolean>) => {
+      setChecklist(next);
+      try {
+        localStorage.setItem(`omni_deliv_${orderId}`, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+    },
+    [orderId]
+  );
 
-  async function checkAuthAndFetch() {
-    setLoading(true);
-    setError(null);
+  const persistRevisions = useCallback(
+    (next: RevisionEntry[]) => {
+      setRevisions(next);
+      try {
+        localStorage.setItem(`omni_revision_${orderId}`, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+    },
+    [orderId]
+  );
 
-    // 1. Check auth
+  async function loadOrder(targetId: string): Promise<boolean> {
     const supabase = createClient();
     if (!supabase) {
       setError("Konfigurasi autentikasi tidak tersedia.");
-      setLoading(false);
-      return;
+      return false;
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
-      router.push("/login?redirect=/portal/" + orderId);
-      return;
+      router.push("/login?redirect=/portal/" + targetId);
+      return false;
     }
 
-    // 2. Fetch order
     try {
-      const res = await fetch(`/api/portal/${orderId}`);
+      const res = await fetch(`/api/portal/${targetId}`);
       const json = await res.json();
       if (!res.ok || json.error) {
         setError(json.error || "Order tidak ditemukan.");
-        setLoading(false);
-        return;
+        return false;
       }
 
-      // 3. Check email ownership
       const orderEmail = (json.order as Order).email;
       if (orderEmail !== user.email) {
         setError("Anda tidak memiliki akses ke portal ini.");
-        setLoading(false);
-        return;
+        return false;
       }
 
       setOrder(json.order as Order);
       setContentItems((json.contentItems || []) as ContentItem[]);
       setSeoArticles((json.seoArticles || []) as SeoArticle[]);
+      setChecklist(readChecklist(targetId));
+      setRevisions(readRevisions(targetId));
+      setSelectedDay(1);
+      setActiveTab("kalender");
+      return true;
     } catch {
       setError("Gagal memuat data portal.");
+      return false;
     }
-    setLoading(false);
   }
 
-  // Teleprompter controls
   useEffect(() => {
-    if (tpPlaying && tpOpen && tpCanvasRef.current) {
-      tpIntervalRef.current = setInterval(() => {
-        const canvas = tpCanvasRef.current;
-        if (canvas) {
-          canvas.scrollTop += tpSpeed;
-        }
-      }, 30);
-    }
+    if (!orderId) return;
+    let cancelled = false;
+
+    (async () => {
+      setLoading(true);
+      setError(null);
+      setOrder(null);
+
+      const supabase = createClient();
+      if (!supabase) {
+        setError("Konfigurasi autentikasi tidak tersedia.");
+        setLoading(false);
+        return;
+      }
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login?redirect=/portal/" + orderId);
+        return;
+      }
+
+      try {
+        const [ordersRes] = await Promise.all([
+          fetch(`/api/orders?email=${encodeURIComponent(user.email || "")}`),
+        ]);
+        const ordersJson = await ordersRes.json();
+        if (!cancelled && Array.isArray(ordersJson)) setClientOrders(ordersJson);
+      } catch {
+        /* selector is optional */
+      }
+
+      const ok = await loadOrder(orderId);
+      if (!cancelled) setLoading(false);
+      if (!ok) setLoading(false);
+    })();
+
     return () => {
-      if (tpIntervalRef.current) clearInterval(tpIntervalRef.current);
+      cancelled = true;
     };
-  }, [tpPlaying, tpOpen, tpSpeed]);
+  }, [orderId, router]);
 
-  const openTeleprompter = () => {
-    setTpOpen(true);
-    setTpPlaying(true);
-  };
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
 
-  const closeTeleprompter = () => {
-    setTpPlaying(false);
-    if (tpIntervalRef.current) clearInterval(tpIntervalRef.current);
-    setTpOpen(false);
-  };
-
-  const handleExportTxt = () => {
-    if (!order) return;
-    const lines: string[] = [
-      `MASTER KALENDER KONTEN 30 HARI — ${order.brand}`,
-      `Order ID: ${order.order_id} | Kategori: ${order.category}`,
-      "=".repeat(50),
-      "",
-    ];
-    for (const item of contentItems) {
-      lines.push(`--- HARI ke-${item.day_number} (${item.pillar}) ---`);
-      lines.push(`Hook: ${item.hook}`);
-      lines.push(`Body: ${item.body}`);
-      lines.push(`CTA: ${item.cta}`);
-      lines.push(`Caption: ${item.caption}`);
-      lines.push("");
-    }
-    lines.push("=".repeat(50));
-    lines.push("Dibuat oleh Karsa Studio — karsa.my.id");
-    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `karsa_${order.order_id}_30days.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const switchOrder = async (nextId: string) => {
+    if (!nextId || nextId === orderId) return;
+    setLoading(true);
+    setError(null);
+    const ok = await loadOrder(nextId);
+    setLoading(false);
+    if (ok) router.replace(`/portal/${nextId}`, { scroll: false });
   };
 
   const switchTab = (tab: Tab) => {
@@ -157,10 +184,33 @@ export default function PortalPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const toggleCheck = (key: string) => {
+    persistChecklist({ ...checklist, [key]: !checklist[key] });
+  };
+
+  const resetChecklist = () => {
+    if (!window.confirm("Reset semua centang checklist deliverable?")) return;
+    persistChecklist({});
+  };
+
+  const addRevision = (entry: RevisionEntry) => {
+    persistRevisions([entry, ...revisions]);
+  };
+
+  const openDay = (day: number) => {
+    setSelectedDay(day);
+    switchTab("studio");
+  };
+
+  const handleExportMaster = () => {
+    if (!order) return;
+    downloadText(`karsa_${order.order_id}_30days.txt`, buildMasterExport(order, contentItems, seoArticles));
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
-        <p className="text-sm text-sand-700 font-mono">Memuat portal...</p>
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
+        <p className="text-sm text-ink font-mono font-bold">Memuat portal...</p>
       </div>
     );
   }
@@ -168,24 +218,22 @@ export default function PortalPage() {
   if (error || !order) {
     const isAccessDenied = error === "Anda tidak memiliki akses ke portal ini.";
     return (
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <div className="text-center space-y-4 max-w-sm">
           {isAccessDenied && (
-            <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto">
-              <Lock className="w-7 h-7 text-red-500" />
+            <div className="w-14 h-14 rounded-2xl bg-terracottaLight border-2 border-ink flex items-center justify-center mx-auto shadow-brutal-sm">
+              <Lock className="w-7 h-7 text-terracotta" />
             </div>
           )}
           <div className="space-y-1">
-            <p className="text-sm text-rose-600 font-semibold">{error || "Order tidak ditemukan"}</p>
-            {isAccessDenied && (
-              <p className="text-xs text-stone-500">Portal ini hanya bisa diakses oleh pemilik pesanan.</p>
-            )}
+            <p className="text-sm text-terracotta font-semibold">{error || "Order tidak ditemukan"}</p>
+            {isAccessDenied && <p className="text-xs text-inkMuted font-mono">Portal ini hanya bisa diakses oleh pemilik pesanan.</p>}
           </div>
           <div className="flex items-center justify-center gap-3">
-            <a href="/dashboard" className="px-4 py-2 bg-sand-900 text-sand-50 text-xs font-mono rounded-xl hover:bg-stone-800 transition">
+            <a href="/dashboard" className="px-4 py-2 bg-ink text-canvas text-xs font-mono rounded-xl hover:bg-terracotta transition shadow-brutal-sm min-h-[44px] flex items-center">
               ke Dashboard
             </a>
-            <a href="/" className="text-xs text-stone-500 hover:text-sand-900 transition">
+            <a href="/" className="text-xs text-inkMuted hover:text-ink transition font-mono font-bold min-h-[44px] flex items-center">
               ← Kembali ke Beranda
             </a>
           </div>
@@ -197,186 +245,152 @@ export default function PortalPage() {
   const currentItem = contentItems.find((c) => c.day_number === selectedDay);
 
   return (
-    <div className="min-h-screen bg-sand-50 text-sand-900 font-sans antialiased selection:bg-sand-900 selection:text-sand-50 pb-28 md:pb-16">
-      {/* TOP APP BAR */}
-      <header className="sticky top-0 z-30 bg-sand-50/95 backdrop-blur-md border-b border-sand-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-2.5 sm:space-x-3">
-            <a href="/" className="font-serif text-xl sm:text-2xl tracking-tight text-sand-900">Karsa</a>
-            <span className="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-sand-200 text-sand-800 rounded font-semibold">Client Hub</span>
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink pb-32 md:pb-16 overflow-x-hidden">
+      <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 whitespace-nowrap">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <a href="/" className="flex items-center gap-2 group">
+              <span className="font-serif text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
+              <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-sunflower text-ink rounded font-bold">Client Hub</span>
+            </a>
           </div>
-          <div className="flex items-center space-x-2 text-xs font-mono">
-            <span className="bg-white border border-sand-300 rounded-lg px-2.5 py-1.5 text-xs text-sand-900 font-mono hidden sm:inline-block">
-              {order.brand} ({order.order_id})
-            </span>
-            <button
-              onClick={handleExportTxt}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 border border-sand-300 rounded-lg hover:bg-sand-200 transition bg-white text-stone-700"
+
+          <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono min-w-0">
+            <select
+              value={order.order_id}
+              onChange={(e) => switchOrder(e.target.value)}
+              aria-label="Pilih pesanan batch"
+              className="bg-white border-2 border-ink rounded-xl px-3 py-2 text-xs text-ink font-bold focus:outline-none focus:ring-2 focus:ring-terracotta shadow-brutal-sm min-h-[44px] max-w-[38vw] xs:max-w-[42vw] sm:max-w-[220px] lg:max-w-[280px] xl:max-w-none truncate"
             >
-              <Download className="w-3.5 h-3.5 text-stone-500" />
+              {clientOrders.length > 0 ? (
+                clientOrders.map((o) => (
+                  <option key={o.order_id} value={o.order_id}>
+                    {o.brand} ({o.order_id})
+                  </option>
+                ))
+              ) : (
+                <option value={order.order_id}>
+                  {order.brand} ({order.order_id})
+                </option>
+              )}
+            </select>
+            <button
+              onClick={handleExportMaster}
+              className="hidden md:flex items-center gap-1.5 px-3.5 py-2 border-2 border-ink rounded-xl hover:bg-canvas transition bg-white text-ink font-bold shadow-brutal-sm min-h-[44px]"
+            >
+              <Download className="w-3.5 h-3.5 text-stone-600" />
               <span>Unduh .TXT</span>
             </button>
             <a
               href="https://wa.me/6281288009920"
               target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-sand-900 text-sand-50 rounded-lg hover:bg-stone-800 transition"
+              rel="noopener"
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-terracotta text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+              <MessageSquare className="w-3.5 h-3.5 text-wasabi" />
               <span className="hidden sm:inline">Support 48 Jam</span>
             </a>
           </div>
         </div>
       </header>
 
-      {/* MAIN CONTENT */}
-      <main className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 sm:space-y-6">
-        {/* STATUS HERO */}
-        <StatusHero order={order} />
-
-        {/* NOTION CALLOUT */}
+      <main className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-6">
+        <ReadoutPlate order={order} now={now} />
         <NotionCallout order={order} />
 
-        {/* DESKTOP TAB NAVIGATION */}
-        <div className="hidden md:flex border-b border-sand-200 space-x-6 text-xs font-mono overflow-x-auto no-scrollbar">
+        <nav
+          className="sticky top-16 sm:top-20 z-30 bg-canvas/95 backdrop-blur-md border-b-2 border-ink hidden md:flex items-center gap-1 overflow-x-auto no-scrollbar whitespace-nowrap"
+          aria-label="Navigasi section deliverable"
+        >
           {TABS.map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.key;
             return (
               <button
                 key={tab.key}
                 onClick={() => switchTab(tab.key)}
-                className={`py-3.5 border-b-2 font-bold flex items-center gap-1.5 shrink-0 transition ${
-                  isActive
-                    ? "border-sand-900 text-sand-900"
-                    : "border-transparent text-stone-500 hover:text-sand-900"
+                className={`flex items-center gap-2 py-3.5 border-b-2 shrink-0 font-mono text-xs font-bold transition ${
+                  isActive ? "border-terracotta text-ink" : "border-transparent text-inkMuted hover:text-ink"
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <span className={`w-6 h-6 rounded-lg border-2 border-ink flex items-center justify-center text-[10px] font-bold shadow-brutal-sm ${RAIL_COLORS[tab.num]}`}>
+                  {tab.num}
+                </span>
                 <span>{tab.label}</span>
               </button>
             );
           })}
-        </div>
+        </nav>
 
-        {/* TAB: CALENDAR */}
-        {activeTab === "calendar" && (
+        {activeTab === "kalender" && (
           <CalendarGrid
             contentItems={contentItems}
             selectedDay={selectedDay}
-            onSelectDay={(day) => {
-              setSelectedDay(day);
-              switchTab("dayview");
-            }}
-            brand={order.brand}
+            checklist={checklist}
+            onOpenDay={openDay}
           />
         )}
 
-        {/* TAB: SCRIPT STUDIO */}
-        {activeTab === "dayview" && (
+        {activeTab === "studio" && (
           <ScriptStudio
+            order={order}
             contentItems={contentItems}
             selectedDay={selectedDay}
             onSelectDay={setSelectedDay}
-            onOpenTeleprompter={openTeleprompter}
-            brand={order.brand}
+            onOpenTeleprompter={() => setTpOpen(true)}
           />
         )}
 
-        {/* TAB: SEO */}
         {activeTab === "seo" && <SeoArticles articles={seoArticles} />}
 
-        {/* TAB: RADAR */}
-        {activeTab === "radar" && <CompetitorRadar order={order} />}
+        {activeTab === "audit" && <AuditView order={order} />}
 
-        {/* TAB: REVISION */}
-        {activeTab === "revision" && (
-          <RevisionForm orderId={order.order_id} brand={order.brand} />
+        {activeTab === "revisi" && (
+          <RevisionForm orderId={order.order_id} brand={order.brand} revisions={revisions} onAddRevision={addRevision} />
         )}
+
+        {activeTab === "checklist" && (
+          <ChecklistView
+            order={order}
+            contentItems={contentItems}
+            seoArticles={seoArticles}
+            checklist={checklist}
+            onToggle={toggleCheck}
+            onReset={resetChecklist}
+            onOpenDay={openDay}
+            onOpenView={(view) => {
+              if (view === "seo") switchTab("seo");
+              else if (view === "audit") switchTab("audit");
+              else if (view === "teleprompter") setTpOpen(true);
+            }}
+          />
+        )}
+
+        <footer className="pt-2 pb-4 text-center font-mono text-[10px] sm:text-xs text-inkMuted font-bold">
+          <p>Karsa Studio &bull; konten siap rekam dalam 24 jam &bull; garansi kalibrasi 48 jam</p>
+          <a href="https://wa.me/6281288009920" target="_blank" rel="noopener" className="text-terracotta hover:underline underline-offset-4 inline-block mt-1">
+            Butuh bantuan? Chat tim Karsa &rarr;
+          </a>
+        </footer>
       </main>
 
-      {/* MOBILE BOTTOM NAV */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-sand-300 p-2 md:hidden z-40 flex items-center justify-around font-mono text-[10px]">
-        {MOB_TABS.map((tab) => {
+      <div className="fixed bottom-0 left-0 right-0 bg-canvas/95 backdrop-blur-md border-t-2 border-ink p-2 md:hidden z-40 flex items-center justify-around font-mono text-[10px] font-bold">
+        {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
           return (
             <button
               key={tab.key}
               onClick={() => switchTab(tab.key)}
-              className={`flex flex-col items-center py-1 transition ${
-                isActive ? "text-sand-900 font-bold" : "text-stone-500"
-              }`}
+              className={`flex flex-col items-center py-1 min-h-[44px] justify-center ${isActive ? "text-terracotta" : "text-inkMuted"}`}
             >
               <Icon className="w-5 h-5 mb-0.5" />
-              <span>{tab.label}</span>
+              <span>{tab.short}</span>
             </button>
           );
         })}
-        {/* Center FAB - Teleprompter */}
-        <button
-          onClick={openTeleprompter}
-          className="flex flex-col items-center justify-center -mt-4 w-11 h-11 bg-sand-900 text-sand-50 rounded-full shadow-lg"
-        >
-          <Play className="w-5 h-5 ml-0.5 text-emerald-400" />
-        </button>
       </div>
 
-      {/* FULLSCREEN TELEPROMPTER */}
-      {tpOpen && (
-        <div className="fixed inset-0 bg-black text-white z-50 flex flex-col font-sans select-none">
-          {/* Top Bar */}
-          <div className="p-4 bg-stone-900 border-b border-stone-800 flex items-center justify-between font-mono text-xs">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setTpPlaying(!tpPlaying)}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg font-bold flex items-center gap-1.5"
-              >
-                {tpPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                {tpPlaying ? "Pause" : "Play"}
-              </button>
-              <div className="flex items-center gap-1">
-                <span>Speed:</span>
-                <button
-                  onClick={() => setTpSpeed(Math.max(1, tpSpeed - 1))}
-                  className="w-7 h-7 bg-stone-800 rounded font-bold"
-                >
-                  -
-                </button>
-                <span className="px-2 font-bold">{tpSpeed}x</span>
-                <button
-                  onClick={() => setTpSpeed(Math.min(8, tpSpeed + 1))}
-                  className="w-7 h-7 bg-stone-800 rounded font-bold"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <button
-              onClick={closeTeleprompter}
-              className="px-3 py-2 bg-stone-800 rounded-lg text-stone-400 hover:text-white"
-            >
-              Tutup &times;
-            </button>
-          </div>
-          {/* Scrolling Canvas */}
-          <div
-            ref={tpCanvasRef}
-            className="flex-1 overflow-y-auto p-6 sm:p-12 text-center text-2xl sm:text-4xl font-bold leading-relaxed space-y-8 max-w-3xl mx-auto"
-          >
-            {currentItem && (
-              <div className="py-20 text-stone-200">
-                <div className="text-amber-400 text-sm mb-4 font-mono">[HOOK 00:00 - 00:03]</div>
-                <p className="mb-10">{currentItem.hook}</p>
-                <div className="text-stone-400 text-sm mb-4 font-mono">[BODY 00:03 - 00:18]</div>
-                <p className="mb-10">{currentItem.body}</p>
-                <div className="text-emerald-400 text-sm mb-4 font-mono">[CTA 00:18 - 00:25]</div>
-                <p>{currentItem.cta}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <Teleprompter open={tpOpen} item={currentItem ?? null} day={selectedDay} onClose={() => setTpOpen(false)} />
     </div>
   );
 }
