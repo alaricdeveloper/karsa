@@ -252,3 +252,36 @@ input, select, textarea { caret-color: #E75A3C; }
 @media (prefers-reduced-motion: reduce) {
   .pulse-dot { animation: none; }
 }
+
+/* ===== Admin console primitives (ported from admin_dashboard.html) ===== */
+.plate-pop {
+  background: #FFFFFF;
+  border: 2px solid #181511;
+  box-shadow: 3.5px 3.5px 0px #181511;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+@media (min-width: 640px) {
+  .plate-pop:hover {
+    transform: translate(-1.5px, -1.5px);
+    box-shadow: 5.5px 5.5px 0px #181511;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate-pop { transition: none; }
+}
+
+.plate-lever {
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.plate-lever:hover { color: #181511; }
+.plate-lever.active { border-bottom-color: #E75A3C; color: #181511; }
+
+.status-badge.PENDING_PAYMENT { background-color: #FCD34D; color: #181511; }
+.status-badge.IN_PROGRESS { background-color: #FDF0ED; color: #E75A3C; }
+.status-badge.QC_REVIEW { background-color: #181511; color: #FBF9F4; }
+.status-badge.COMPLETED { background-color: #D4E882; color: #181511; }
+
+.kanban-scroll::-webkit-scrollbar { width: 6px; }
+.kanban-scroll::-webkit-scrollbar-track { background: transparent; border: 0; }
+.kanban-scroll::-webkit-scrollbar-thumb { background: #181511; border: 0; border-radius: 9999px; }
