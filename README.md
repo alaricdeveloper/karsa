@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Karsa Studio
 
-## Getting Started
+Platform SaaS untuk UMKM Indonesia — paket **30-Day Content Calendar** (Rp299.000): 30 script video, caption, 4 artikel SEO, competitor audit, dan Notion content OS, dikirim dalam 24 jam.
 
-First, run the development server:
+## Route Map
+
+| Route | Fungsi |
+|---|---|
+| `/` | Landing page + brief intake |
+| `/login` | Login/registrasi customer |
+| `/checkout` | Checkout (simulasi transfer bank) |
+| `/dashboard` | Dashboard customer (status order) |
+| `/portal/[orderId]` | Client hub: kalender konten, script, SEO, revisi |
+| `/console` | Admin console (order, analitik, AI tools) |
+| `/privacy` `/terms` `/refund` `/invoice` `/404` | Halaman pendukung |
+
+## API
+
+| Endpoint | Auth | Fungsi |
+|---|---|---|
+| `/api/create-order` | Publik (validasi ketat) | Buat order dari brief |
+| `/api/my-orders` | Session customer | Order milik user sendiri |
+| `/api/portal/[orderId]` | Session + kepemilikan | Data deliverable |
+| `/api/orders` | Admin | CRUD semua order |
+| `/api/admin/seed` | Admin | Seeder data demo |
+| `/api/admin/setup` | Env `KARSA_SETUP_SECRET` | Bootstrap admin pertama |
+
+## Stack
+
+Next.js (App Router) · Supabase (Auth + Postgres) · Tailwind · neobrutalism
+
+## Pengembangan
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev        # dev server (port 3001)
+npm run build      # production build
+npm run start      # jalankan hasil build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Salin `.env.example` → `.env.local`, isi `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `KARSA_SETUP_SECRET`
+2. Jalankan migrasi di Supabase SQL Editor (folder `src/seed/`)
+3. Set `KARSA_SETUP_SECRET` juga di Vercel (untuk `/api/admin/setup`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Dokumentasi
 
-## Learn More
+- `docs/architecture.md` — arsitektur & handover lengkap
+- `src/seed/` — migrasi RLS + SQL seed
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Auto-deploy dari branch `main` via Vercel. Live: `https://usekarsa.vercel.app`
