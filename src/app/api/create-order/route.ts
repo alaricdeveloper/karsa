@@ -13,13 +13,53 @@ export async function POST(request: NextRequest) {
 
     // If orderId and status provided, update existing order (payment confirmed)
     if (orderId && status) {
-      const { error } = await supabase
+      // Check if the order already exists in the database
+      const { data: existing } = await supabase
         .from("orders")
-        .update({ status, updated_at: new Date().toISOString() })
-        .eq("order_id", orderId);
-      if (error) {
-        return NextResponse.json({ error: "Gagal update status" }, { status: 500 });
+        .select("order_id")
+        .eq("order_id", orderId)
+        .maybeSingle();
+
+      if (existing) {
+        const { error } = await supabase
+          .from("orders")
+          .update({ status, updated_at: new Date().toISOString() })
+          .eq("order_id", orderId);
+        if (error) {
+          return NextResponse.json({ error: "Gagal update status" }, { status: 500 });
+        }
+        return NextResponse.json({ order_id: orderId });
       }
+
+      // Order not found — create it (checkout handoff: brief lives in localStorage
+      // until payment, so the first DB write happens at payment confirmation)
+      const { data: newOrder, error: insertErr } = await supabase
+        .from("orders")
+        .insert({
+          order_id: orderId,
+          brand,
+          category,
+          competitor: competitor || "",
+          description,
+          email,
+          phone: phone || "",
+          status,
+        })
+        .select()
+        .single();
+      if (insertErr) {
+        return NextResponse.json({ error: "Gagal membuat pesanan" }, { status: 500 });
+      }
+
+      // Generate the 30-day content batch + SEO articles for the new order
+      const { generateDeliverables } = await import("@/lib/generate-deliverables");
+      await generateDeliverables({
+        id: newOrder.id,
+        brand: newOrder.brand,
+        category: newOrder.category,
+        description: newOrder.description,
+      });
+
       return NextResponse.json({ order_id: orderId });
     }
 
@@ -48,9 +88,6 @@ export async function POST(request: NextRequest) {
         category,
         competitor: competitor || "",
         description,
-        content_goal: goal || "",
-        content_tone: tone || "",
-        priority_channel: channel || "",
         email,
         phone: phone || "",
         status: "PENDING_PAYMENT",
