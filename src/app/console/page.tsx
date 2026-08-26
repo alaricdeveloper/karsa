@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { Order } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
+import { authFetch } from "@/lib/api-client";
 import { StatsOverview } from "@/components/console/StatsOverview";
 import { KanbanBoard } from "@/components/console/KanbanBoard";
 import { OrderTable } from "@/components/console/OrderTable";
@@ -96,7 +97,7 @@ export default function ConsolePage() {
   const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/orders");
+      const res = await authFetch("/api/orders");
       const data = await res.json();
       if (Array.isArray(data)) {
         setOrders(data as Order[]);
@@ -130,7 +131,7 @@ export default function ConsolePage() {
     if (updates.notes) changes.push("Catatan internal diperbarui");
     appendAudit(orderId, changes.join(" · ") || "Perubahan disimpan");
 
-    await fetch("/api/orders", {
+    await authFetch("/api/orders", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: selectedOrder.id, ...updates }),
@@ -143,7 +144,7 @@ export default function ConsolePage() {
 
   async function handleQuickAdvance(order: Order, target: string) {
     appendAudit(order.order_id, `Status diubah → ${target} (aksi cepat)`);
-    await fetch("/api/orders", {
+    await authFetch("/api/orders", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: order.id, status: target }),
@@ -163,7 +164,7 @@ export default function ConsolePage() {
     notion_url: string | null;
     notes: string | null;
   }) {
-    const res = await fetch("/api/orders", {
+    const res = await authFetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newOrder),
@@ -180,7 +181,7 @@ export default function ConsolePage() {
 
   function handleQuickComplete(order: Order) {
     appendAudit(order.order_id, "Status diubah → COMPLETED (tandai selesai)");
-    fetch("/api/orders", {
+    authFetch("/api/orders", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: order.id, status: "COMPLETED" }),
@@ -236,7 +237,7 @@ export default function ConsolePage() {
 
   async function handleSyncDemo() {
     try {
-      const res = await fetch("/api/admin/seed?token=karsa-setup-2024");
+      const res = await authFetch("/api/admin/seed");
       const data = await res.json();
       if (data.success) {
         localStorage.setItem(DB_VERSION_KEY, "v8_konso_orkestrasi");
@@ -302,7 +303,7 @@ export default function ConsolePage() {
       const data = JSON.parse(text);
       if (!data || !Array.isArray(data.orders)) throw new Error("format");
 
-      const res = await fetch("/api/orders", {
+      const res = await authFetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orders: data.orders }),

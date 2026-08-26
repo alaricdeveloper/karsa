@@ -1,0 +1,53 @@
+-- ============================================================
+-- Karsa Studio — SECURITY: RLS hardening
+-- Run this in Supabase Dashboard → SQL Editor (or via psql).
+-- Closes the PII/data-exposure holes:
+--   1. Drop "public read" policies on orders/content_items/seo_articles
+--      (the anon key is public — anyone could dump all customer
+--      orders with emails + phones straight from the API)
+--   2. Drop open "authenticated insert" policies (app writes via
+--      service-role API routes only; direct client inserts no longer
+--      allowed)
+--   3. Drop "Anyone can read profiles" (email/role enumeration) —
+--      users keep reading their own profile only
+--   4. Revoke anon write grants on all business tables
+-- ============================================================
+
+-- ---- ORDERS ----
+DROP POLICY IF EXISTS "Public read orders" ON orders;
+DROP POLICY IF EXISTS "Public read for all statuses" ON orders;
+
+DROP POLICY IF EXISTS "Authenticated user can insert orders" ON orders;
+DROP POLICY IF EXISTS "Authenticated user can insert order" ON orders;
+
+-- ---- CONTENT ITEMS ----
+DROP POLICY IF EXISTS "Public read content_items" ON content_items;
+DROP POLICY IF EXISTS "Public read content" ON content_items;
+DROP POLICY IF EXISTS "Public read for all statuses" ON content_items;
+
+DROP POLICY IF EXISTS "Authenticated user can insert content_items" ON content_items;
+DROP POLICY IF EXISTS "Authenticated user can insert content" ON content_items;
+
+-- ---- SEO ARTICLES ----
+DROP POLICY IF EXISTS "Public read seo_articles" ON seo_articles;
+DROP POLICY IF EXISTS "Public read seo" ON seo_articles;
+DROP POLICY IF EXISTS "Public read for all statuses" ON seo_articles;
+
+DROP POLICY IF EXISTS "Authenticated user can insert seo_articles" ON seo_articles;
+DROP POLICY IF EXISTS "Authenticated user can insert seo" ON seo_articles;
+
+-- ---- PROFILES ----
+DROP POLICY IF EXISTS "Anyone can read profiles" ON profiles;
+
+-- ---- GRANTS (belt & suspenders) ----
+REVOKE ALL ON public.orders FROM anon;
+GRANT SELECT ON public.orders TO anon;
+
+REVOKE ALL ON public.content_items FROM anon;
+GRANT SELECT ON public.content_items TO anon;
+
+REVOKE ALL ON public.seo_articles FROM anon;
+GRANT SELECT ON public.seo_articles TO anon;
+
+REVOKE ALL ON public.profiles FROM anon;
+GRANT SELECT ON public.profiles TO anon;

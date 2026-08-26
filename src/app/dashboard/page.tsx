@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { authFetch } from "@/lib/api-client";
 import { createClient } from "@/lib/supabase/client";
 import {
   Sparkles,
@@ -117,7 +118,7 @@ function loadProfileFromStorage(): Profile {
 async function fetchOrdersFromSupabase(email: string): Promise<Order[]> {
   // Try API first (bypasses any client-side Supabase issues)
   try {
-    const res = await fetch("/api/orders");
+    const res = await authFetch("/api/my-orders");
     if (res.ok) {
       const allOrders: Record<string, unknown>[] = await res.json();
       const filtered = allOrders.filter((o) => o.email === email);

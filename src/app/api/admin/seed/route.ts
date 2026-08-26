@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { requireAdmin } from "@/lib/api-auth";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -56,12 +57,9 @@ const ORDERS: SeedOrder[] = [
   { order_id: "INV-622108", brand: "Dapur Sambal Bawang Bu Broto", category: "Kuliner / F&B", competitor: "@sambal_bu_rudy", description: "Sambal bawang ulek kasar dengan minyak kelapa murni.", email: "sambalbubroto@gmail.com", phone: "081244559900", status: "COMPLETED", notion_url: "https://notion.so/karsa/sambal-bubroto", notes: "Batch inisiasi pertama kali.", hoursAgo: 0, daysAgo: 30 },
 ];
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const token = searchParams.get("token");
-  if (token !== "karsa-setup-2024") {
-    return NextResponse.json({ error: "Invalid token" }, { status: 403 });
-  }
+export async function GET(request: NextRequest) {
+  const admin = await requireAdmin(request);
+  if (admin instanceof NextResponse) return admin;
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 

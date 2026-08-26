@@ -15,6 +15,7 @@ import { ChecklistView } from "@/components/portal/ChecklistView";
 import { Teleprompter } from "@/components/portal/Teleprompter";
 import { Download, MessageSquare, Calendar, FileText, Search, Compass, Edit3, ClipboardCheck, Lock } from "lucide-react";
 import { readRevisions, readChecklist, buildMasterExport, downloadText, type RevisionEntry } from "@/components/portal/hub-lib";
+import { authFetch } from "@/lib/api-client";
 
 type Tab = "kalender" | "studio" | "seo" | "audit" | "revisi" | "checklist";
 
@@ -94,7 +95,7 @@ export default function PortalPage() {
     }
 
     try {
-      const res = await fetch(`/api/portal/${targetId}`);
+      const res = await authFetch(`/api/portal/${targetId}`);
       const json = await res.json();
       if (!res.ok || json.error) {
         setError(json.error || "Order tidak ditemukan.");
@@ -147,7 +148,7 @@ export default function PortalPage() {
 
       try {
         const [ordersRes] = await Promise.all([
-          fetch(`/api/orders?email=${encodeURIComponent(user.email || "")}`),
+          authFetch("/api/my-orders"),
         ]);
         const ordersJson = await ordersRes.json();
         if (!cancelled && Array.isArray(ordersJson)) setClientOrders(ordersJson);

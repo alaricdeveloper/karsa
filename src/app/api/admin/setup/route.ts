@@ -5,10 +5,13 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 export async function GET(request: Request) {
-  // Simple token check to prevent abuse
+  // Bootstrap endpoint — guarded by a server-side secret (KARSA_SETUP_SECRET).
+  // The secret lives in env vars only, never in client code. Used once to
+  // create the first admin; afterwards the console UI uses session auth.
   const { searchParams } = new URL(request.url);
   const token = searchParams.get("token");
-  if (token !== "karsa-setup-2024") {
+  const expected = process.env.KARSA_SETUP_SECRET;
+  if (!expected || token !== expected) {
     return NextResponse.json({ error: "Invalid token" }, { status: 403 });
   }
 

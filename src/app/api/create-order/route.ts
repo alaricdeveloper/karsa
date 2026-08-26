@@ -1,6 +1,41 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
+const ALLOWED_STATUSES = ["PENDING_PAYMENT", "IN_PROGRESS", "QC_REVIEW", "COMPLETED"];
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function validateBody(body: Record<string, unknown>): string | null {
+  const { brand, category, description, email, orderId, status } = body;
+
+  if (orderId !== undefined && typeof orderId === "string") {
+    if (!/^[A-Za-z0-9-]{4,40}$/.test(orderId)) return "Format order ID tidak valid";
+  }
+  if (status !== undefined) {
+    if (typeof status !== "string" || !ALLOWED_STATUSES.includes(status)) return "Status tidak valid";
+  }
+  if (brand !== undefined) {
+    if (typeof brand !== "string" || brand.trim().length < 2 || brand.trim().length > 120) return "Nama brand tidak valid";
+  }
+  if (category !== undefined && (typeof category !== "string" || category.trim().length > 120)) return "Kategori tidak valid";
+  if (competitorCheck(body)) return "Kompetitor tidak valid";
+  if (description !== undefined) {
+    if (typeof description !== "string" || description.trim().length < 5 || description.trim().length > 5000) return "Deskripsi brief tidak valid";
+  }
+  if (email !== undefined && (typeof email !== "string" || !EMAIL_RE.test(email.trim()))) return "Format email tidak valid";
+  if (phoneCheck(body)) return "Nomor telepon tidak valid";
+  return null;
+}
+
+function competitorCheck(body: Record<string, unknown>): boolean {
+  const c = body.competitor;
+  return c !== undefined && (typeof c !== "string" || c.length > 200);
+}
+
+function phoneCheck(body: Record<string, unknown>): boolean {
+  const p = body.phone;
+  return p !== undefined && (typeof p !== "string" || p.length > 30);
+}
+
 export async function POST(request: NextRequest) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,6 +44,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
+    const validationError = validateBody(body);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
+    }
     const { brand, category, competitor, description, goal, tone, channel, email, phone, status, orderId } = body;
 
     // If orderId and status provided, update existing order (payment confirmed)
@@ -21,6 +60,22 @@ export async function POST(request: NextRequest) {
         .maybeSingle();
 
       if (existing) {
+        // Ownership check: caller must know the order's brand + email to flip status
+        const { data: fullOrder } = await supabase
+          .from("orders")
+          .select("brand, email")
+          .eq("order_id", orderId)
+          .single();
+
+        const briefMatch =
+          fullOrder &&
+          fullOrder.brand === brand &&
+          String(fullOrder.email).toLowerCase() === String(email || "").toLowerCase();
+
+        if (!briefMatch) {
+          return NextResponse.json({ error: "Data brief tidak cocok dengan pesanan." }, { status: 403 });
+        }
+
         const { error } = await supabase
           .from("orders")
           .update({ status, updated_at: new Date().toISOString() })
