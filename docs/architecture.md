@@ -1,542 +1,491 @@
 # Karsa Studio — Architecture & Handover Document
 
-> **Last updated:** 2026-08-19
+> **Pembaruan terakhir:** 2026-08-26
 > **Repo:** `github.com/alaricdeveloper/karsa` (branch: `main`)
 > **Live:** `https://usekarsa.vercel.app`
 > **Owner:** Alaric Diaz (`alarictrades@gmail.com` / `diazpandai14@gmail.com`)
+> **Dokumen ini dibaca oleh:** AI agent / developer baru — baca sampai habis sebelum mengubah kode apa pun.
 
 ---
 
-## 1. Project Overview
+## 0. Ringkasan Eksekutif
 
-**Karsa Studio** is a full-stack SaaS platform for UMKM (Indonesian SMEs) that sells a **30-Day Content Calendar** package for Rp299,000. The product includes 30 video scripts, captions, 4 SEO articles, competitor audit, and a Notion content OS — all delivered within 24 hours.
+**Karsa Studio** adalah platform SaaS **content-as-a-service** untuk UMKM Indonesia. Satu produk, satu harga: **paket 30-Day Content Calendar seharga Rp299.000** — berisi 30 script video + caption, 4 artikel SEO, audit kompetitor, dan Notion Content OS, dikirim dalam 24 jam.
 
-### What It Does
-- **Landing page** sells the product with a brief intake form
-- **Customer registers/logs in** → fills brief → goes to **checkout** → "pays" (simulated bank transfer)
-- After payment, a **customer dashboard** shows their order status and links to a **client portal**
-- The **client portal** (`/portal/[orderId]`) displays the 30-day content calendar, scripts, SEO articles, competitor radar, and revision form
-- An **admin console** (`/console`) lets the owner manage all orders, update statuses, view analytics, and use AI tools
+**Siapa penggunanya:**
+- **Customer** (pemilik UMKM) — mengisi brief, "bayar" via transfer bank simulasi, lalu melihat hasil konten 30 hari di **Client Hub** (`/portal/[orderId]`).
+- **Owner/Admin** (Alaric) — mengelola semua pesanan lewat **Admin Console** (`/console`).
 
-### Revenue Model
-- Rp299,000 per order (hardcoded in code)
-- Payment is simulated (bank transfer VA numbers displayed, user clicks "confirm")
-- No real payment gateway integration yet
+**Status keseluruhan: PRODUKSI-LAYAK untuk demo & penjualan awal.** Semua alur inti berfungsi dan teruji otomatis (102 checks E2E hijau). Yang belum produksi-sungguhan: pembayaran masih simulasi (bukan gateway asli) dan konten dihasilkan template (bukan AI personalisasi per brand).
+
+**⚠️ 2 aksi manual yang BELUM selesai (blokir keamanan penuh):**
+1. **Jalankan `src/seed/security-rls-fix.sql`** di Supabase Dashboard → SQL Editor (menutup celah RLS "public read" — sampai ini dijalankan, anon key masih bisa baca semua data di DB).
+2. **Set env var `KARSA_SETUP_SECRET`** di Vercel (dan `.env.local`) agar `/api/admin/setup` (bootstrap admin pertama) bisa dipakai.
+
+Lihat bagian **[16. Belum Dikerjakan](#16-belum-dikerjakan--roadmap)** untuk detail.
+
+---
+
+## 1. Konteks & Latar Belakang
+
+Proyek ini awalnya adalah kumpulan **file HTML statis** (repo `usekarsahtmlonly`): `landingpage.html`, `checkout.html`, `admin_dashboard.html`, `customer_dashboard.html`, dll. — semua desain neobrutalism buatan tangan.
+
+Kemudian semuanya **diport ke Next.js App Router** (repo `karsa` = proyek ini) secara bertahap, dengan aturan **100% visual parity**: setiap halaman harus identik dengan sumber HTML-nya. Setelah semua halaman ter-port, sumber HTML dihapus dari repo (lihat `git log`):
+
+| Commit | Isi |
+|---|---|
+| `a14bbbe` | Migrasi landing + login |
+| `b8db6ee` → `b0e99f4` | Redesign landing neobrutalism, sync semua halaman, port Client Hub |
+| `5898fd6` | Port Admin Console (5 plates) |
+| `cd41971` | Fix bug kritis: order tidak masuk DB + deliverable tidak ter-generate |
+| `a50a952` | **Security hardening** (8 kerentanan ditutup — lihat bagian 8) |
+| `acd299c` | Bersihkan file mati, rapikan struktur repo, README asli, `.env.example` |
+
+**Sumber kebenaran desain** masih ada di repo `usekarsahtmlonly/` (HTML asli) — kalau ragu soal visual, bandingkan dengan file HTML di sana.
 
 ---
 
 ## 2. Tech Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Framework | Next.js (App Router) | 16.3.1 |
-| UI | React | 19.2.8 |
+| Layer | Teknologi | Versi |
+|---|---|---|
+| Framework | Next.js (App Router, Turbopack) | 16.x |
+| UI | React | 19.x |
+| Bahasa | TypeScript | ^5 |
 | Styling | Tailwind CSS | v4 |
-| Language | TypeScript | ^5 |
 | Database | Supabase (PostgreSQL) | — |
-| Auth | Supabase Auth (email/password) | — |
-| Deployment | Vercel (auto-deploy from `main`) | — |
-| Icons | lucide-react | ^1.31.0 |
-| Fonts | Instrument Serif, Inter, JetBrains Mono | Google Fonts |
+| Auth | Supabase Auth (email/password) + `@supabase/ssr` (session di **cookie**, bukan localStorage) | — |
+| Icons | lucide-react | ^1.x |
+| Fonts | Instrument Serif, Inter, JetBrains Mono (Google Fonts CDN) | — |
+| Deployment | Vercel — auto-deploy dari `main` | — |
+| Testing | Playwright (script `.mjs` ad-hoc, **tidak** di-commit ke repo) | — |
 
-### Key Dependencies
-- `@supabase/ssr` — Supabase client for Next.js (cookie-based sessions)
-- `@supabase/supabase-js` — Supabase JS client
-- `clsx` + `tailwind-merge` — className utility (`cn()`)
+**Dependency kunci:** `@supabase/ssr` (createServerClient/createBrowserClient — session disimpan di cookie `sb-<ref>-auth-token`), `@supabase/supabase-js`, `clsx` + `tailwind-merge` (`cn()`).
 
----
-
-## 3. Design System
-
-### Color Palette (Sand)
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `sand-50` | `#FBFBFA` | Page background |
-| `sand-100` | `#F5F5F3` | Card hover |
-| `sand-200` | `#EBEBE8` | Borders, secondary bg |
-| `sand-300` | `#DDDCD7` | Input borders |
-| `sand-700` | `#4A4844` | Secondary text |
-| `sand-800` | `#2A2927` | Button hover |
-| `sand-900` | `#171615` | Primary text, primary buttons |
-
-### Typography
-- **Serif headings:** Instrument Serif (landing page, section titles)
-- **Body:** Inter (all body text, UI)
-- **Monospace:** JetBrains Mono (badges, labels, code-like elements)
-
-### Component Pattern
-- `bento-card` class: `bg-white border border-sand-200 rounded-2xl` — used throughout
-- `status-badge` class: colored pill for order status
-- Responsive: mobile-first with `sm:`, `md:`, `lg:` breakpoints
+**Node:** lokal pakai nvm (v24). Perintah npm harus didahului `export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh"`.
 
 ---
 
-## 4. File Structure
+## 3. Design System (Neobrutalism)
+
+Semua halaman memakai sistem desain **neobrutalism**: latar krem/putih, border tebal `2px` hitam (`border-2 border-ink`), shadow keras `shadow-brutal` (offset solid, tanpa blur), aksen terracotta/amber, label monospace `font-mono text-xs font-bold uppercase`.
+
+### Token utama (Tailwind config + CSS custom)
+| Token | Pakai untuk |
+|---|---|
+| `ink` (hampir hitam) | Text utama, border, tombol hover |
+| `sand-900` | Text gelap |
+| `terracotta` | Tombol CTA utama, aksen |
+| `amber-500` | Dot pilar 1, aksen status |
+| `chalk` / `sand-50` | Latar halaman |
+| `font-serif` (Instrument Serif) | Heading hero/section |
+| `font-sans` (Inter) | Body |
+| `font-mono` (JetBrains Mono) | Badge, label, angka, kode |
+
+### Pola komponen
+- `shadow-brutal`: shadow solid `4px 4px 0` warna gelap — ciri khas tombol/kartu.
+- `bento-card`: kartu putih ber-border — dipakai lintas halaman.
+- `status-chip` / `status-badge`: pill berwarna sesuai status order.
+- Semua tombol punya `min-h-[44px]` (aksesibilitas), label `font-mono text-xs font-bold`.
+
+---
+
+## 4. Struktur File (Lengkap)
 
 ```
 omnicontent-studio/
-├── .env.local                          # Supabase keys (not in git)
-├── next.config.ts                      # Default Next.js config
-├── tailwind.config.ts                  # Sand palette + custom fonts
-├── tsconfig.json                       # TS config with @/* path alias
-├── package.json                        # Dependencies & scripts
+├── .env.example                     # Template env (di-commit; .env* lain di-gitignore)
+├── .env.local                       # Kunci Supabase lokal (TIDAK di-commit)
+├── .gitignore
+├── package.json                     # Scripts: dev/build/start/lint
+├── next.config.ts                   # Security headers + CSP (dev vs prod)
+├── tailwind.config.ts               # Palette + custom fonts
+├── tsconfig.json                    # Path alias @/* → src/*
+├── eslint.config.mjs / postcss.config.mjs
+├── README.md                        # Ringkasan singkat + route map
 │
-├── public/                             # Static assets
-│   ├── dashboard.html                  # Legacy standalone dashboard (backup)
-│   ├── icon-*.png                      # PWA icons (16-512px)
-│   ├── logo.png                        # Karsa logo
-│   └── *.svg                           # Default Next.js SVGs
+├── docs/
+│   └── architecture.md              # ← DOKUMEN INI
 │
-├── src/
-│   ├── middleware.ts                    # Entry point → calls supabase/middleware
-│   │
-│   ├── app/                            # Next.js App Router pages
-│   │   ├── layout.tsx                  # Root layout (fonts, metadata, <html lang="id">)
-│   │   ├── globals.css                 # Tailwind v4 imports + custom utilities
-│   │   ├── not-found.tsx               # Custom 404 page
-│   │   │
-│   │   ├── (public)/
-│   │   │   ├── layout.tsx              # Public layout wrapper
-│   │   │   └── page.tsx                # ★ LANDING PAGE (main sales page)
-│   │   │
-│   │   ├── login/page.tsx              # Login + signup (role-based redirect)
-│   │   ├── checkout/page.tsx           # Payment page (reads localStorage)
-│   │   ├── invoice/page.tsx            # Invoice display (printable)
-│   │   ├── dashboard/page.tsx          # ★ CUSTOMER DASHBOARD (orders, profile, tools)
-│   │   │
-│   │   ├── console/                    # ★ ADMIN CONSOLE
-│   │   │   ├── layout.tsx              # Admin layout (auth check)
-│   │   │   └── page.tsx                # Admin dashboard (kanban, table, analytics, AI)
-│   │   │
-│   │   ├── portal/[orderId]/           # ★ CLIENT PORTAL (per-order)
-│   │   │   ├── layout.tsx              # Portal layout
-│   │   │   └── page.tsx                # Calendar, scripts, SEO, revisions
-│   │   │
-│   │   ├── terms/page.tsx              # Terms of service
-│   │   ├── privacy/page.tsx            # Privacy policy
-│   │   ├── refund/page.tsx             # Refund policy
-│   │   │
-│   │   ├── auth/callback/route.ts      # OAuth callback handler
-│   │   │
-│   │   └── api/                        # API routes (server-side)
-│   │       ├── create-order/route.ts   # POST: create order in Supabase OR update status
-│   │       ├── orders/route.ts         # GET: list all orders (service role)
-│   │       ├── portal/[orderId]/route.ts # GET: fetch order + content + SEO from Supabase
-│   │       ├── admin/
-│   │       │   ├── seed/route.ts       # POST: seed demo data
-│   │       │   └── setup/route.ts      # POST: create admin user
-│   │       └── auth/callback/route.ts  # Auth callback API
-│   │
-│   ├── components/                     # React components
-│   │   ├── landing/                    # 15 components (landing page sections)
-│   │   │   ├── MegaDropdownNav.tsx     # Top nav with login button
-│   │   │   ├── HeroSection.tsx         # Hero with CTA
-│   │   │   ├── OrderForm.tsx           # ★ Brief intake form (auth-gated)
-│   │   │   ├── Footer.tsx              # Footer with legal links
-│   │   │   └── ... (11 more sections)
-│   │   │
-│   │   ├── console/                    # 7 components (admin console)
-│   │   │   ├── StatsOverview.tsx       # Revenue, orders, SLA stats
-│   │   │   ├── KanbanBoard.tsx         # Drag-style kanban view
-│   │   │   ├── OrderTable.tsx          # Table view of all orders
-│   │   │   ├── DetailModal.tsx         # Order detail + edit modal
-│   │   │   ├── NewOrderModal.tsx       # Manual order creation
-│   │   │   ├── AnalyticsView.tsx       # Charts and metrics
-│   │   │   └── AIStudio.tsx            # AI content generation tools
-│   │   │
-│   │   ├── portal/                     # 8 components (client portal)
-│   │   │   ├── StatusHero.tsx          # Order status banner
-│   │   │   ├── CalendarGrid.tsx        # 30-day content calendar
-│   │   │   ├── ScriptStudio.tsx        # Video script viewer/editor
-│   │   │   ├── SeoArticles.tsx         # SEO article display
-│   │   │   ├── CompetitorRadar.tsx     # Competitor audit view
-│   │   │   ├── RevisionForm.tsx        # Client revision request form
-│   │   │   ├── NotionCallout.tsx       # Notion integration CTA
-│   │   │   └── Teleprompter.tsx        # Teleprompter overlay
-│   │   │
-│   │   └── ui/                         # 3 shared UI components
-│   │       ├── BentoCard.tsx           # Reusable card component
-│   │       ├── Modal.tsx               # Reusable modal
-│   │       └── StatusBadge.tsx         # Status pill badge
-│   │
-│   ├── lib/                            # Utilities and configuration
-│   │   ├── types.ts                    # TypeScript interfaces (Order, ContentItem, etc.)
-│   │   ├── constants.ts                # Pillars, statuses, categories, seed data, FAQ
-│   │   ├── utils.ts                    # cn(), generateOrderId(), SLA calc, revenue calc
-│   │   └── supabase/
-│   │       ├── client.ts               # Browser Supabase client (singleton)
-│   │       ├── server.ts               # Server Supabase client (cookie-based)
-│   │       ├── middleware.ts           # ★ Auth middleware (route protection)
-│   │       └── types.ts               # Generated Supabase database types
-│   │
-│   └── seed/                           # Database setup SQL
-│       ├── seed.sql                    # Full schema + 34 demo orders + RLS
-│       ├── auth-setup.sql              # Profiles table + auto-create trigger
-│       ├── fix-recursion.sql           # Fix recursive RLS on profiles
-│       └── fix-profiles-grants.sql     # Fix grants for profiles table
+├── public/                          # Statis (icon PWA + logo saja; boilerplate sudah dibersihkan)
+│   ├── icon-{16,32,48,180,192,512}x{...}.png
+│   ├── logo.png                     # Logo brand (diserve di /logo.png)
+│   └── favicon.png                  # (dihapus — duplikat icon-32x32; icons ditangani metadata layout)
 │
-└── architecture.md                     # ← THIS FILE
+└── src/
+    ├── middleware.ts                # Route protection (lihat bagian 7)
+    │
+    ├── app/                         # App Router
+    │   ├── layout.tsx               # Root layout: fonts, metadata icons, lang="id"
+    │   ├── globals.css              # Tailwind v4 + primitif neobrutalism (console/hub)
+    │   ├── not-found.tsx            # 404 kustom (neobrutalism)
+    │   │
+    │   ├── (public)/
+    │   │   ├── layout.tsx
+    │   │   └── page.tsx             # ★ LANDING (halaman jualan utama)
+    │   │
+    │   ├── (auth)/layout.tsx        # Login/registrasi
+    │   ├── login/page.tsx           # Login + signup, redirect berbasis role
+    │   ├── checkout/page.tsx        # Pembayaran (baca localStorage, countdown 15 mnt)
+    │   ├── invoice/page.tsx         # Invoice printable
+    │   ├── dashboard/page.tsx       # ★ DASHBOARD CUSTOMER (kartu order + tools)
+    │   ├── console/
+    │   │   ├── layout.tsx           # Auth check admin
+    │   │   └── page.tsx             # ★ ADMIN CONSOLE (5 plates, monolitik ~1600 baris)
+    │   ├── portal/[orderId]/
+    │   │   ├── layout.tsx
+    │   │   └── page.tsx             # ★ CLIENT HUB (per-order)
+    │   ├── terms/ privacy/ refund/  # Halaman legal
+    │   │
+    │   ├── auth/callback/route.ts   # OAuth callback (open-redirect sudah diperbaiki)
+    │   │
+    │   └── api/
+    │       ├── create-order/route.ts       # POST publik (validasi ketat) — buat/update order
+    │       ├── orders/route.ts             # GET/PATCH/POST — HANYA admin
+    │       ├── my-orders/route.ts          # GET — order milik user (email-scoped)
+    │       ├── portal/[orderId]/route.ts   # GET — requireUser + cek kepemilikan email
+    │       └── admin/
+    │           ├── seed/route.ts           # POST — HANYA admin (seeder data demo)
+    │           └── setup/route.ts          # POST — butuh env KARSA_SETUP_SECRET (bootstrap admin)
+    │
+    ├── components/
+    │   ├── landing/        # 22 komponen (Hero, OrderForm, ComparisonCalculator, FAQ, StickyMobileCTA, ...)
+    │   │                   # Catatan: CheckoutModal.tsx masih ada tapi TIDAK dipakai (digantikan /checkout)
+    │   ├── console/        # StatsOverview, KanbanBoard, OrderTable, DetailModal, NewOrderModal,
+    │   │                   # AnalyticsView, AIStudio, SettingsView + console-lib.ts (helper murni)
+    │   ├── portal/         # ReadoutPlate, CalendarGrid, ScriptStudio, SeoArticles, AuditView,
+    │   │                   # RevisionForm, NotionCallout, Teleprompter, ChecklistView + hub-lib.ts
+    │   └── ui/             # BentoCard, Modal, StatusBadge
+    │
+    ├── lib/
+    │   ├── api-auth.ts             # ★ requireUser / requireAdmin (Bearer JWT → getUser + role)
+    │   ├── api-client.ts           # ★ authFetch() — attach access_token dari session cookie
+    │   ├── generate-deliverables.ts# ★ Generate 30 content_items + 4 seo_articles utk order baru
+    │   ├── types.ts                # Interface Order, ContentItem, SeoArticle, dll.
+    │   ├── constants.ts            # PILLARS, STUDIO_PILLARS, STATUS_LABELS/COLORS, harga
+    │   ├── utils.ts                # cn(), generateOrderId(), formatDateId(), dll.
+    │   └── supabase/
+    │       ├── client.ts           # Browser client (singleton, cookie storage)
+    │       ├── server.ts           # Server client (cookie-based)
+    │       ├── middleware.ts       # Logika auth middleware
+    │       └── types.ts            # Tipe DB Supabase
+    │
+    └── seed/                       # SQL migrasi — urutan eksekusi penting (lihat §5)
+        ├── seed.sql                # Schema + 34 order demo + content + SEO + RLS lama
+        ├── auth-setup.sql          # Tabel profiles + trigger on_auth_user_created
+        ├── fix-recursion.sql       # Fix RLS recursive pada profiles
+        ├── fix-profiles-grants.sql # Fix grants profiles
+        ├── add-order-brief-fields.sql  # Kolom brief (BELUM diterapkan ke DB live)
+        └── security-rls-fix.sql    # ★ WAJIB dijalankan — nutup RLS bocor (lihat §8)
 ```
+
+**Catatan struktur:** `src/app/console/page.tsx` dan `src/app/portal/[orderId]/page.tsx` adalah halaman monolitik besar (~1500–2000 baris) yang merangkai semua sub-komponen. Sub-komponen di `components/console` dan `components/portal` — logic murni (format tanggal, SLA, audit log) dipisah di `*-lib.ts`.
 
 ---
 
-## 5. Database Schema (Supabase)
+## 5. Database (Supabase/PostgreSQL)
 
-### Tables
-
-#### `profiles`
-| Column | Type | Notes |
-|--------|------|-------|
-| `id` | UUID PK | FK → `auth.users.id` |
-| `email` | TEXT | User email |
-| `role` | TEXT | `'admin'` or `'customer'` (default) |
-| `created_at` | TIMESTAMPTZ | Auto |
-
-- Auto-created via trigger `on_auth_user_created` when a user signs up
-- RLS: permissive read for all, full access for service role
-
-#### `orders`
-| Column | Type | Notes |
-|--------|------|-------|
-| `id` | UUID PK | Auto-generated |
-| `order_id` | TEXT UNIQUE | Human-readable ID (e.g. `OC-260819-7280` or `INV-993810`) |
-| `brand` | TEXT | Business name |
-| `category` | TEXT | Industry category |
-| `competitor` | TEXT | Competitor handle |
-| `description` | TEXT | Product description |
-| `email` | TEXT | Customer email (ownership key) |
-| `phone` | TEXT | WhatsApp number |
+### Tabel `orders`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| `id` | UUID PK | Auto |
+| `order_id` | TEXT UNIQUE | ID manusiawi: `INV-XXXXXX` (alur checkout) atau `OC-YYMMDD-RAND` (server) |
+| `brand` | TEXT | Nama bisnis |
+| `category` | TEXT | Kategori industri |
+| `competitor` | TEXT | Handle kompetitor |
+| `description` | TEXT | Deskripsi produk/brief |
+| `email` | TEXT | Email customer — **kunci kepemilikan** |
+| `phone` | TEXT | Nomor WhatsApp |
 | `status` | TEXT | `PENDING_PAYMENT` / `IN_PROGRESS` / `QC_REVIEW` / `COMPLETED` |
-| `notion_url` | TEXT | Notion workspace link (admin sets) |
-| `notes` | TEXT | Admin notes |
-| `user_id` | UUID | FK → auth.users (optional, not consistently used) |
-| `created_at` | TIMESTAMPTZ | Auto |
-| `updated_at` | TIMESTAMPTZ | Auto |
+| `notion_url` | TEXT | Link Notion workspace (diisi admin) |
+| `notes` | TEXT | Catatan internal admin |
+| `user_id` | UUID | FK auth.users — **tidak konsisten terisi** (email yang dipakai) |
+| `created_at` / `updated_at` | TIMESTAMPTZ | Auto |
 
-#### `content_items`
-| Column | Type | Notes |
-|--------|------|-------|
-| `id` | UUID PK | Auto |
-| `order_id` | UUID FK | → `orders.id` |
-| `day_number` | INT | 1–30 |
-| `pillar` | TEXT | Content pillar key |
-| `hook` | TEXT | Video hook script |
-| `body` | TEXT | Video body script |
-| `cta` | TEXT | Call to action |
-| `caption` | TEXT | Social media caption |
-| `created_at` | TIMESTAMPTZ | Auto |
+> ⚠️ **Kolom `content_goal`, `content_tone`, `priority_channel` TIDAK ADA di DB live** (ada di `add-order-brief-fields.sql` yang belum diterapkan). Brief form mengumpulkan 3 bidang itu, tapi saat insert hanya brand/category/competitor/description/email/phone/status yang tersimpan. Kalau mau simpan field brief lengkap: terapkan `add-order-brief-fields.sql` + update `/api/create-order` insert.
 
-#### `seo_articles`
-| Column | Type | Notes |
-|--------|------|-------|
-| `id` | UUID PK | Auto |
-| `order_id` | UUID FK | → `orders.id` |
-| `article_number` | INT | 1–4 |
-| `article_type` | TEXT | Article type |
-| `title` | TEXT | Article title |
-| `description` | TEXT | Meta description |
-| `outline` | TEXT | Article outline |
-| `created_at` | TIMESTAMPTZ | Auto |
+### Tabel `content_items` (30 baris per order)
+`id`, `order_id` FK, `day_number` (1–30), `pillar`, `hook`, `body`, `cta`, `caption`, `created_at`
 
-### RLS Policies
-- **orders:** Public read (`USING (true)`), Admin full access (service role bypasses)
-- **content_items:** Public read, Admin full access
-- **seo_articles:** Public read, Admin full access
-- **profiles:** Permissive read, Admin full access, auto-create trigger
+### Tabel `seo_articles` (4 baris per order)
+`id`, `order_id` FK, `article_number` (1–4), `article_type`, `title`, `description`, `outline`, `created_at`
 
-### Seed Data
-- 34 demo orders with Indonesian UMKM brand names
-- 30 content items per order (1,020 total)
-- 4 SEO articles per order (136 total)
-- Mix of statuses: 4 IN_PROGRESS, 2 QC_REVIEW, 2 PENDING_PAYMENT, 26 COMPLETED
+### Tabel `profiles`
+`id` UUID PK (= auth.users.id), `email`, `role` (`admin` | `customer`, default customer), `created_at`. Dibuat otomatis oleh trigger `on_auth_user_created` saat signup.
+
+### RLS — status penting!
+- **Sebelum hardening:** policy "Public read" di orders/content_items/seo_articles + "Anyone can read profiles" + anon write grants → **siapa pun dengan anon key bisa baca SEMUA data**. Ini sudah diperbaiki di level aplikasi (semua route API pakai auth server-side), tapi **policy DB-nya belum dijatuhkan**.
+- **SEKARANG (pending):** jalankan `src/seed/security-rls-fix.sql` di Supabase SQL Editor → drop semua policy publik + revoke grant anon. Setelah ini, satu-satunya jalur baca adalah API routes (yang sudah memvalidasi auth).
+- Service role (`SUPABASE_SERVICE_ROLE_KEY`) melewati RLS — dipakai server-side di route admin/seed/generate.
+
+### Seeder (`/api/admin/seed` — admin only)
+- 34 order demo UMKM Indonesia + 30 content_items per order + 4 seo_articles per order.
+- Idempotent (tidak duplikat kalau dijalankan ulang).
+- Setelah seeder, user bisa login sebagai customer `sri.tempong@gmail.com` (order `INV-993810`) untuk melihat hub terisi.
 
 ---
 
-## 6. Auth Flow
+## 6. Alur User (End-to-End)
 
-### Middleware Protection (`src/lib/supabase/middleware.ts`)
+### Alur 1: Pembelian (fungsi inti!)
 ```
-/console/*  → must be logged in + role='admin' in profiles table
-              → fail: redirect to /login?redirect=/console
-
-/dashboard/* → must be logged in
-              → fail: redirect to /login?redirect=/dashboard
-
-/portal/*   → client-side auth check (not middleware)
-              → must be logged in + email must match order.email
-
-/login      → if already logged in:
-              → admin → /console
-              → customer → /dashboard
-              → or → ?redirect= param
-```
-
-### Login/Signup Flow (`src/app/login/page.tsx`)
-1. User enters email + password
-2. **Signup:** `supabase.auth.signUp()` with `role: 'customer'` metadata → auto-creates profile via DB trigger → redirect to `?redirect=` or `/dashboard`
-3. **Login:** `supabase.auth.signInWithPassword()` → check `profiles.role` → admin→`/console`, customer→`/dashboard`
-4. URL param `?redirect=/checkout&id=INV-XXX` preserves intended destination + order ID
-
-### Session Management
-- Supabase SSR handles cookie-based sessions
-- Middleware refreshes session on every request via `supabase.auth.getUser()`
-- Browser client uses singleton pattern (`createClient()` in `supabase/client.ts`)
-
----
-
-## 7. Core User Flows
-
-### Flow 1: Customer Purchase
-```
-Landing Page → Fill Brief (OrderForm) → Auth Gate
-  ↓
-  Not logged in → /login?redirect=/checkout&id=INV-XXX
-  Logged in → /checkout?id=INV-XXX
-  ↓
-  Checkout Page → Display VA number + countdown timer
-  ↓
-  Click "Sudah Bayar" → confirmPayment()
-  ↓
-  Save to localStorage (omni_order_INV-XXX)
-  ↓
-  POST /api/create-order → Insert into Supabase orders table (status: PENDING_PAYMENT)
-  ↓
-  Redirect to /invoice?id=INV-XXX
+Landing → OrderForm (brief: nama, kategori, kompetitor, deskripsi, WA, email)
+   ↓  brief disimpan ke localStorage (karsa_checkout_*)
+   ↓  klik "Lanjut ke Pembayaran"
+Auth gate → belum login? → /login?redirect=/checkout&id=INV-XXXXXX
+   ↓
+/checkout?id=INV-XXXXXX → tampil VA BCA + Mandiri (simulasi), countdown 15 menit
+   ↓  klik "Saya Sudah Transfer"
+confirmPayment() → status order di localStorage omni_order_* → lalu
+POST /api/create-order  { orderId, brand, email, status: "IN_PROGRESS", ... }
+   ↓  (kunci! lihat §9)
+   - kalau order belum ada di DB → INSERT order + auto-generate 30 content + 4 SEO
+   - kalau sudah ada → validasi brief cocok (brand+email) → UPDATE status saja
+   ↓
+redirect → /invoice?id=INV-XXXXXX  (printable)
 ```
 
-### Flow 2: Customer Dashboard
+### Alur 2: Dashboard Customer (`/dashboard`)
 ```
-/dashboard → Middleware auth check → Supabase getUser()
-  ↓
-  Fetch orders via /api/orders (server-side, service role)
-  ↓
-  Filter by email === user.email
-  ↓
-  Display order cards with status + "Buka Hub" link
-```
-
-### Flow 3: Client Portal
-```
-/portal/OC-260819-7280 → Check auth (Supabase getUser)
-  ↓
-  Not logged in → /login?redirect=/portal/OC-260819-7280
-  ↓
-  Fetch order from /api/portal/OC-260819-7280
-  ↓
-  Check order.email === user.email
-  ↓
-  Mismatch → "Anda tidak memiliki akses"
-  Match → Display portal (calendar, scripts, SEO, revisions)
+Middleware: harus login → supabase getUser()
+   ↓
+authFetch("/api/my-orders")  → hanya order dengan email == user.email
+   ↓
+Kartu order + status + tombol "Buka Hub" → /portal/{order_id}
+   (plus tools: hook generator, ROI calculator, audit score — terpisah dari data order)
 ```
 
-### Flow 4: Admin Console
+### Alur 3: Client Hub (`/portal/[orderId]`)
 ```
-/console → Middleware: auth + role='admin'
-  ↓
-  Fetch all orders from Supabase (service role, bypasses RLS)
-  ↓
-  Kanban/Table/Analytics/AI views
-  ↓
-  Update order status, add Notion URL, notes
+Middleware: harus login (tapi cek kepemilikan di SERVER, bukan client!)
+   ↓
+GET /api/portal/{orderId}  → requireUser + email order harus == email user
+   mismatch → 403 "Anda tidak memiliki akses ke portal ini."
+   ↓
+Render: ReadoutPlate (status + SLA ticker + stepper) · rail 01–06 ·
+30-hari calendar grid · ScriptStudio (hook/body/CTA + teleprompter) ·
+SEO articles · AuditView (audit kompetitor) · ChecklistView (67 item) ·
+RevisionForm (kirim revisi → buka WhatsApp) · NotionCallout ·
+Order selector (dari /api/my-orders) untuk pindah antar order
+```
+
+### Alur 4: Admin Console (`/console`) — 5 Plates
+| Plate | Isi |
+|---|---|
+| 01 Pipeline | Kanban (PENDING_PAYMENT → IN_PROGRESS → QC_REVIEW → COMPLETED), aksi cepat, detail modal (status, Notion URL, notes) |
+| 02 Database | Tabel semua order + search + filter + export CSV |
+| 03 Prompt Studio | Template prompt AI (generate konten bantu) |
+| 04 Laporan | Metric revenue, grafik intake, SLA |
+| 05 Pengaturan | DB readout, backup JSON, seed, setup |
+| (+ New Order modal) | Input brief manual → insert langsung ke DB |
+
+### Alur 5: Bootstrap admin (sekali saja)
+```
+POST /api/admin/setup?token=KARSA_SETUP_SECRET  +  { email, password }
+   → membuat user + menandai role='admin' di profiles
+   (token lama 'karsa-setup-2024' sudah TIDAK berlaku — dihapus dari kode)
 ```
 
 ---
 
-## 8. API Routes
+## 7. Auth & Middleware
 
-| Endpoint | Method | Auth | Purpose |
-|----------|--------|------|---------|
-| `/api/create-order` | POST | None | Create new order OR update existing order status |
-| `/api/orders` | GET | None (service role) | List all orders |
-| `/api/portal/[orderId]` | GET | None (service role) | Fetch order + content_items + seo_articles |
-| `/api/admin/seed` | POST | None (service role) | Seed demo data |
-| `/api/admin/setup` | POST | None (service role) | Create admin user |
-| `/api/auth/callback` | GET | None | OAuth callback handler |
+### Lapisan 1 — Middleware (`src/middleware.ts` → `lib/supabase/middleware.ts`)
+| Route | Aturan |
+|---|---|
+| `/console/*` | Wajib login + role `admin` di profiles → kalau bukan, redirect `/login` |
+| `/dashboard/*` | Wajib login |
+| `/portal/*` | Wajib login (kepemilikan dicek terpisah di API route) |
+| `/login` | Sudah login? admin→`/console`, customer→`/dashboard`, hormati `?redirect=` |
 
-### `/api/create-order` Dual Purpose
-- **With `orderId` + `status`:** Updates existing order status (used by checkout `confirmPayment`)
-- **Without `orderId`:** Creates new order with generated `OC-YYMMDD-RAND` ID
+### Lapisan 2 — API Routes (`lib/api-auth.ts`)
+- `requireUser(req)` → baca `Authorization: Bearer <access_token>` → `supabase.auth.getUser(token)` → return user atau 401.
+- `requireAdmin(req)` → requireUser + cek `profiles.role === "admin"` → selain itu 403.
+- Client memanggil via `authFetch(url, opts)` (`lib/api-client.ts`) yang otomatis ambil access_token dari session cookie — **jangan** memanggil fetch polos ke API ber-auth.
 
----
+### Lapisan 3 — DB (RLS) — masih pending, lihat §5.
 
-## 9. Key Design Decisions
-
-1. **Order ID formats:** Two formats exist:
-   - `INV-XXXXXX` — generated client-side by `generateOrderId()` for checkout flow
-   - `OC-YYMMDD-RAND` — generated server-side by `/api/create-order` for Supabase
-   - The `INV-` format is used in localStorage; `OC-` format is used in Supabase
-
-2. **Email = ownership key:** Orders are linked to users by `email` field, not `user_id`. The `user_id` column exists but is not consistently populated.
-
-3. **Dashboard fetches from API, not Supabase client:** The customer dashboard fetches all orders from `/api/orders` (service role, bypasses RLS) then filters by email client-side. This avoids RLS/cookie issues.
-
-4. **Payment is simulated:** No real payment gateway. User sees VA numbers, clicks "Confirm", status updates to IN_PROGRESS.
-
-5. **Vercel auto-deploy:** Push to `main` triggers automatic Vercel deployment. No manual `vercel --prod` needed.
-
-6. **localStorage as bridge:** Order data flows: `OrderForm → karsa_checkout_{id} → Checkout → omni_order_{id} + Supabase`. Dashboard reads from Supabase, not localStorage.
+### Sesion storage — penting
+`@supabase/ssr` menyimpan session di **cookie** (`sb-<ref>-auth-token`), BUKAN localStorage. Kalau debugging: token ada di `document.cookie` (base64 JSON berisi `access_token`). Jangan cari di localStorage.
 
 ---
 
-## 10. Completed Features
+## 8. Keamanan — Riwayat & Status
 
-### ✅ Landing Page
-- Full sales page with hero, problem section, deliverables, comparison calculator, samples, bonuses, value stack, case studies, FAQ, sticky mobile CTA
-- Mega dropdown navigation with login button
-- Order brief form with validation (auth-gated)
+### Kerentanan yang SUDAH ditutup (commit `a50a952`, semua terbukti exploitable & sudah diverifikasi E2E)
+| # | Kerentanan | Dampak | Perbaikan |
+|---|---|---|---|
+| 1 | `/api/orders` tanpa auth | Siapa pun bisa dump semua data customer + ubah status + insert order | Admin-only (Bearer JWT + role check) |
+| 2 | `/api/admin/seed` token hardcoded di bundle client | Siapa pun bisa wipe + reseed seluruh DB | Admin-session-only |
+| 3 | `/api/admin/setup` token sama | Siapa pun bisa buat admin / promote diri = takeover penuh | Token diganti env `KARSA_SETUP_SECRET` |
+| 4 | `/api/portal/[orderId]` cek kepemilikan hanya di client | `curl` order siapapun | Cek kepemilikan email di SERVER |
+| 5 | RLS "public read" + "Anyone can read profiles" | Anon key bisa query DB langsung | `security-rls-fix.sql` (⚠️ belum dijalankan) |
+| 6 | `/auth/callback` open redirect (`next=//evil.com`) | Phishing | Validasi path same-site (harus `/`, bukan `//`) |
+| 7 | Tanpa CSP / X-Frame-Options / nosniff | Clickjacking + injeksi | Header lengkap di `next.config.ts` |
+| 8 | `/api/create-order` tanpa validasi | orderId `<script>`, status arbitrer, flip status order orang | Validasi format + status enum + ownership check brief |
 
-### ✅ Authentication
-- Email/password login and signup
-- Supabase Auth with auto-created profiles (role: customer)
-- Admin role check in middleware
-- Role-based redirects (admin→console, customer→dashboard)
-- Auth-gated routes: /dashboard, /console, /portal
-
-### ✅ Checkout & Payment
-- Countdown timer (15 min)
-- VA number display (BCA + Mandiri) with copy-to-clipboard
-- Payment confirmation → updates Supabase status to IN_PROGRESS
-- Invoice page with print support
-
-### ✅ Customer Dashboard
-- Order list (fetched from Supabase, filtered by user email)
-- Profile management (localStorage-based)
-- Hook generator, ROI calculator, audit score tools
-- "Buka Hub" button links to `/portal/{orderId}`
-
-### ✅ Client Portal (`/portal/[orderId]`)
-- Auth-gated + email ownership check
-- 30-day content calendar grid
-- Script studio with teleprompter
-- SEO articles display
-- Competitor radar
-- Revision form
-- Status hero banner
-
-### ✅ Admin Console
-- Stats overview (revenue, orders, SLA)
-- Kanban board view
-- Table view with search/filter
-- Order detail modal (status, Notion URL, notes)
-- Manual order creation
-- Analytics view
-- AI studio tools
-- CSV export
-- Auth-protected (admin role only)
-
-### ✅ Legal Pages
-- Terms of Service (`/terms`)
-- Privacy Policy (`/privacy`)
-- Refund Policy (`/refund`)
-
-### ✅ Infrastructure
-- Custom 404 page
-- Middleware-based route protection
-- Supabase RLS policies
-- Database seeding (34 demo orders + content + SEO)
-- Auto-deploy from GitHub to Vercel
+### Status keamanan SEKARANG
+- **API routes:** terkunci. 401/403 teruji otomatis (security suite 24 checks hijau).
+- **CSP:** `frame-ancestors 'none'`, `object-src 'none'`, `script-src 'self' 'unsafe-inline'` di prod (tanpa `unsafe-eval`); di dev ditambah `unsafe-eval` (dibutuhkan hot reload). Font Google di-allow di style/font/connect.
+- **Belum bisa disebut 100% terkunci sampai:**
+  1. `security-rls-fix.sql` dijalankan di Supabase SQL Editor,
+  2. `KARSA_SETUP_SECRET` di-set di Vercel + lokal.
+- **Catatan:** session di cookie bisa dibaca JavaScript (`document.cookie`) — aman selama tidak ada XSS (saat ini tanpa `dangerouslySetInnerHTML`), tapi kalau nanti ada rendering HTML user, pindah ke cookie httpOnly atau short-lived tokens.
 
 ---
 
-## 11. Incomplete / Known Issues
+## 9. API Reference (Kondisi Saat Ini)
 
-### 🔴 Critical
-- **Payment is fake** — no real payment gateway integration (Midtrans, Xendit, etc.)
-- **Order content is seed data only** — the 30 scripts + 4 SEO articles per order are hardcoded seed data, not dynamically generated per customer
+| Endpoint | Method | Auth | Fungsi |
+|---|---|---|---|
+| `/api/create-order` | POST | Publik (validasi ketat) | Insert order kalau belum ada + auto-generate deliverables; update status kalau sudah ada (dengan cek brief cocok) |
+| `/api/my-orders` | GET | User | Order dengan `email == user.email` |
+| `/api/orders` | GET/PATCH/POST | Admin | Semua order (data lengkap, termasuk email customer) |
+| `/api/portal/[orderId]` | GET | User + kepemilikan | Order + content_items + seo_articles |
+| `/api/admin/seed` | POST | Admin | Seeder data demo (idempotent) |
+| `/api/admin/setup` | POST | Env `KARSA_SETUP_SECRET` | Buat admin pertama |
+| `/api/auth/callback` | GET | — | Callback OAuth |
 
-### 🟡 Medium
-- **`user_id` not consistently populated** — orders use `email` for ownership, not Supabase auth `user_id`
-- **No email notifications** — no transactional emails (order confirmation, status updates)
-- **No real content generation** — AI Studio in admin console generates templates, not real content
-- **Portal content is static** — all 30 days of content come from seed data, same for all orders
-- **Invoice page reads from localStorage** — if user clears localStorage, invoice data is lost
-- **No order expiration** — the 15-min countdown on checkout doesn't actually expire the order
+### Validasi `/api/create-order` (jangan longgar-kan tanpa alasan)
+- `orderId`: regex `/^[A-Za-z0-9-]{4,40}$/`
+- `status`: hanya `ALLOWED_STATUSES` (4 enum)
+- `brand`: 2–120 karakter; `description`: 5–5000; `email`: regex; `competitor`/`phone`: validasi tipe
+- Update path: `brand` + `email` di body harus cocok dengan baris DB → selain itu **403**
 
-### 🟢 Low
-- **Legacy HTML files in project root** — `user_dashboard.html`, `admin_dashboard.html`, `landingpage.html`, etc. (backups, not used)
-- **`CheckoutModal.tsx`** exists but is not used (replaced by `/checkout` page)
-- **No error boundary** — React errors will crash the page
-- **No loading skeletons** — loading states are simple text spinners
-- **No analytics** — no Vercel Analytics, Google Analytics, or Mixpanel
-- **No SEO optimization** — no sitemap, robots.txt, or structured data
-
----
-
-## 12. Environment Variables
-
-| Variable | Scope | Purpose |
-|----------|-------|---------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Client + Server | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Client + Server | Supabase anonymous key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only | Supabase service role key (bypasses RLS) |
-
-All three are set in:
-- `.env.local` (local development)
-- Vercel dashboard (Production + Preview environments)
+### Kontrak data
+- Semua response error JSON: `{ "error": string }` dengan status 400/401/403/500.
+- `GET /api/my-orders` & `GET /api/orders` → array order (tanpa content). `GET /api/portal/{id}` → `{ order, contentItems, seoArticles }`.
 
 ---
 
-## 13. Deployment
+## 10. Generate Deliverables (`lib/generate-deliverables.ts`)
 
-- **Platform:** Vercel
-- **Trigger:** Push to `main` branch on GitHub auto-deploys
-- **Build:** `next build` (Turbopack)
-- **Domain:** `usekarsa.vercel.app` (alias from Vercel)
-- **Node:** 24.18.0 (Vercel build machine)
+Dipanggil oleh `/api/create-order` (order baru) dan seeder.
+- **30 content_items:** day 1–30, pillar berotasi `["Edukasi Solusi", "Storytelling Nyata", "Penawaran Spesial", "Mitos vs Fakta"]` (`(day-1) % 4`), hook/body/cta/caption diisi dari template berbasis brief (brand/kategori).
+- **4 seo_articles:** article_type, title, description, outline dari template.
+- Idempotent untuk seed (cek keberadaan dulu).
+
+> Batas yang diketahui: konten masih **template**, belum personalisasi AI per brand. Ini pekerjaan besar berikutnya yang masuk akal (lihat §16).
 
 ---
 
-## 14. Development Commands
+## 11. Design Detail Penting (Gotchas Visual)
+
+1. **Globals.css** berisi dua blok "primitives": `Member console primitives (ported from user_dashboard.html)` dan `Admin console primitives (ported from admin_dashboard.html)` — utility class neobrutalism kustom (mis. `.status-chip`, `.shadow-brutal`, ticker/SLA styles). Jangan hapus tanpa cek pemakaian.
+2. **Halaman monolitik:** console & portal merangkai semua di satu page — kalau mengubah state/shared logic, cek `console-lib.ts` / `hub-lib.ts` dulu.
+3. **Font Google CDN** — CSP harus tetap mengizinkan `fonts.googleapis.com` & `fonts.gstatic.com` (jangan pernah pindah ke self-host tanpa update CSP).
+4. **Satu titik amber-500** di landing (dot pilar) itu disengaja (parity dengan HTML asli).
+5. Harga `Rp299.000` **hardcoded** di beberapa tempat (constants + copy halaman) — ubah semua kalau ganti harga.
+6. Middleware mengecualikan file statis (`.svg|.png|...` + `_next/*` + favicon) — jangan hapus pattern itu.
+
+---
+
+## 12. Testing (E2E Playwright)
+
+Script test **tidak di-commit** — hidup di `/tmp/opencode/` (mesin lokal). Kalau hilang (mis. laptop restart & /tmp terhapus), regenerasi dari alur di bawah. Instal: `npm i playwright` + `npx playwright install chromium`.
+
+| Suite | File | Checks | Isi |
+|---|---|---|---|
+| Customer | `e2e-customer.mjs` | 44 | Alur pembelian penuh: landing → brief → login → checkout → invoice → dashboard → portal |
+| Admin | `e2e-admin.mjs` | 25 | 5 plates console, modal, CSV export, backup JSON, new order masuk DB |
+| Dashboard | `e2e-dashboard.mjs` | 9 | Dashboard customer + tools |
+| Security | `e2e-security.mjs` | 24 | 401/403 semua endpoint, validasi create-order, open redirect, headers, CSP smoke |
+
+Total **102 checks**. Jalankan: `node e2e-customer.mjs` dst. (dev server harus jalan di `localhost:3001`).
+
+### Akun test
+| Role | Email | Password | Catatan |
+|---|---|---|---|
+| Admin | `admin@karsa.my.id` | `Admin123!@#` | role=admin di profiles (di-reset via auth.admin.updateUserById) |
+| Customer | `sri.tempong@gmail.com` | `Test1234!@` | pemilik order `INV-993810` (seed) |
+
+### Trik yang sudah terbukti
+- Session di cookie: untuk panggil API ber-auth dari `page.evaluate`, baca `document.cookie` → ambil `sb-*-auth-token` → base64 decode → `access_token` → header `Authorization: Bearer`.
+- Login helper: tunggu `page.waitForURL(/dashboard|console/)` setelah submit (redirect pasca-login menghancurkan context kalau cuma `waitForTimeout`).
+
+---
+
+## 13. Environment Variables
+
+| Variable | Scope | Fungsi |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Client + Server | URL proyek Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Client + Server | Kunci anon (publik) |
+| `SUPABASE_SERVICE_ROLE_KEY` | **Server only** | Service role (melewati RLS) — jangan pernah di client bundle |
+| `KARSA_SETUP_SECRET` | Server only | Bootstrap admin (`/api/admin/setup`) — **belum di-set** ⚠️ |
+
+Lokal: `.env.local` (jangan di-commit). Vercel: dashboard → Settings → Environment Variables (Production + Preview).
+
+---
+
+## 14. Development Workflow
 
 ```bash
-npm run dev          # Start dev server (port 3000)
-npm run build        # Production build
-npm run lint         # ESLint check
-npx tsc --noEmit     # TypeScript check
+export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh"   # wajib sebelum npm/node
+npm run dev -- -p 3001     # dev server (port 3001 — E2E & README memakai ini)
+npm run build              # production build
+npm run start -- -p 3100   # serve hasil build (cek CSP prod di sini)
+npm run lint               # ESLint
+npx tsc --noEmit           # TypeScript check
 ```
 
----
-
-## 15. Handover Summary
-
-### What This Project Is
-Karsa Studio is a content-as-a-service platform for Indonesian UMKM. Customers pay Rp299k for a 30-day content calendar including video scripts, captions, SEO articles, and competitor analysis. The platform handles the full lifecycle: landing page → order → payment → delivery portal.
-
-### What's Done
-- Complete landing page with high-converting design
-- Full auth system (signup, login, role-based access)
-- Customer dashboard with order management
-- Client portal with content calendar, scripts, SEO, revisions
-- Admin console with kanban, table, analytics, AI tools
-- Payment flow (simulated)
-- Legal pages
-- Database with RLS and seeding
-- Auto-deploy pipeline
-
-### What's NOT Done
-- Real payment gateway
-- Dynamic content generation (everything is seed data)
-- Email notifications
-- Production-ready error handling
-- Analytics/monitoring
-
-### How to Continue Working
-1. Read this file first
-2. Check `src/lib/types.ts` for data models
-3. Check `src/lib/constants.ts` for config values
-4. Check `src/lib/supabase/middleware.ts` for auth rules
-5. Check `src/app/api/` for server-side logic
-6. Run `npm run dev` and open `http://localhost:3000`
-7. Admin login: check Supabase dashboard for credentials
-8. Customer flow: register → fill brief → checkout → portal
-
-### Key Gotchas
-- Order IDs: `INV-XXXXXX` (client) vs `OC-YYMMDD-RAND` (server/Supabase)
-- Dashboard fetches from `/api/orders` (not Supabase client directly)
-- Portal checks email ownership client-side after fetching order
-- Vercel auto-deploys on push — no manual deploy needed
-- `createClient()` singleton in `supabase/client.ts` can silently return null if env vars missing
+Deploy = `git push origin main` → Vercel auto-build & deploy. Tidak ada staging terpisah.
 
 ---
 
-*This document was generated to enable any AI or developer to fully understand and continue work on the Karsa Studio project without prior context.*
+## 15. Riwayat Pengerjaan Terperinci
+
+1. **Migrasi halaman HTML → Next.js** (landing → login → dashboard user → admin console → client hub), aturan 100% visual parity dengan `usekarsahtmlonly/`.
+2. **Redesign penuh ke neobrutalism** — semua halaman (checkout, invoice, legal, 404 ikut di-sync).
+3. **Client Hub port dari `customer_dashboard.html`** — readout plate, SLA ticker, stepper, rail 01–06, calendar 30 hari, script studio + teleprompter, SEO outlines, audit, revisi→WA, checklist 67 item, order selector.
+4. **E2E testing putaran pertama** → menemukan 2 bug kritis:
+   - Alur beli **tidak pernah menulis order ke DB** (hanya localStorage) → `/api/create-order` sekarang insert-if-missing.
+   - Order baru **tanpa konten** → auto-generate 30 content + 4 SEO via `generate-deliverables.ts`.
+5. **Security audit menyeluruh** → 8 kerentanan (bagian 8) ditutup, diverifikasi dengan security E2E + re-run semua suite (semua hijau).
+6. **Pembersihan repo** — hapus 19 file mati (HTML sumber, boilerplate SVG, duplikat), `architecture.md` → `docs/`, README & `.env.example` asli.
+
+---
+
+## 16. Belum Dikerjakan / Roadmap
+
+### 🔴 Blokir segera (2 aksi manual, bukan kode)
+1. **Jalankan `src/seed/security-rls-fix.sql`** di Supabase Dashboard → SQL Editor. Tanpa ini, data masih bisa dibaca lewat anon key.
+2. **Set `KARSA_SETUP_SECRET`** di Vercel env (+ `.env.local` kalau mau setup lokal). Tanpa ini `/api/admin/setup` tidak berfungsi (bootstrap admin pertama tidak bisa dilakukan lewat API).
+
+### 🟡 Pekerjaan produk berikutnya (kandidat terbaik)
+1. **Gateway pembayaran asli** (Midtrans/Xendit) — ganti simulasi VA + countdown. Arsitektur sudah siap: status `PENDING_PAYMENT` + hook pembayaran tinggal diarahkan ke update status yang sama.
+2. **Konten personalisasi AI** — ganti template `generate-deliverables.ts` dengan panggilan LLM per brief (perlu kunci API server-side; pastikan tidak bocor ke client).
+3. **Email transaksional** (konfirmasi order, notifikasi status) — pakai Resend/Supabase Auth email templates.
+4. **Simpan field brief lengkap** — terapkan `add-order-brief-fields.sql` (content_goal/content_tone/priority_channel) + update insert di create-order.
+5. **Populasi `user_id`** pada order — sekarang kepemilikan via email (rapuh kalau email berubah); migrasi ke `user_id` + policy user_id-based.
+
+### 🟢 Polish
+- Sitemap/robots.txt + metadata SEO (belum ada).
+- Analytics (Vercel Analytics / GA4) — tidak ada sama sekali.
+- Error boundary + loading skeleton.
+- Komit test suite E2E ke repo (`/tmp/opencode` bisa hilang saat restart).
+- `CheckoutModal.tsx` tidak terpakai → hapus atau pakai.
+- Hapus `tsconfig.tsbuildinfo` bila muncul (artifact, sudah di-gitignore).
+
+---
+
+## 17. Panduan Memulai Kerja (untuk AI/dev berikutnya)
+
+1. Baca dokumen ini sampai habis (terutama §5, §8, §9, §16).
+2. `npm install` lalu `npm run dev -- -p 3001` — buka `localhost:3001`.
+3. Login admin: `admin@karsa.my.id` / `Admin123!@#` → `/console`. Login customer: `sri.tempong@gmail.com` / `Test1234!@` → lihat `INV-993810` di `/portal/INV-993810`.
+4. Sebelum mengubah perilaku API: cek `lib/api-auth.ts` + `lib/api-client.ts` — semua route baru WAJIB pakai pola yang sama.
+5. Sebelum mengubah tampilan: bandingkan dengan HTML asli di `usekarsahtmlonly/` dan jangan rusak parity.
+6. Setelah mengubah kode: `npm run build` + `npx tsc --noEmit` + jalankan suite E2E (bagian 12).
+7. Jangan commit `.env.local`, jangan pernah menaruh secret di kode client.
+8. Push ke `main` = deploy. Kalau ragu, tanya owner dulu.
+
+### Aturan emas
+- **Semua akses data customer lewat API routes ber-auth** — jangan pernah panggil Supabase langsung dari client dengan anon key untuk data sensitif.
+- **Jangan longgarkan validasi** di `/api/create-order` tanpa alasan keamanan yang jelas.
+- **CSP prod tanpa `unsafe-eval`** — kalau halaman error di prod dengan pesan CSP, itu tanda kode baru butuh izin CSP (atau pindah ke nonce).
+- **Struktur di luar `src` sudah bersih** — jaga tetap bersih (README, docs/, .env.example; aset hanya di `public/`).
+
+---
+
+*Dokumen ini ditulis agar AI atau developer mana pun bisa langsung memahami arah proyek tanpa konteks sebelumnya. Perbarui bagian "Pembaruan terakhir" + §16 setiap ada milestone besar.*
