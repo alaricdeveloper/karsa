@@ -51,3 +51,56 @@ GRANT SELECT ON public.seo_articles TO anon;
 
 REVOKE ALL ON public.profiles FROM anon;
 GRANT SELECT ON public.profiles TO anon;
+-- ============================================================
+-- LANJUTAN — POLICY AUTHENTICATED (diperlukan agar aplikasi tetap
+-- berfungsi setelah policy publik dijatuhkan):
+--   * profil: user hanya bisa baca/ubah profilnya sendiri
+--   * orders/content/seo: user hanya bisa baca miliknya (via email JWT)
+--   * semua akses admin tetap lewat API server (service role / anon+token)
+-- ============================================================
+
+-- ---- PROFILES: baca & perbarui profil sendiri ----
+DROP POLICY IF EXISTS "Users can read own profile" ON profiles;
+CREATE POLICY "Users can read own profile"
+  ON profiles FOR SELECT TO authenticated
+  USING (id = auth.uid());
+
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
+CREATE POLICY "Users can update own profile"
+  ON profiles FOR UPDATE TO authenticated
+  USING (id = auth.uid()) WITH CHECK (id = auth.uid());
+
+-- ---- ORDERS: baca order milik sendiri (ownership via email JWT) ----
+DROP POLICY IF EXISTS "Users can read own orders" ON orders;
+CREATE POLICY "Users can read own orders"
+  ON orders FOR SELECT TO authenticated
+  USING (email = auth.jwt() ->> 'email');
+
+-- ---- CONTENT ITEMS: baca konten dari order milik sendiri ----
+DROP POLICY IF EXISTS "Users can read own content" ON content_items;
+CREATE POLICY "Users can read own content"
+  ON content_items FOR SELECT TO authenticated
+  USING (
+    order_id IN (
+      SELECT id FROM orders
+      WHERE email = auth.jwt() ->> 'email'
+    )
+  );
+
+-- ---- SEO ARTICLES: baca artikel dari order milik sendiri ----
+DROP POLICY IF EXISTS "Users can read own seo" ON seo_articles;
+CREATE POLICY "Users can read own seo"
+  ON seo_articles FOR SELECT TO authenticated
+  USING (
+    order_id IN (
+      SELECT id FROM orders
+      WHERE email = auth.jwt() ->> 'email'
+    )
+  );
+
+-- ---- VERIFIKASI ----
+-- Setelah dijalankan:
+--   anon key        : TIDAK bisa baca apa pun (orders/content/seo/profiles)
+--   user login      : bisa baca profil sendiri + order/content/seo miliknya
+--   admin console   : tetap jalan (API pakai service role)
+--   dashboard       : fallback client-side ikut jalan (policy di atas)

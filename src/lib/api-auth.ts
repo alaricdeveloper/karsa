@@ -32,13 +32,22 @@ export async function getUserFromRequest(request: NextRequest) {
 }
 
 export async function getProfileRole(userId: string): Promise<string | null> {
-  const supabase = anonClient();
-  const { data } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", userId)
-    .maybeSingle();
-  return data?.role ?? null;
+  // Service role: kebal RLS sehingga akurat sebelum & sesudah migrasi RLS.
+  // Kunci hanya dipakai server-side (route admin), tidak pernah ke client.
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    const { data } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", userId)
+      .maybeSingle();
+    return data?.role ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function requireUser(request: NextRequest) {

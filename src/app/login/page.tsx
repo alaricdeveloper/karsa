@@ -185,13 +185,12 @@ function LoginPageContent() {
           return;
         }
 
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
+        const res = await fetch("/api/me", {
+          headers: { Authorization: "Bearer " + data.session.access_token },
+        });
+        const me = res.ok ? await res.json() : null;
 
-        if (profile?.role === "admin") {
+        if (me?.role === "admin") {
           window.location.replace("/console");
         } else {
           window.location.replace("/dashboard");
