@@ -5,6 +5,13 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    rules: {
+      // Landing copy memakai tanda kutip lurus (paritas dengan HTML sumber).
+      // Hanya `>` dan `}` yang benar-benar berbahaya di JSX text.
+      "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

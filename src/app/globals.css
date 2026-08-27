@@ -189,6 +189,48 @@ input[type="range"]::-moz-range-thumb {
   color: #181511;
 }
 
+
+/* ===== Landing page primitives (ported from landingpage.html) ===== */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marqueeScroll 30s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+.timeline-bar {
+  border: 2px solid #181511;
+  box-shadow: 3.5px 3.5px 0px #181511;
+}
+
+table.compare-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+table.compare-table th,
+table.compare-table td {
+  border: 2px solid #181511;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+table.compare-table thead th {
+  background: #181511;
+  color: #FBF9F4;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* ===== Member console primitives (ported from user_dashboard.html) ===== */
 /* Instrument Serif ships 400/italic only — never synthesize faux bold */
 .member-console .font-serif.font-bold { font-weight: 400 !important; }

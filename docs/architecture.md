@@ -149,8 +149,8 @@ omnicontent-studio/
     │           └── setup/route.ts          # POST — butuh env KARSA_SETUP_SECRET (bootstrap admin)
     │
     ├── components/
-    │   ├── landing/        # 22 komponen (Hero, OrderForm, ComparisonCalculator, FAQ, StickyMobileCTA, ...)
-    │   │                   # Catatan: CheckoutModal.tsx masih ada tapi TIDAK dipakai (digantikan /checkout)
+    │   ├── landing/        # NewLanding.tsx — monolit landing 31 section (mirip pola console/portal)
+    │   │                   # Semua state interaktif (dropdown, FAQ, kalkulator, preview, toast) di dalamnya
     │   ├── console/        # StatsOverview, KanbanBoard, OrderTable, DetailModal, NewOrderModal,
     │   │                   # AnalyticsView, AIStudio, SettingsView + console-lib.ts (helper murni)
     │   ├── portal/         # ReadoutPlate, CalendarGrid, ScriptStudio, SeoArticles, AuditView,
