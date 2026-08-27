@@ -215,7 +215,7 @@ omnicontent-studio/
 
 ### RLS — status penting!
 - **Sebelum hardening:** policy "Public read" di orders/content_items/seo_articles + "Anyone can read profiles" + anon write grants → **siapa pun dengan anon key bisa baca SEMUA data**. Ini sudah diperbaiki di level aplikasi (semua route API pakai auth server-side), tapi **policy DB-nya belum dijatuhkan**.
-- **SEKARANG (pending):** jalankan `src/seed/security-rls-fix.sql` di Supabase SQL Editor → drop semua policy publik + revoke grant anon. Setelah ini, satu-satunya jalur baca adalah API routes (yang sudah memvalidasi auth).
+- **SEKARANG (pending):** jalankan `src/seed/security-rls-fix.sql` di Supabase SQL Editor → drop semua policy publik + **tambah policy authenticated** (baca profil/order/content milik sendiri via email JWT). Kode aplikasi sudah disiapkan agar migrasi aman dijalankan: API route pakai service role, login & middleware cek role via service role (route `/api/me`), jadi tidak ada yang patah setelah migrasi.
 - Service role (`SUPABASE_SERVICE_ROLE_KEY`) melewati RLS — dipakai server-side di route admin/seed/generate.
 
 ### Seeder (`/api/admin/seed` — admin only)
@@ -300,7 +300,8 @@ POST /api/admin/setup?token=KARSA_SETUP_SECRET  +  { email, password }
 
 ### Lapisan 2 — API Routes (`lib/api-auth.ts`)
 - `requireUser(req)` → baca `Authorization: Bearer <access_token>` → `supabase.auth.getUser(token)` → return user atau 401.
-- `requireAdmin(req)` → requireUser + cek `profiles.role === "admin"` → selain itu 403.
+- `requireAdmin(req)` → requireUser + cek `profiles.role === "admin"` (via **service role**, kebal RLS) → selain itu 403.
+- Login page & middleware cek role via service role juga (`/api/me`) — konsisten sebelum & sesudah migrasi RLS.
 - Client memanggil via `authFetch(url, opts)` (`lib/api-client.ts`) yang otomatis ambil access_token dari session cookie — **jangan** memanggil fetch polos ke API ber-auth.
 
 ### Lapisan 3 — DB (RLS) — masih pending, lihat §5.
@@ -342,6 +343,7 @@ POST /api/admin/setup?token=KARSA_SETUP_SECRET  +  { email, password }
 | `/api/my-orders` | GET | User | Order dengan `email == user.email` |
 | `/api/orders` | GET/PATCH/POST | Admin | Semua order (data lengkap, termasuk email customer) |
 | `/api/portal/[orderId]` | GET | User + kepemilikan | Order + content_items + seo_articles |
+| `/api/me` | GET | User | Identitas + role (dipakai login page utk redirect admin/customer) |
 | `/api/admin/seed` | POST | Admin | Seeder data demo (idempotent) |
 | `/api/admin/setup` | POST | Env `KARSA_SETUP_SECRET` | Buat admin pertama |
 | `/api/auth/callback` | GET | — | Callback OAuth |
