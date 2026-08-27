@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { BookOpen, Cpu, LayoutGrid, LogOut, Plus, Sparkles, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -205,10 +206,10 @@ export function DashboardShell() {
       {/* TOP APP BAR */}
       <header className="sticky top-0 z-30 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
-          <a href="/" className="flex items-center space-x-2.5 shrink-0 group">
+          <Link href="/" className="flex items-center space-x-2.5 shrink-0 group">
             <span className="font-serif text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
             <span className="badge-tag hidden sm:inline text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink rounded font-bold">Workspace</span>
-          </a>
+          </Link>
 
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
             <button onClick={() => setModalOpen(true)} className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-terracotta hover:bg-ink text-white rounded-xl transition font-bold shadow-brutal">
@@ -343,17 +344,18 @@ export function DashboardShell() {
       </nav>
 
       {/* MODAL: NEW BATCH ORDER BRIEF */}
-      <NewOrderModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        defaults={{
-          brand: profile.defaultBrand,
-          category: profile.defaultCategory,
-          competitor: profile.defaultCompetitor,
-          email: profile.email,
-          phone: profile.phone,
-        }}
-      />
+      {modalOpen && (
+        <NewOrderModal
+          onClose={() => setModalOpen(false)}
+          defaults={{
+            brand: profile.defaultBrand,
+            category: profile.defaultCategory,
+            competitor: profile.defaultCompetitor,
+            email: profile.email,
+            phone: profile.phone,
+          }}
+        />
+      )}
     </div>
   );
 }

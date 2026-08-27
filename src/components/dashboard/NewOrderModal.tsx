@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, X } from "lucide-react";
 
 type Props = {
-  open: boolean;
   onClose: () => void;
   defaults: {
     brand: string;
@@ -16,7 +15,7 @@ type Props = {
   };
 };
 
-export function NewOrderModal({ open, onClose, defaults }: Props) {
+export function NewOrderModal({ onClose, defaults }: Props) {
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
   const [inBrand, setInBrand] = useState(defaults.brand);
@@ -26,38 +25,23 @@ export function NewOrderModal({ open, onClose, defaults }: Props) {
   const [inEmail, setInEmail] = useState(defaults.email);
   const [inPhone, setInPhone] = useState(defaults.phone);
 
-  // Isi ulang dari Brand Vault tiap kali modal dibuka
-  useEffect(() => {
-    if (open) {
-      setInBrand(defaults.brand);
-      setInCategory(defaults.category);
-      setInCompetitor(defaults.competitor);
-      setInEmail(defaults.email);
-      setInPhone(defaults.phone);
-    }
-  }, [open, defaults]);
-
   // Kunci scroll body saat terbuka + fokus pertama
   useEffect(() => {
-    if (open) {
-      document.body.classList.add("overflow-hidden");
-      document.getElementById("inBrand")?.focus();
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
-  }, [open]);
+    document.body.classList.add("overflow-hidden");
+    document.getElementById("inBrand")?.focus();
+    return () => document.body.classList.remove("overflow-hidden");
+  }, []);
 
   // Escape & focus trap
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!modalRef.current) return;
-      const isOpen = !modalRef.current.classList.contains("hidden");
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === "Escape") {
         onClose();
         document.body.classList.remove("overflow-hidden");
         return;
       }
-      if (e.key === "Tab" && isOpen) {
+      if (e.key === "Tab") {
         const focusables = modalRef.current.querySelectorAll("input, select, textarea, button, a[href]");
         const list = Array.from(focusables).filter((el) => (el as HTMLElement).offsetParent !== null);
         if (list.length === 0) return;
@@ -96,7 +80,7 @@ export function NewOrderModal({ open, onClose, defaults }: Props) {
   };
 
   return (
-<div ref={modalRef} id="modalNewBatch" role="dialog" aria-modal="true" aria-labelledby="modalNewBatchTitle" className={`fixed inset-0 bg-ink/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 ${open ? "" : "hidden"}`}>
+<div ref={modalRef} id="modalNewBatch" role="dialog" aria-modal="true" aria-labelledby="modalNewBatchTitle" className="fixed inset-0 bg-ink/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div className="bg-white border-t-2 sm:border-2 border-ink rounded-t-3xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-brutal-lg font-sans text-xs max-h-[90vh] overflow-y-auto">
           <div className="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-3 sm:hidden" aria-hidden="true"></div>
 
