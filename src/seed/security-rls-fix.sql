@@ -104,3 +104,11 @@ CREATE POLICY "Users can read own seo"
 --   user login      : bisa baca profil sendiri + order/content/seo miliknya
 --   admin console   : tetap jalan (API pakai service role)
 --   dashboard       : fallback client-side ikut jalan (policy di atas)
+
+-- ============================================================
+-- GRANT AUTHENTICATED (penutup — tanpa ini policy di atas tetap
+-- kena 42501: tabel bisnis dari seed.sql cuma di-grant ke anon)
+-- ============================================================
+GRANT SELECT ON public.orders TO authenticated;
+GRANT SELECT ON public.content_items TO authenticated;
+GRANT SELECT ON public.seo_articles TO authenticated;
