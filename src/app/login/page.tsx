@@ -133,6 +133,34 @@ function LoginPageContent() {
     }
   };
 
+  const handleMagicLink = async () => {
+    if (!supabase) {
+      setNotice({ type: "error", message: "Layanan login belum tersedia. Coba lagi sebentar." });
+      return;
+    }
+    if (!email.trim()) {
+      setNotice({ type: "error", message: "Isi alamat email dulu, lalu tekan kirim link masuk." });
+      return;
+    }
+    setLoading(true);
+    setNotice(null);
+    const callbackUrl = new URL("/auth/callback", window.location.origin);
+    callbackUrl.searchParams.set("next", getDestination("/dashboard"));
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: callbackUrl.toString() },
+    });
+    if (error) {
+      setNotice({ type: "error", message: "Gagal mengirim link masuk: " + error.message });
+    } else {
+      setNotice({
+        type: "success",
+        message: "Link masuk sudah dikirim ke " + email.trim() + ". Cek inbox (atau folder spam), lalu klik link-nya.",
+      });
+    }
+    setLoading(false);
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -686,6 +714,20 @@ function LoginPageContent() {
                     {submitLabel}
                   </button>
                 </form>
+                {!isReset && !isUpdate && !isSignup && (
+                  <div className="pt-2 border-t-2 border-ink">
+                    <button
+                      type="button"
+                      onClick={handleMagicLink}
+                      disabled={loading}
+                      className="w-full inline-flex items-center justify-center gap-1.5 text-xs font-mono font-bold text-terracotta hover:text-ink transition py-2 disabled:opacity-60 disabled:cursor-wait"
+                    >
+                      <MailCheck className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span>Gak hafal password? Kirim link masuk ke email</span>
+                    </button>
+                  </div>
+                )}
+
 
                 {isReset || isUpdate ? (
                   <div className="text-center mt-5">
