@@ -1,8 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, Check, ExternalLink, MessageSquare, X } from "lucide-react";
+import { Copy, Check, ExternalLink, FileText, MessageSquare, RefreshCw, X } from "lucide-react";
 import type { Order } from "@/lib/types";
+
+type ContentItemRow = {
+  day_number: number;
+  pillar: string;
+  hook: string | null;
+  body: string | null;
+  cta: string | null;
+  caption: string | null;
+};
+
+type SeoArticleRow = {
+  article_number: number;
+  article_type: string;
+  title: string;
+  description: string | null;
+  outline: string | null;
+};
 import {
   applyWaTemplate,
   calculateSLA,
@@ -32,6 +49,12 @@ export function DetailModal({
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState("");
   const [copied, setCopied] = useState(false);
+  const [contentItems, setContentItems] = useState<ContentItemRow[]>([]);
+  const [contentArticles, setContentArticles] = useState<SeoArticleRow[]>([]);
+  const [contentLoading, setContentLoading] = useState(false);
+  const [contentError, setContentError] = useState<string | null>(null);
+  const [contentNotice, setContentNotice] = useState<string | null>(null);
+  const [jsonDraft, setJsonDraft] = useState("");
 
   useEffect(() => {
     if (order) {
@@ -39,8 +62,36 @@ export function DetailModal({
       setNotes(order.notes || "");
       setStatus(order.status);
       setCopied(false);
+      setContentError(null);
+      setContentNotice(null);
     }
   }, [order, open]);
+
+  useEffect(() => {
+    if (!open || !order) return;
+    let cancelled = false;
+    setContentLoading(true);
+    fetch(`/api/admin/order-content?orderId=${encodeURIComponent(order.id)}`)
+      .then((r) => r.json())
+      .then((json) => {
+        if (cancelled) return;
+        if (json.error) {
+          setContentError(json.error);
+        } else {
+          setContentItems(json.items || []);
+          setContentArticles(json.articles || []);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setContentError("Gagal memuat konten order.");
+      })
+      .finally(() => {
+        if (!cancelled) setContentLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, order]);
 
   if (!open || !order) return null;
   const o = order;
@@ -63,6 +114,63 @@ export function DetailModal({
       setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
+    }
+  }
+
+  async function loadContent() {
+    if (!order) return;
+    setContentLoading(true);
+    setContentError(null);
+    setContentNotice(null);
+    try {
+      const res = await fetch(`/api/admin/order-content?orderId=${encodeURIComponent(order.id)}`);
+      const json = await res.json();
+      if (!res.ok || json.error) {
+        setContentError(json.error || "Gagal memuat konten order.");
+        return;
+      }
+      setContentItems(json.items || []);
+      setContentArticles(json.articles || []);
+    } catch {
+      setContentError("Gagal memuat konten order.");
+    } finally {
+      setContentLoading(false);
+    }
+  }
+
+  async function saveContent() {
+    if (!order) return;
+    setContentError(null);
+    setContentNotice(null);
+    let parsed: { items?: ContentItemRow[]; articles?: SeoArticleRow[] };
+    try {
+      parsed = JSON.parse(jsonDraft);
+    } catch {
+      setContentError("JSON tidak valid — cek kurung & koma.");
+      return;
+    }
+    if (!Array.isArray(parsed.items) || !Array.isArray(parsed.articles)) {
+      setContentError("Format harus { \"items\": [...], \"articles\": [...] }.");
+      return;
+    }
+    try {
+      const res = await fetch("/api/admin/order-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId: order.id, items: parsed.items, articles: parsed.articles }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) {
+        setContentError(json.error || "Gagal menyimpan konten.");
+        return;
+      }
+      setContentNotice(
+        `Tersimpan: ${json.insertedItems} script + ${json.insertedArticles} artikel. Customer langsung bisa lihat di portal.`
+      );
+      setJsonDraft("");
+      await loadContent();
+    } catch {
+      setContentError("Gagal menyimpan konten.");
     }
   }
 
@@ -159,6 +267,80 @@ export function DetailModal({
                 <ExternalLink className="w-4 h-4 inline-block" />
               </button>
             </div>
+          </div>
+
+          <div className="p-4 border-2 border-ink rounded-2xl bg-white shadow-brutal-sm">
+            <div className="flex items-center justify-between mb-2.5">
+              <span className="font-mono text-ink text-xs font-bold flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-terracotta" />
+                Konten 30 Hari (Portal Delivery)
+              </span>
+              <button
+                onClick={loadContent}
+                disabled={contentLoading}
+                className="px-2.5 py-1.5 border-2 border-ink rounded-xl bg-canvas hover:bg-wasabi text-ink font-bold transition flex items-center gap-1.5 shadow-brutal-sm min-h-[44px] text-[10px] font-mono disabled:opacity-50"
+              >
+                <RefreshCw className={`w-3 h-3 ${contentLoading ? "animate-spin" : ""}`} />
+                Muat Ulang
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2.5 font-mono text-center mb-3">
+              <div className="p-2.5 border-2 border-ink rounded-xl bg-canvas">
+                <span className="block text-lg font-bold text-ink">{contentItems.length}/30</span>
+                <span className="text-[10px] text-stone-600 font-bold uppercase">Script Hari</span>
+              </div>
+              <div className="p-2.5 border-2 border-ink rounded-xl bg-canvas">
+                <span className="block text-lg font-bold text-ink">{contentArticles.length}/4</span>
+                <span className="text-[10px] text-stone-600 font-bold uppercase">Artikel SEO</span>
+              </div>
+            </div>
+
+            {contentItems.length > 0 && (
+              <div className="mb-3 max-h-24 overflow-y-auto border-2 border-ink rounded-xl p-2.5 bg-canvas space-y-1">
+                {contentItems.slice(0, 30).map((item) => (
+                  <div key={item.day_number} className="flex items-center gap-2 text-[10px] font-mono">
+                    <span className="w-6 text-terracotta font-bold">D{item.day_number}</span>
+                    <span className="text-ink font-bold truncate">{item.pillar}</span>
+                    <span className="ml-auto text-stone-500 font-bold shrink-0">
+                      {item.hook ? "hook" : ""}{item.caption ? " +caption" : ""}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <label className="block font-mono text-ink text-xs font-bold mb-1" htmlFor="contentJsonInput">
+              Import Batch JSON <span className="text-stone-500 font-normal">(replace seluruh konten)</span>
+            </label>
+            <textarea
+              id="contentJsonInput"
+              rows={4}
+              placeholder={'{\n  "items": [ { "day_number": 1, "pillar": "Hook", "hook": "...", "body": "...", "cta": "...", "caption": "..." } ],\n  "articles": [ { "article_number": 1, "article_type": "Pilar", "title": "...", "description": "...", "outline": "..." } ]\n}'}
+              value={jsonDraft}
+              onChange={(e) => setJsonDraft(e.target.value)}
+              className="w-full bg-canvas border-2 border-ink rounded-xl px-3.5 py-2.5 text-[10px] font-mono text-ink focus:outline-none focus:ring-2 focus:ring-terracotta transition"
+              spellCheck={false}
+            />
+
+            {contentError && (
+              <p className="mt-2 text-[10px] font-mono font-bold text-red-700 bg-red-50 border-2 border-red-300 rounded-lg px-2.5 py-1.5">
+                {contentError}
+              </p>
+            )}
+            {contentNotice && (
+              <p className="mt-2 text-[10px] font-mono font-bold text-wasabiDark bg-wasabi/30 border-2 border-wasabiDark rounded-lg px-2.5 py-1.5">
+                {contentNotice}
+              </p>
+            )}
+
+            <button
+              onClick={saveContent}
+              disabled={contentLoading || !jsonDraft.trim()}
+              className="mt-2.5 w-full px-4 py-2.5 bg-terracotta hover:bg-ink text-white rounded-xl text-xs font-mono font-bold transition shadow-brutal-sm min-h-[44px] disabled:opacity-40"
+            >
+              Simpan Konten ke Portal
+            </button>
           </div>
 
           <div>
