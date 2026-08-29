@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { FAQ_ITEMS } from "./landing-data";
 
 export function FaqSection() {
   const [faqQuery, setFaqQuery] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
   const toggleFaq = (idx: number) => setOpenFaq(openFaq === idx ? null : idx);
   const filteredFaqs = FAQ_ITEMS.filter((item) => item.q.toLowerCase().includes(faqQuery.toLowerCase()));
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section id="faq" className="py-12 sm:py-20 border-b-2 border-ink bg-surface">
@@ -40,7 +45,7 @@ export function FaqSection() {
                   <h3 className="text-xs sm:text-base font-bold text-ink flex-1">{item.q}</h3>
                   <Plus className={`w-4 h-4 text-ink transition-transform shrink-0 ${openFaq === originalIdx ? "rotate-45" : ""}`} />
                 </div>
-                {openFaq === originalIdx && (
+                {(!mounted || openFaq === originalIdx) && (
                   <p id={`faq-answer-${originalIdx + 1}`} className="text-xs sm:text-sm text-stone-600 mt-2.5 sm:mt-3 pl-5 sm:pl-8 leading-relaxed font-sans">
                     {item.a}
                   </p>

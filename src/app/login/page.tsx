@@ -484,7 +484,7 @@ function LoginPageContent() {
                         type="button"
                         onClick={() => handleOAuth("github")}
                         disabled={loading}
-                        className="w-full py-3 rounded-xl border-2 border-ink bg-ink hover:bg-terracotta text-canvas font-mono text-xs font-bold transition flex items-center justify-center gap-2 min-h-[44px] shadow-brutal-sm disabled:opacity-60 disabled:cursor-wait"
+                        className="w-full py-3 rounded-xl border-2 border-ink bg-ink hover:bg-terracotta text-canvas font-mono text-sm font-bold transition flex items-center justify-center gap-2 min-h-[44px] shadow-brutal-sm disabled:opacity-60 disabled:cursor-wait"
                       >
                         <GitHubIcon className="w-4 h-4" />
                         <span>{isSignup ? "Daftar dengan GitHub" : "Masuk dengan GitHub"}</span>
@@ -695,7 +695,7 @@ function LoginPageContent() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full min-h-[50px] py-3.5 bg-terracotta hover:bg-ink text-white rounded-2xl border-2 border-ink shadow-brutal font-mono text-xs font-bold flex items-center justify-center gap-2 transition disabled:opacity-60 disabled:cursor-wait"
+                    className="w-full min-h-[50px] py-3.5 bg-terracotta hover:bg-ink text-white rounded-2xl border-2 border-ink shadow-brutal font-mono text-sm font-bold flex items-center justify-center gap-2 transition disabled:opacity-60 disabled:cursor-wait"
                   >
                     {loading ? (
                       <span

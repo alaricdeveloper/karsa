@@ -11,8 +11,8 @@ export function ContactStrip() {
                 <h2 className="font-serif text-2xl sm:text-3xl text-ink mt-3">Tim kami balas &le; 4 jam kerja.</h2>
               </div>
               <div className="font-mono text-xs space-y-2.5">
-                <div className="flex items-center gap-2.5"><span className="w-7 h-7 rounded-lg bg-wasabi border-2 border-ink flex items-center justify-center shrink-0"><MessageCircle className="w-3.5 h-3.5 text-ink" /></span><span>WhatsApp: <strong className="text-ink">+62 812-3456-7890</strong></span></div>
-                <div className="flex items-center gap-2.5"><span className="w-7 h-7 rounded-lg bg-sunflower border-2 border-ink flex items-center justify-center shrink-0"><Mail className="w-3.5 h-3.5 text-ink" /></span><span>Email: <strong className="text-ink">halo@usekarsa.co</strong></span></div>
+                <div className="flex items-center gap-2.5"><span className="w-7 h-7 rounded-lg bg-wasabi border-2 border-ink flex items-center justify-center shrink-0"><MessageCircle className="w-3.5 h-3.5 text-ink" /></span><a href="https://wa.me/6281288009920" target="_blank" rel="noopener noreferrer" className="hover:text-terracotta hover:underline transition">WhatsApp: <strong className="text-ink">0812-8800-9920</strong></a></div>
+                <div className="flex items-center gap-2.5"><span className="w-7 h-7 rounded-lg bg-sunflower border-2 border-ink flex items-center justify-center shrink-0"><Mail className="w-3.5 h-3.5 text-ink" /></span><span>Email: <strong className="text-ink">halo@usekarsa.com</strong></span></div>
                 <div className="flex items-center gap-2.5"><span className="w-7 h-7 rounded-lg bg-terracottaLight border-2 border-ink flex items-center justify-center shrink-0"><CalendarClock className="w-3.5 h-3.5 text-terracotta" /></span><span>Senin-Jumat, 09.00-18.00 WIB</span></div>
               </div>
               <div className="md:text-right">

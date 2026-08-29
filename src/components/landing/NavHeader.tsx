@@ -150,12 +150,33 @@ export function NavHeader() {
               </div>
             </div>
 
-            <span className="w-px h-5 bg-ink/20 mx-0.5" aria-hidden="true"></span>
-            <a href="#harga" className="hover:text-terracotta transition whitespace-nowrap">Harga</a>
+            <div className="relative group py-5">
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={openDropdown === "layanan"}
+                onClick={() => setOpenDropdown(openDropdown === "layanan" ? null : "layanan")}
+                className="flex items-center gap-1 hover:text-terracotta transition font-bold whitespace-nowrap"
+              >
+                <span>Layanan</span>
+                <ChevronDown className="w-3.5 h-3.5 text-stone-500 transition-transform duration-200" />
+              </button>
+              <div id="layananMenu" className={`dropdown-menu absolute top-full left-0 w-72 bg-white border-2 border-ink rounded-2xl p-3 shadow-brutal z-50 whitespace-normal ${openDropdown === "layanan" ? "nav-open" : ""}`}>
+                <div className="space-y-1">
+                  <Link href="/jasa-konten-video-umkm" onClick={() => setOpenDropdown(null)} className="block p-2 rounded-xl hover:bg-canvas transition"><span className="block font-bold text-xs text-ink">Jasa Konten Video UMKM</span><span className="block text-[10px] text-stone-500 font-mono mt-0.5">Kalender 30 hari lengkap.</span></Link>
+                  <Link href="/jasa-script-video-tiktok" onClick={() => setOpenDropdown(null)} className="block p-2 rounded-xl hover:bg-canvas transition"><span className="block font-bold text-xs text-ink">Jasa Script Video TikTok</span><span className="block text-[10px] text-stone-500 font-mono mt-0.5">30 naskah kata-per-kata.</span></Link>
+                  <Link href="/jasa-content-creator-umkm" onClick={() => setOpenDropdown(null)} className="block p-2 rounded-xl hover:bg-canvas transition"><span className="block font-bold text-xs text-ink">Jasa Content Creator UMKM</span><span className="block text-[10px] text-stone-500 font-mono mt-0.5">Tanpa gaji bulanan.</span></Link>
+                  <Link href="/jasa-artikel-seo" onClick={() => setOpenDropdown(null)} className="block p-2 rounded-xl hover:bg-canvas transition"><span className="block font-bold text-xs text-ink">Jasa Artikel SEO</span><span className="block text-[10px] text-stone-500 font-mono mt-0.5">4 artikel 1.000 kata.</span></Link>
+                  <Link href="/paket-konten-instagram" onClick={() => setOpenDropdown(null)} className="block p-2 rounded-xl hover:bg-canvas transition"><span className="block font-bold text-xs text-ink">Paket Konten Instagram</span><span className="block text-[10px] text-stone-500 font-mono mt-0.5">Reels, caption, kalender.</span></Link>
+                </div>
+              </div>
+            </div>
+
+            <Link href="/harga" className="hover:text-terracotta transition whitespace-nowrap">Harga</Link>
+            <Link href="/blog" className="hover:text-terracotta transition whitespace-nowrap">Blog</Link>
+            <Link href="/tentang-kami" className="hover:text-terracotta transition whitespace-nowrap">Tentang</Link>
             <a href="#testimoni" className="hover:text-terracotta transition whitespace-nowrap">Testimoni</a>
-            <a href="#compare-scripts" className="hover:text-terracotta transition whitespace-nowrap">Lihat Kualitas</a>
             <a href="#cara-kerja" className="hover:text-terracotta transition whitespace-nowrap">Cara Kerja</a>
-            <a href="#preview" className="hover:text-terracotta transition whitespace-nowrap">Contoh Konten</a>
             <a href="#faq" className="hover:text-terracotta transition whitespace-nowrap">FAQ</a>
           </nav>
 
@@ -232,7 +253,14 @@ export function NavHeader() {
             <a href="#anatomi-script" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Anatomi Script 25 Detik</a>
             <a href="#pillar-konten" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-sunflower border-2 border-ink shadow-brutal-sm">Pilar Konten 30 Hari</a>
             <a href="#alur-produksi" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Template Produksi Mingguan</a>
-            <a href="#harga" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Harga &amp; Paket</a>
+            <Link href="/jasa-konten-video-umkm" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Jasa Konten Video UMKM</Link>
+            <Link href="/jasa-script-video-tiktok" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Jasa Script Video TikTok</Link>
+            <Link href="/jasa-content-creator-umkm" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Jasa Content Creator UMKM</Link>
+            <Link href="/jasa-artikel-seo" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Jasa Artikel SEO</Link>
+            <Link href="/paket-konten-instagram" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Paket Konten Instagram</Link>
+            <Link href="/harga" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Harga &amp; Paket</Link>
+            <Link href="/blog" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Blog &amp; Panduan</Link>
+            <Link href="/tentang-kami" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Tentang Kami</Link>
             <a href="#testimoni" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Testimoni Customer</a>
             <a href="#komparasi" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-white border-2 border-ink shadow-brutal-sm">Karsa vs Agensi</a>
             <a href="#garansi" onClick={() => setMobileOpen(false)} className="block py-3 px-3.5 rounded-2xl bg-sunflower border-2 border-ink shadow-brutal-sm">Garansi &amp; SLA</a>

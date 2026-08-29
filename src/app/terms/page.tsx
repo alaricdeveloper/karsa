@@ -80,7 +80,7 @@ export default function TermsPage() {
             <span className="italic text-terracotta">(Terms of Service &amp; IP Policy)</span>
           </h1>
           <p className="text-xs sm:text-sm text-inkMuted font-sans leading-relaxed font-medium">
-            Berlaku per 19 Agustus 2026. Dokumen ini merupakan instrumen hukum yang mengikat antara Karsa Studio (<span className="font-mono font-bold text-ink">usekarsa.co</span>) dan Klien terkait pemesanan, produksi konten, hak kekayaan intelektual, batas liabilitas, serta jaminan layanan.
+            Berlaku per 19 Agustus 2026. Dokumen ini merupakan instrumen hukum yang mengikat antara Karsa Studio (<span className="font-mono font-bold text-ink">usekarsa.com</span>) dan Klien terkait pemesanan, produksi konten, hak kekayaan intelektual, batas liabilitas, serta jaminan layanan.
           </p>
         </section>
 
@@ -162,7 +162,7 @@ export default function TermsPage() {
               <h2 className="font-serif font-bold text-lg sm:text-xl text-ink">1. Definisi Operasional</h2>
               <p>Dalam Syarat dan Ketentuan ini, istilah-istilah di bawah ini memiliki pengertian sebagai berikut:</p>
               <ul className="list-disc pl-5 space-y-1.5 text-inkMuted">
-                <li><strong>&quot;Penyedia Layanan&quot;:</strong> Merujuk pada Karsa Studio, entitas pemilik platform <span className="font-mono font-bold text-ink">usekarsa.co</span>.</li>
+                <li><strong>&quot;Penyedia Layanan&quot;:</strong> Merujuk pada Karsa Studio, entitas pemilik platform <span className="font-mono font-bold text-ink">usekarsa.com</span>.</li>
                 <li><strong>&quot;Klien / Pengguna&quot;:</strong> Setiap individu, badan usaha, kreator, atau pemegang hak bisnis yang melakukan pendaftaran akun, pengisian brief, atau transaksi pembayaran di platform Karsa.</li>
                 <li><strong>&quot;Deliverables&quot;:</strong> Seluruh berkas naskah video, takarir media sosial, artikel blog SEO, audit celah kompetitor, dan ruang kerja Notion yang diserahkan kepada Klien.</li>
                 <li><strong>&quot;Kalibrasi&quot;:</strong> Permintaan penyesuaian sudut pesan atau nada bicara naskah dalam batas waktu yang disepakati tanpa mengubah entitas brand utama.</li>
@@ -328,7 +328,7 @@ export default function TermsPage() {
               <div className="p-4 bg-canvas rounded-2xl border-2 border-ink font-mono text-xs space-y-1.5 text-inkMuted shadow-brutal-sm">
                 <p><strong>Email Legalitas:</strong> hello.usekarsa@gmail.com</p>
                 <p><strong>WhatsApp Support:</strong> +62 812-8800-9920</p>
-                <p><strong>Website:</strong> https://usekarsa.co</p>
+                <p><strong>Website:</strong> https://usekarsa.com</p>
               </div>
             </section>
 

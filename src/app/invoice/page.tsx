@@ -85,7 +85,7 @@ function InvoiceContent() {
                 </span>
               </div>
               <p className="text-xs font-mono text-stone-600 mt-1 font-bold">
-                usekarsa.co &bull; hello.usekarsa@gmail.com
+                usekarsa.com &bull; hello.usekarsa@gmail.com
               </p>
             </div>
 

@@ -346,7 +346,7 @@ export default function RefundPage() {
               <div className="p-4 bg-canvas rounded-2xl border-2 border-ink font-mono text-xs space-y-1.5 text-inkMuted shadow-brutal-sm">
                 <p><strong>WhatsApp Priority Support:</strong> +62 812-8800-9920</p>
                 <p><strong>Email Operasional:</strong> hello.usekarsa@gmail.com</p>
-                <p><strong>Domain Resmi:</strong> https://usekarsa.co</p>
+                <p><strong>Domain Resmi:</strong> https://usekarsa.com</p>
               </div>
             </section>
 

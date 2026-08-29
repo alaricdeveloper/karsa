@@ -122,7 +122,7 @@ export function OrderFormSection() {
                   </div>
                 </div>
                 <div className="pt-2 sm:pt-3">
-                  <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px] shadow-brutal">
+                  <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl text-sm sm:text-base transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px] shadow-brutal">
                     <span>Kirim Brief &amp; Lanjut ke Checkout (Rp299.000)</span>
                     <ArrowRight className="w-4 h-4 text-wasabi" />
                   </button>

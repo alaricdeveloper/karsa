@@ -658,7 +658,7 @@ function CheckoutContent() {
 
               <button
                 onClick={confirmPayment}
-                className="w-full py-4 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-xs font-mono"
+                className="w-full py-4 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-sm font-mono"
               >
                 <CheckCircle className="w-4 h-4 text-wasabi" />
                 <span>Saya Sudah Membayar →</span>

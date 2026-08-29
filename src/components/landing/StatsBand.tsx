@@ -34,19 +34,19 @@ export function StatsBand() {
         <h2 className="sr-only">Angka Karsa Studio</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
           <div className="bento-pop p-5 sm:p-6 rounded-2xl bg-white text-center">
-            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="30">0</span>
+            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="30">30</span>
             <span className="font-mono text-[10px] sm:text-[11px] text-stone-600 font-bold mt-2 block">Naskah video kata-per-kata</span>
           </div>
           <div className="bento-pop p-5 sm:p-6 rounded-2xl bg-sunflower/60 text-center">
-            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="24" data-suffix=" Jam">0 Jam</span>
+            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="24" data-suffix=" Jam">24 Jam</span>
             <span className="font-mono text-[10px] sm:text-[11px] text-stone-600 font-bold mt-2 block">SLA pengiriman maksimal</span>
           </div>
           <div className="bento-pop p-5 sm:p-6 rounded-2xl bg-white text-center">
-            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="40" data-suffix="+">0+</span>
+            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="40" data-suffix="+">40+</span>
             <span className="font-mono text-[10px] sm:text-[11px] text-stone-600 font-bold mt-2 block">Brand UMKM terlayani</span>
           </div>
           <div className="bento-pop p-5 sm:p-6 rounded-2xl bg-wasabi/40 text-center">
-            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="92" data-suffix="%">0%</span>
+            <span className="font-serif text-3xl sm:text-5xl text-ink block" data-count="92" data-suffix="%">92%</span>
             <span className="font-mono text-[10px] sm:text-[11px] text-stone-600 font-bold mt-2 block">Customer kembali pesan batch</span>
           </div>
         </div>

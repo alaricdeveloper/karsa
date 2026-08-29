@@ -16,10 +16,10 @@ export const PRIVACY_CLAUSES: LegalClause[] = [
     num: "BAB 01",
     label: "Ruang Lingkup &amp; Komitmen Privasi",
     heading: "1. Prinsip Perlindungan Data Karsa",
-    searchText: "BAB 01 Ruang Lingkup Komitmen Privasi Prinsip Perlindungan Data Karsa Studio usekarsa.co",
+    searchText: "BAB 01 Ruang Lingkup Komitmen Privasi Prinsip Perlindungan Data Karsa Studio usekarsa.com",
     body: (
       <><p>
-                      Karsa Studio (<span className="font-mono text-xs font-bold">usekarsa.co</span>) memegang
+                      Karsa Studio (<span className="font-mono text-xs font-bold">usekarsa.com</span>) memegang
                       komitmen tertinggi dalam menjaga integritas, kerahasiaan, dan
                       keamanan informasi pribadi serta data komersial bisnis yang
                       dipercayakan oleh Klien.
@@ -155,7 +155,7 @@ export const PRIVACY_CLAUSES: LegalClause[] = [
                     <ul className="list-disc pl-5 space-y-1.5 text-inkMuted font-sans">
                       <li>
                         <strong>Enkripsi Transit:</strong> Seluruh lalu lintas data di{" "}
-                        <span className="font-mono text-xs font-bold">usekarsa.co</span>{" "}
+                        <span className="font-mono text-xs font-bold">usekarsa.com</span>{" "}
                         dilindungi enkripsi SSL/TLS 256-bit standar industri
                         perbankan.
                       </li>
@@ -307,7 +307,7 @@ export const PRIVACY_CLAUSES: LegalClause[] = [
                       </p>
                       <p>
                         <strong>Entitas Layanan:</strong> Karsa Studio Indonesia (
-                        <span className="font-mono font-bold">usekarsa.co</span>)
+                        <span className="font-mono font-bold">usekarsa.com</span>)
                       </p>
                     </div></>
     ),

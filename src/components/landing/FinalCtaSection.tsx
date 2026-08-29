@@ -13,7 +13,10 @@ export function FinalCtaSection() {
               <div className="shrink-0 md:text-right">
                 <div className="font-mono text-xs font-bold text-white/75 mb-2">Karsa Content Batch</div>
                 <div className="font-serif text-3xl text-wasabi">Rp299.000</div>
-                <a href="#order" className="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-ink text-canvas font-mono text-xs font-bold hover:bg-wasabi hover:text-ink transition shadow-brutal-sm">Isi brief sekarang <span>&rarr;</span></a>
+                <div className="flex flex-wrap items-center justify-center md:justify-end gap-2.5 mt-4">
+                  <a href="#order" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-ink text-canvas font-mono text-sm font-bold hover:bg-wasabi hover:text-ink transition shadow-brutal-sm">Isi brief sekarang <span>&rarr;</span></a>
+                  <a href="https://wa.me/6281288009920?text=Halo%20Karsa%20Studio%2C%20saya%20mau%20konsultasi%20batch%20konten%2030%20hari" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-wasabi text-ink font-mono text-sm font-bold hover:bg-canvas hover:text-ink transition shadow-brutal-sm">Tanya via WhatsApp</a>
+                </div>
               </div>
             </div>
           </div>

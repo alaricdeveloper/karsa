@@ -21,17 +21,27 @@ export function LandingFooter() {
               <h3 className="text-canvas font-bold uppercase tracking-wider text-[10px] mb-3">Navigasi</h3>
               <ul className="space-y-2 text-[11px]">
                 <li><a href="#deliverables" className="hover:text-wasabi transition">Isi Paket (6 Output)</a></li>
-                <li><a href="#pillar-konten" className="hover:text-wasabi transition">Pilar Konten 30 Hari</a></li>
-                <li><a href="#anatomi-script" className="hover:text-wasabi transition">Anatomi Script</a></li>
+                <li><Link href="/harga" className="hover:text-wasabi transition">Harga &amp; Paket</Link></li>
+                <li><Link href="/blog" className="hover:text-wasabi transition">Blog &amp; Panduan</Link></li>
+                <li><Link href="/tentang-kami" className="hover:text-wasabi transition">Tentang Kami</Link></li>
                 <li><a href="#cara-kerja" className="hover:text-wasabi transition">Cara Kerja</a></li>
-                <li><a href="#preview" className="hover:text-wasabi transition">Contoh Output</a></li>
                 <li><a href="#faq" className="hover:text-wasabi transition">FAQ (24 Pertanyaan)</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-canvas font-bold uppercase tracking-wider text-[10px] mb-3">Layanan</h3>
+              <ul className="space-y-2 text-[11px]">
+                <li><Link href="/jasa-konten-video-umkm" className="hover:text-wasabi transition">Jasa Konten Video UMKM</Link></li>
+                <li><Link href="/jasa-script-video-tiktok" className="hover:text-wasabi transition">Jasa Script Video TikTok</Link></li>
+                <li><Link href="/jasa-content-creator-umkm" className="hover:text-wasabi transition">Jasa Content Creator UMKM</Link></li>
+                <li><Link href="/jasa-artikel-seo" className="hover:text-wasabi transition">Jasa Artikel SEO</Link></li>
+                <li><Link href="/paket-konten-instagram" className="hover:text-wasabi transition">Paket Konten Instagram</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-canvas font-bold uppercase tracking-wider text-[10px] mb-3">Keputusan</h3>
               <ul className="space-y-2 text-[11px]">
-                <li><a href="#harga" className="hover:text-wasabi transition">Harga &amp; Paket</a></li>
+                <li><Link href="/harga" className="hover:text-wasabi transition">Harga &amp; Paket</Link></li>
                 <li><a href="#komparasi" className="hover:text-wasabi transition">Karsa vs Agensi vs In-house</a></li>
                 <li><a href="#testimoni" className="hover:text-wasabi transition">Testimoni Customer</a></li>
                 <li><a href="#studi-kasus" className="hover:text-wasabi transition">Case Study</a></li>
@@ -47,12 +57,12 @@ export function LandingFooter() {
                 <li><Link href="/terms" className="hover:text-wasabi transition">Syarat &amp; Ketentuan</Link></li>
                 <li><Link href="/privacy" className="hover:text-wasabi transition">Kebijakan Privasi</Link></li>
                 <li><Link href="/refund" className="hover:text-wasabi transition">Jaminan SLA &amp; Refund</Link></li>
-                <li className="pt-1"><span className="text-stone-400">WA: +62 812-3456-7890</span><br /><span className="text-stone-400">halo@usekarsa.co</span></li>
+                <li className="pt-1"><a href="https://wa.me/6281288009920" target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-wasabi transition">WA: 0812-8800-9920</a><br /><a href="mailto:halo@usekarsa.com" className="text-stone-400 hover:text-wasabi transition">halo@usekarsa.com</a></li>
               </ul>
             </div>
           </div>
           <div className="mt-8 pt-5 border-t-2 border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-stone-500 text-center sm:text-left">
-            <span>&copy; 2026 Karsa Studio (<span className="text-canvas font-bold">usekarsa.co</span>). All rights reserved.</span>
+            <span>&copy; 2026 Karsa Studio (<span className="text-canvas font-bold">usekarsa.com</span>). All rights reserved.</span>
             <span>Dibuat di Indonesia &mdash; melayani brand di seluruh Nusantara.</span>
           </div>
         </div>

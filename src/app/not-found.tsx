@@ -56,6 +56,22 @@ export default function NotFound() {
       bg: "bg-wasabi/40",
       iconColor: "text-ink",
     },
+    {
+      title: "Harga Paket",
+      desc: "Batch 30 hari mulai Rp299.000, tanpa langganan.",
+      href: "/harga",
+      external: false,
+      bg: "bg-white",
+      iconColor: "text-terracotta",
+    },
+    {
+      title: "Blog & Panduan",
+      desc: "Panduan konten video & SEO untuk UMKM.",
+      href: "/blog",
+      external: false,
+      bg: "bg-white",
+      iconColor: "text-terracotta",
+    },
   ];
 
   const isCardVisible = (title: string, desc: string) => {
@@ -134,7 +150,7 @@ export default function NotFound() {
         <div className="pt-8 border-t-2 border-ink space-y-4 text-left font-mono text-xs">
           <div className="flex items-center justify-between">
             <span className="text-[11px] text-inkMuted uppercase tracking-wider font-bold">Direktori Portal Karsa</span>
-            <span className="text-[10px] text-inkMuted">6 Saluran Aktif</span>
+            <span className="text-[10px] text-inkMuted">8 Saluran Aktif</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
@@ -178,7 +194,7 @@ export default function NotFound() {
             <span>&bull;</span>
             <Link href="/refund" className="hover:text-terracotta transition underline">SLA Guarantee</Link>
           </div>
-          <p className="text-[11px] text-inkMuted font-bold">&copy; 2026 Karsa Studio (<span className="text-ink">usekarsa.co</span>). All rights reserved.</p>
+          <p className="text-[11px] text-inkMuted font-bold">&copy; 2026 Karsa Studio (<span className="text-ink">usekarsa.com</span>). All rights reserved.</p>
         </div>
       </footer>
     </div>
