@@ -20,7 +20,6 @@ export function SettingsView({
   onDefaultTone,
   lastSync,
   onSyncDemo,
-  onResetDemo,
   onExportBackup,
   onImportBackup,
 }: {
@@ -32,7 +31,6 @@ export function SettingsView({
   onDefaultTone: (v: string) => void;
   lastSync: string;
   onSyncDemo: () => void;
-  onResetDemo: () => void;
   onExportBackup: () => void;
   onImportBackup: (file: File) => void;
 }) {
@@ -105,14 +103,15 @@ export function SettingsView({
           </div>
           <div className="border-2 border-ink rounded-2xl p-4 bg-white shadow-brutal-sm flex flex-col justify-between gap-3">
             <div>
-              <h3 className="font-serif text-base text-ink">Reset ke Demo</h3>
-              <p className="text-xs text-stone-600 mt-0.5">Hapus semua data lokal dan kembalikan 34 seed bulan pertama.</p>
+              <h3 className="font-serif text-base text-ink">Sinkronkan Data dari Database</h3>
+              <p className="text-xs text-stone-600 mt-0.5">Muat ulang pesanan terbaru langsung dari Supabase.</p>
             </div>
             <button
-              onClick={onResetDemo}
-              className="px-4 py-3 bg-terracottaLight hover:bg-ink hover:text-canvas text-terracotta border-2 border-ink rounded-xl font-bold transition min-h-[44px] shadow-brutal-sm"
+              onClick={onSyncDemo}
+              className="px-4 py-3 bg-sunflower hover:bg-wasabi text-ink border-2 border-ink rounded-xl font-bold transition flex items-center gap-1.5 min-h-[44px] shadow-brutal-sm"
             >
-              Reset Semua Data
+              <RotateCcw className="w-4 h-4" />
+              <span>Sinkronkan</span>
             </button>
           </div>
         </div>
@@ -173,20 +172,7 @@ export function SettingsView({
           </select>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-2 border-ink rounded-2xl p-4 bg-white shadow-brutal-sm">
-          <div>
-            <h3 className="font-serif text-base text-ink">Sinkronkan Ulang 34 Data Demo</h3>
-            <p className="text-xs text-stone-600 font-mono mt-0.5">Menimpa semua data dengan seed 34 pesanan bulan pertama.</p>
-          </div>
-          <button
-            onClick={onSyncDemo}
-            className="px-4 py-3 bg-sunflower hover:bg-wasabi text-ink border-2 border-ink rounded-xl font-bold transition flex items-center gap-1.5 min-h-[44px] shadow-brutal-sm"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Sinkronkan Ulang</span>
-          </button>
         </div>
-      </div>
     </section>
   );
 }

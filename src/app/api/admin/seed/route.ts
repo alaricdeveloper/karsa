@@ -58,6 +58,11 @@ const ORDERS: SeedOrder[] = [
 ];
 
 export async function GET(request: NextRequest) {
+  return NextResponse.json(
+    { error: "Seed demo dinonaktifkan — Karsa menggunakan data real saja." },
+    { status: 410 }
+  );
+
   const admin = await requireAdmin(request);
   if (admin instanceof NextResponse) return admin;
 

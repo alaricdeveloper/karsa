@@ -235,28 +235,16 @@ export default function ConsolePage() {
     showToast(`CSV diekspor (${filtered.length} pesanan)`);
   }
 
-  async function handleSyncDemo() {
+  async function handleSync() {
     try {
-      const res = await authFetch("/api/admin/seed");
-      const data = await res.json();
-      if (data.success) {
-        localStorage.setItem(DB_VERSION_KEY, "v8_konso_orkestrasi");
-        const nowIso = new Date().toISOString();
-        localStorage.setItem(LAST_SYNC_KEY, nowIso);
-        setLastSync(nowIso);
-        fetchOrders();
-        showToast("34 data demo berhasil disinkronkan");
-      } else {
-        showToast("Sinkronisasi gagal: " + (data.error || "unknown"));
-      }
+      await fetchOrders();
+      const nowIso = new Date().toISOString();
+      localStorage.setItem(LAST_SYNC_KEY, nowIso);
+      setLastSync(nowIso);
+      showToast("Data tersinkronkan dari database");
     } catch {
       showToast("Sinkronisasi gagal — cek koneksi");
     }
-  }
-
-  function handleResetDemo() {
-    if (!window.confirm("Hapus semua data dan kembalikan ke 34 seed demo? Tindakan ini tidak bisa dibatalkan.")) return;
-    handleSyncDemo();
   }
 
   function handleExportBackup() {
@@ -370,9 +358,9 @@ export default function ConsolePage() {
 
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
             <button
-              onClick={handleSyncDemo}
+              onClick={handleSync}
               className="p-2 sm:px-3.5 sm:py-2 bg-sunflower hover:bg-wasabi text-ink border-2 border-ink rounded-xl transition flex items-center gap-1.5 font-bold shadow-brutal-sm min-h-[44px]"
-              title="Sinkronkan ulang 34 data demo"
+              title="Sinkronkan data terbaru dari database"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span className="hidden md:inline">Sinkron Data</span>
@@ -450,13 +438,7 @@ export default function ConsolePage() {
         ) : orders.length === 0 ? (
           <div className="plate-pop rounded-3xl p-12 text-center font-mono text-xs text-stone-600 space-y-4">
             <CheckCircle2 className="w-8 h-8 mx-auto text-stone-400" />
-            <p>Belum ada data pesanan. Sinkronkan 34 data demo untuk mengisi konsol.</p>
-            <button
-              onClick={handleSyncDemo}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-sunflower hover:bg-wasabi text-ink border-2 border-ink rounded-xl font-bold transition shadow-brutal-sm min-h-[44px]"
-            >
-              <RotateCcw className="w-4 h-4" /> Sinkronkan 34 Data Demo
-            </button>
+            <p>Belum ada pesanan. Order baru akan muncul otomatis di sini setelah customer checkout.</p>
           </div>
         ) : (
           <>
@@ -494,8 +476,7 @@ export default function ConsolePage() {
                   setDefaultTone(v);
                 }}
                 lastSync={lastSync}
-                onSyncDemo={handleSyncDemo}
-                onResetDemo={handleResetDemo}
+                onSyncDemo={handleSync}
                 onExportBackup={handleExportBackup}
                 onImportBackup={handleImportBackup}
               />
