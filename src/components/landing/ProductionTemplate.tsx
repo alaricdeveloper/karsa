@@ -43,7 +43,7 @@ export function ProductionTemplate() {
             </div>
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl border-2 border-ink bg-wasabi/25">
               <span className="font-mono text-xs font-bold text-ink text-center sm:text-left">Hasilnya: 30 hari konten selesai dengan total &plusmn;10 jam produksi per bulan — bukan 40 jam brainstorming tanpa arah.</span>
-              <a href="#cara-kerja" className="badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-white transition shrink-0">Lihat alur kerja Karsa &rarr;</a>
+              <a href="#cara-kerja" className="badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-ink transition shrink-0">Lihat alur kerja Karsa &rarr;</a>
             </div>
           </div>
         </section>

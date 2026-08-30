@@ -6,7 +6,7 @@ export function CtaBand({
   sub?: string;
 }) {
   return (
-    <section className="py-12 sm:py-20 bg-terracotta text-white border-b-2 border-ink">
+    <section className="py-12 sm:py-20 bg-terracotta text-ink border-b-2 border-ink">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-3xl sm:text-5xl font-serif leading-tight">{headline}</h2>
         <p className="text-xs sm:text-sm text-white/85 font-sans leading-relaxed mt-3 max-w-2xl mx-auto">

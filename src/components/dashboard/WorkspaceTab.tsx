@@ -177,7 +177,7 @@ export function WorkspaceTab({ orders, profile, onOpenNewOrder, onGoToTools }: P
                     </p>
                   </div>
                   <div className="pt-2">
-                    <button onClick={onOpenNewOrder} className="inline-flex items-center gap-2 px-6 py-3.5 bg-terracotta text-white text-xs font-mono font-bold rounded-2xl hover:bg-ink transition shadow-brutal min-h-[44px]">
+                    <button onClick={onOpenNewOrder} className="inline-flex items-center gap-2 px-6 py-3.5 bg-terracotta text-ink hover:text-white text-xs font-mono font-bold rounded-2xl hover:bg-ink transition shadow-brutal min-h-[44px]">
                       <Plus className="w-4 h-4 text-wasabi" />
                       <span>Kirim Parameter Brief (Rp299k)</span>
                     </button>
@@ -208,7 +208,7 @@ export function WorkspaceTab({ orders, profile, onOpenNewOrder, onGoToTools }: P
                         <span className={`border-2 ${getOrderStatusClass(order.status)} px-3 py-1 rounded-xl text-xs font-mono font-bold`}>
                           {getOrderStatusLabel(order.status)}
                         </span>
-                        <a href={`/portal/${order.orderId}`} className="px-4 py-2.5 bg-ink text-canvas hover:bg-terracotta hover:text-white text-xs font-mono font-bold rounded-xl transition flex items-center gap-1.5 min-h-[40px] shadow-brutal-sm">
+                        <a href={`/portal/${order.orderId}`} className="px-4 py-2.5 bg-ink text-canvas hover:bg-terracotta hover:text-ink text-xs font-mono font-bold rounded-xl transition flex items-center gap-1.5 min-h-[40px] shadow-brutal-sm">
                           <span>Buka Hub</span>
                           <ArrowRight className="w-3.5 h-3.5 text-wasabi" />
                         </a>

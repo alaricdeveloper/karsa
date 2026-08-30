@@ -33,7 +33,7 @@ export function ArticleShell({
             {children}
           </div>
         </article>
-        <section className="py-12 sm:py-16 bg-terracotta text-white border-b-2 border-ink">
+        <section className="py-12 sm:py-16 bg-terracotta text-ink border-b-2 border-ink">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-2xl sm:text-4xl font-serif leading-tight">
               Butuh 30 hari konten yang langsung bisa dijalankan?

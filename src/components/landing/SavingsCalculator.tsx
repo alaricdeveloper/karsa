@@ -48,7 +48,7 @@ export function SavingsCalculator() {
                 <span className="text-lg sm:text-2xl font-bold text-terracotta font-serif">Rp{netSavings.toLocaleString("id-ID")} / Bulan</span>
               </div>
             </div>
-            <a href="#order" className="bento-pop bg-ink text-canvas hover:bg-terracotta hover:text-white py-3.5 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-center min-h-[46px] sm:min-h-[48px]">
+            <a href="#order" className="bento-pop bg-ink text-canvas hover:bg-terracotta hover:text-ink py-3.5 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-center min-h-[46px] sm:min-h-[48px]">
               <span>Lihat paket &amp; isi brief &rarr;</span>
             </a>
           </div>

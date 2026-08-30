@@ -85,7 +85,7 @@ export function RevisionForm({
           </div>
           <button
             type="submit"
-            className="w-full py-4 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition min-h-[48px] shadow-brutal text-xs font-mono"
+            className="w-full py-4 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition min-h-[48px] shadow-brutal text-xs font-mono"
           >
             Kirim Catatan Revisi ke Tim &rarr;
           </button>

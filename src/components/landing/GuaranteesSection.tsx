@@ -13,7 +13,7 @@ export function GuaranteesSection() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
               <div className="bento-pop p-5 sm:p-7 rounded-3xl bg-white">
-                <span className="w-10 h-10 rounded-xl bg-terracotta text-white border-2 border-ink flex items-center justify-center"><Clock3 className="w-5 h-5" /></span>
+                <span className="w-10 h-10 rounded-xl bg-terracotta text-ink border-2 border-ink flex items-center justify-center"><Clock3 className="w-5 h-5" /></span>
                 <h3 className="font-serif text-xl text-ink mt-4">SLA 24 Jam</h3>
                 <p className="text-xs text-stone-600 font-sans mt-2 leading-relaxed">Deliverable dikirim maksimal 1x24 jam kerja setelah brief lengkap &amp; pembayaran terkonfirmasi.</p>
                 <div className="mt-4 pt-3 border-t-2 border-ink font-mono text-[11px] font-bold text-terracotta">Terlambat? +5 naskah gratis</div>

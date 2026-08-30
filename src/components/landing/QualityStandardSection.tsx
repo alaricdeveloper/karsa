@@ -6,7 +6,7 @@ export function QualityStandardSection() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
               <div className="lg:col-span-5">
-                <span className="badge-tag inline-flex px-3 py-1 rounded-full text-xs font-mono font-bold bg-terracotta text-white">Standar Produksi</span>
+                <span className="badge-tag inline-flex px-3 py-1 rounded-full text-xs font-mono font-bold bg-terracotta text-ink">Standar Produksi</span>
                 <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-3 leading-tight">Bukan cuma "ide konten". Ini sudah punya instruksi eksekusi.</h2>
                 <p className="text-xs sm:text-sm text-stone-600 font-sans mt-3 leading-relaxed">Setiap output dibuat agar bisa langsung dipindahkan dari Notion ke proses produksi tanpa tim kamu harus menerjemahkan ulang maksudnya.</p>
                 <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-ink text-canvas">

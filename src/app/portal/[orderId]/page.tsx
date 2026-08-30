@@ -286,7 +286,7 @@ export default function PortalPage() {
               href="https://wa.me/6281288009920"
               target="_blank"
               rel="noopener"
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-terracotta text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-terracotta text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
             >
               <MessageSquare className="w-3.5 h-3.5 text-wasabi" />
               <span className="hidden sm:inline">Support 48 Jam</span>

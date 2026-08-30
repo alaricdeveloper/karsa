@@ -77,7 +77,7 @@ export function ProfileVaultTab(props: Props) {
 
                 <div className="space-y-2 text-center sm:text-left">
                   <div className="flex flex-wrap justify-center sm:justify-start gap-2.5">
-                    <button type="button" onClick={onPickAvatar} className="px-4 py-2.5 bg-ink active:bg-terracotta text-canvas text-xs font-mono font-bold rounded-xl transition min-h-[44px] shadow-brutal-sm">
+                    <button type="button" onClick={onPickAvatar} className="px-4 py-2.5 bg-ink active:bg-terracotta text-ink text-xs font-mono font-bold rounded-xl transition min-h-[44px] shadow-brutal-sm">
                       Unggah Foto
                     </button>
                     <button type="button" onClick={onRemoveAvatar} className="px-4 py-2.5 border-2 border-ink bg-white active:bg-canvas text-ink text-xs font-mono font-bold rounded-xl transition min-h-[44px] shadow-brutal-sm">
@@ -161,7 +161,7 @@ export function ProfileVaultTab(props: Props) {
                 <button type="button" onClick={onBackToWorkspace} className="w-1/2 sm:w-auto px-5 py-3.5 border-2 border-ink rounded-2xl bg-white active:bg-canvas text-ink font-mono text-xs font-bold transition text-center min-h-[48px] shadow-brutal-sm">
                   Kembali
                 </button>
-                <button type="submit" className="w-1/2 sm:w-auto px-6 py-3.5 bg-terracotta active:bg-ink text-white rounded-2xl font-mono text-xs font-bold transition shadow-brutal min-h-[48px] flex items-center justify-center gap-2">
+                <button type="submit" className="w-1/2 sm:w-auto px-6 py-3.5 bg-terracotta active:bg-ink text-ink hover:text-white rounded-2xl font-mono text-xs font-bold transition shadow-brutal min-h-[48px] flex items-center justify-center gap-2">
                   <Save className="w-4 h-4 text-wasabi" />
                   <span>Simpan Data</span>
                 </button>

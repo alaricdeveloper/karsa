@@ -14,7 +14,7 @@ export function LandingFooter() {
               <p className="text-[11px] text-stone-400 font-sans mt-3 leading-relaxed">Sistem konten siap eksekusi untuk UMKM Indonesia. 30 hari naskah kata-per-kata, tanpa kontrak, tanpa langganan.</p>
               <div className="mt-4 flex items-center gap-2 font-mono text-[10px] text-stone-400">
                 <span className="inline-block px-2 py-1 bg-wasabi text-ink rounded font-bold border border-ink">SLA 24 Jam</span>
-                <span className="inline-block px-2 py-1 bg-terracotta text-white rounded font-bold border border-ink">Kalibrasi 48 Jam</span>
+                <span className="inline-block px-2 py-1 bg-terracotta text-ink rounded font-bold border border-ink">Kalibrasi 48 Jam</span>
               </div>
             </div>
             <div>

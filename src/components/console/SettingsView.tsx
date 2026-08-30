@@ -85,7 +85,7 @@ export function SettingsView({
               <h3 className="font-serif text-base text-ink">Restore Data</h3>
               <p className="text-xs text-stone-600 mt-0.5">Muat file backup JSON — menimpa data saat ini.</p>
             </div>
-            <label className="px-4 py-3 bg-terracotta hover:bg-ink text-white rounded-xl font-bold transition flex items-center justify-center gap-1.5 min-h-[44px] shadow-brutal cursor-pointer">
+            <label className="px-4 py-3 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl font-bold transition flex items-center justify-center gap-1.5 min-h-[44px] shadow-brutal cursor-pointer">
               <Upload className="w-4 h-4 text-wasabi" />
               <span>Pilih File Backup</span>
               <input
@@ -147,7 +147,7 @@ export function SettingsView({
               localStorage.setItem("omni_wa_template", waTemplate.trim());
               onWaTemplate(waTemplate.trim());
             }}
-            className="px-5 py-3 bg-terracotta hover:bg-ink text-white rounded-xl font-bold transition flex items-center gap-1.5 min-h-[44px] shadow-brutal"
+            className="px-5 py-3 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl font-bold transition flex items-center gap-1.5 min-h-[44px] shadow-brutal"
           >
             <Save className="w-4 h-4 text-wasabi" />
             <span>Simpan Template</span>

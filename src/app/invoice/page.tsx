@@ -206,7 +206,7 @@ function InvoiceContent() {
           <div className="pt-4 text-center print:hidden">
             <Link
               href={`/portal/${invNumber}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-terracotta text-white rounded-2xl font-mono text-xs font-bold hover:bg-ink transition shadow-brutal min-h-[48px]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-terracotta text-ink hover:text-white rounded-2xl font-mono text-xs font-bold hover:bg-ink transition shadow-brutal min-h-[48px]"
             >
               <span>Buka Customer Hub Sekarang</span>
               <ArrowRight className="w-4 h-4 text-wasabi" />

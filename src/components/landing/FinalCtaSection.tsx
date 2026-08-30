@@ -2,9 +2,9 @@
 
 export function FinalCtaSection() {
   return (
-<section id="final-cta" className="py-12 sm:py-20 bg-terracotta text-white border-b-2 border-ink">
+<section id="final-cta" className="py-12 sm:py-20 bg-terracotta text-ink border-b-2 border-ink">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="bento-pop rounded-3xl p-6 sm:p-10 bg-terracotta text-white flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="bento-pop rounded-3xl p-6 sm:p-10 bg-terracotta text-ink flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="max-w-2xl">
                 <span className="badge-tag inline-flex px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-wasabi text-ink">Satu keputusan untuk 30 hari ke depan</span>
                 <h2 className="text-3xl sm:text-5xl font-serif mt-3 leading-tight">Berhenti mulai dari nol setiap minggu.</h2>

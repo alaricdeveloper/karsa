@@ -185,7 +185,7 @@ export function NavHeader() {
             <Link href="/login" className="hidden xl:inline-flex text-xs font-mono font-bold text-ink hover:text-terracotta px-2.5 py-2 transition whitespace-nowrap">
               Member Workspace
             </Link>
-            <a href="#order" className="badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-white px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-xl font-mono text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap shadow-brutal-sm sm:shadow-brutal">
+            <a href="#order" className="badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-ink px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-xl font-mono text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap shadow-brutal-sm sm:shadow-brutal">
               <span>Mulai dengan Brief</span>
               <ArrowRight className="w-3.5 h-3.5 text-wasabi" />
             </a>
@@ -273,7 +273,7 @@ export function NavHeader() {
               <Link href="/login" onClick={() => setMobileOpen(false)} className="block w-full text-center py-3 border-2 border-ink bg-white font-bold rounded-xl text-xs mb-2 shadow-brutal-sm">
                 Buka Member Workspace
               </Link>
-              <a href="#order" onClick={() => setMobileOpen(false)} className="block w-full text-center py-3.5 bg-terracotta text-white font-bold rounded-xl text-xs shadow-brutal">
+              <a href="#order" onClick={() => setMobileOpen(false)} className="block w-full text-center py-3.5 bg-terracotta text-ink font-bold rounded-xl text-xs shadow-brutal">
                 Isi Brief &amp; Checkout (Rp299.000)
               </a>
             </div>

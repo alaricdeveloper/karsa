@@ -144,7 +144,7 @@ export default function HargaPage() {
                 </ul>
                 <a
                   href="#order"
-                  className="mt-5 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-ink text-canvas font-mono text-sm font-bold hover:bg-terracotta hover:text-white transition min-h-[48px]"
+                  className="mt-5 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-ink text-canvas font-mono text-sm font-bold hover:bg-terracotta hover:text-ink transition min-h-[48px]"
                 >
                   Pilih {p.name} <span>&rarr;</span>
                 </a>

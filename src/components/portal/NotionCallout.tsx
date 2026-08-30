@@ -33,7 +33,7 @@ export function NotionCallout({ order }: { order: Order }) {
           target="_blank"
           rel="noopener"
           aria-disabled={!hasUrl}
-          className={`w-full sm:w-auto px-6 py-3.5 bg-ink hover:bg-terracotta text-canvas rounded-2xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 min-h-[48px] shadow-brutal ${
+          className={`w-full sm:w-auto px-6 py-3.5 bg-ink hover:bg-terracotta text-ink rounded-2xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 min-h-[48px] shadow-brutal ${
             hasUrl ? "" : "pointer-events-none opacity-50"
           }`}
         >

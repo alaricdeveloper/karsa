@@ -24,7 +24,7 @@ export function HeroSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-1 sm:pt-2">
-                  <a href="#order" className="bento-pop bg-terracotta text-white px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl font-mono text-sm font-bold transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px]">
+                  <a href="#order" className="bento-pop bg-terracotta text-ink px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl font-mono text-sm font-bold transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px]">
                     <span>Mulai dengan Brief (Rp299.000)</span>
                     <ArrowRight className="w-4 h-4 text-wasabi" />
                   </a>

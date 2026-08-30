@@ -24,7 +24,7 @@ export function ScopeSection() {
               </div>
               <div className="bento-pop p-5 sm:p-7 rounded-3xl bg-canvas">
                 <div className="flex items-center gap-2 pb-4 border-b-2 border-ink">
-                  <span className="w-7 h-7 rounded-full bg-terracotta text-white border-2 border-ink flex items-center justify-center font-bold">-</span>
+                  <span className="w-7 h-7 rounded-full bg-terracotta text-ink border-2 border-ink flex items-center justify-center font-bold">-</span>
                   <h3 className="font-serif text-xl text-ink">Tidak termasuk dalam batch</h3>
                 </div>
                 <ul className="mt-5 space-y-3 text-xs sm:text-sm font-sans text-stone-700">

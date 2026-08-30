@@ -20,10 +20,10 @@ export function PricingSection() {
                   <li className="flex gap-2"><span className="text-terracotta font-bold">+</span><span>5 bonus eksklusif + garansi kalibrasi 48 jam</span></li>
                   <li className="flex gap-2"><span className="text-terracotta font-bold">+</span><span>SLA pengiriman 24 jam kerja</span></li>
                 </ul>
-                <a href="#order" className="mt-6 badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-white text-center py-3 rounded-xl font-mono text-xs font-bold transition">Isi Brief Batch 1 &rarr;</a>
+                <a href="#order" className="mt-6 badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-ink text-center py-3 rounded-xl font-mono text-xs font-bold transition">Isi Brief Batch 1 &rarr;</a>
               </div>
               <div className="bento-pop p-5 sm:p-7 rounded-3xl bg-wasabi/30 flex flex-col relative">
-                <span className="absolute -top-3 left-5 badge-tag bg-terracotta text-white px-3 py-1 rounded-lg text-[10px] font-mono font-bold">PALING LARIS</span>
+                <span className="absolute -top-3 left-5 badge-tag bg-terracotta text-ink px-3 py-1 rounded-lg text-[10px] font-mono font-bold">PALING LARIS</span>
                 <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-wasabiDark">Ritme 3 Bulan</span>
                 <h3 className="font-serif text-2xl text-ink mt-1">3 Batch</h3>
                 <div className="mt-3 font-mono"><span className="text-3xl font-bold font-serif text-ink">Rp799.000</span><span className="text-xs text-stone-600 block mt-1">hemat Rp98.000 &bull; 90 hari konten</span></div>
@@ -33,7 +33,7 @@ export function PricingSection() {
                   <li className="flex gap-2"><span className="text-terracotta font-bold">+</span><span>Data belajar batch 1 dipakai untuk batch 2</span></li>
                   <li className="flex gap-2"><span className="text-terracotta font-bold">+</span><span>Kalibrasi pesan diperpanjang tiap batch</span></li>
                 </ul>
-                <a href="#order" className="mt-6 badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-white text-center py-3 rounded-xl font-mono text-xs font-bold transition">Ambil 3 Batch &rarr;</a>
+                <a href="#order" className="mt-6 badge-tag bg-ink text-canvas hover:bg-terracotta hover:text-ink text-center py-3 rounded-xl font-mono text-xs font-bold transition">Ambil 3 Batch &rarr;</a>
               </div>
               <div className="bento-pop p-5 sm:p-7 rounded-3xl bg-ink text-canvas flex flex-col">
                 <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-wasabi">Program 6 Bulan</span>

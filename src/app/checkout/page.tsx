@@ -205,7 +205,7 @@ function CheckoutContent() {
 
   const timerColor =
     timeLeft <= 0
-      ? "bg-terracotta text-white"
+      ? "bg-terracotta text-ink"
       : timeLeft <= 60
       ? "bg-terracottaLight text-terracotta"
       : timeLeft <= 300
@@ -279,7 +279,7 @@ function CheckoutContent() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/invoice?id=${order.orderId}`}
-                className="flex-1 py-4 bg-ink hover:bg-terracotta text-canvas rounded-xl font-mono font-bold text-xs transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]"
+                className="flex-1 py-4 bg-ink hover:bg-terracotta text-ink rounded-xl font-mono font-bold text-xs transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]"
               >
                 <FileText className="w-4 h-4 text-wasabi" />
                 <span>Lihat Invoice</span>
@@ -319,7 +319,7 @@ function CheckoutContent() {
           </div>
           <div className="h-0.5 w-8 sm:w-16 bg-stone-300" />
           <div className="flex items-center gap-2 text-ink font-bold">
-            <span className="w-6 h-6 rounded-full bg-terracotta text-white border-2 border-ink flex items-center justify-center text-xs shadow-brutal-sm font-bold">
+            <span className="w-6 h-6 rounded-full bg-terracotta text-ink border-2 border-ink flex items-center justify-center text-xs shadow-brutal-sm font-bold">
               2
             </span>
             <span>Pembayaran</span>
@@ -658,7 +658,7 @@ function CheckoutContent() {
 
               <button
                 onClick={confirmPayment}
-                className="w-full py-4 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-sm font-mono"
+                className="w-full py-4 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-sm font-mono"
               >
                 <CheckCircle className="w-4 h-4 text-wasabi" />
                 <span>Saya Sudah Membayar →</span>

@@ -226,7 +226,7 @@ Di ${brand}, kami meracik ${product} dengan fokus ke hasil nyata — bukan janji
               <label htmlFor="toolProblem" className="block text-ink mb-1 font-bold">Masalah Terbesar Pembeli</label>
               <input type="text" id="toolProblem" placeholder="Contoh: gampang kembung / mahal" value={hookProblem} onChange={(e) => setHookProblem(e.target.value)} className="w-full bg-white border-2 border-ink rounded-xl p-3 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-terracotta min-h-[44px]" />
             </div>
-            <button type="button" onClick={generateDemoHooks} className="w-full py-3.5 bg-terracotta hover:bg-ink text-white rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <button type="button" onClick={generateDemoHooks} className="w-full py-3.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
               <Wand2 className="w-4 h-4 text-wasabi" />
               <span>Generate 3 Hook Video</span>
             </button>
@@ -259,7 +259,7 @@ Di ${brand}, kami meracik ${product} dengan fokus ke hasil nyata — bukan janji
               <label htmlFor="ideProblem" className="block text-ink mb-1 font-bold">Masalah Utama Pembeli</label>
               <input type="text" id="ideProblem" placeholder="Contoh: ngantuk saat kerja" value={ideProblem} onChange={(e) => setIdeProblem(e.target.value)} className="w-full bg-white border-2 border-ink rounded-xl p-3 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-terracotta min-h-[44px]" />
             </div>
-            <button type="button" onClick={generateIdeaCalendar} className="w-full py-3.5 bg-ink hover:bg-terracotta text-canvas rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <button type="button" onClick={generateIdeaCalendar} className="w-full py-3.5 bg-ink hover:bg-terracotta text-ink rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
               <CalendarDays className="w-4 h-4 text-wasabi" />
               <span>Generate 12 Ide Naskah</span>
             </button>
@@ -297,7 +297,7 @@ Di ${brand}, kami meracik ${product} dengan fokus ke hasil nyata — bukan janji
               <label htmlFor="capOffer" className="block text-ink mb-1 font-bold">Penawaran / CTA</label>
               <input type="text" id="capOffer" placeholder="Contoh: Diskon 15% minggu ini" value={capOffer} onChange={(e) => setCapOffer(e.target.value)} className="w-full bg-white border-2 border-ink rounded-xl p-3 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-terracotta min-h-[44px]" />
             </div>
-            <button type="button" onClick={generateAidaCaption} className="w-full py-3.5 bg-terracotta hover:bg-ink text-white rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <button type="button" onClick={generateAidaCaption} className="w-full py-3.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
               <MessageSquare className="w-4 h-4 text-wasabi" />
               <span>Generate Takarir AIDA</span>
             </button>
@@ -353,7 +353,7 @@ Di ${brand}, kami meracik ${product} dengan fokus ke hasil nyata — bukan janji
               </div>
             </div>
 
-            <button onClick={onOpenNewOrder} className="w-full py-3.5 bg-ink hover:bg-terracotta hover:text-white text-canvas rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <button onClick={onOpenNewOrder} className="w-full py-3.5 bg-ink hover:bg-terracotta hover:text-ink text-canvas rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
               <Check className="w-4 h-4 text-wasabi" />
               <span>Klaim Penghematan & Order Batch</span>
             </button>
@@ -403,7 +403,7 @@ Di ${brand}, kami meracik ${product} dengan fokus ke hasil nyata — bukan janji
               <span className="text-stone-600 text-xs block">{auditTotal < 60 ? "Kalender Karsa 30 hari akan menyusun inventaris kontenmu agar konsisten tanpa mikir ide dari nol." : "Tokomu punya pondasi bagus, batch Karsa akan mempercepat pembuatan naskah video jadi 1 hari."}</span>
             </div>
           </div>
-          <button onClick={onOpenNewOrder} className="w-full sm:w-auto px-5 py-3.5 bg-terracotta text-white rounded-xl active:bg-ink hover:bg-ink transition font-bold min-h-[44px] flex items-center justify-center gap-2 shadow-brutal font-mono">
+          <button onClick={onOpenNewOrder} className="w-full sm:w-auto px-5 py-3.5 bg-terracotta text-ink hover:text-white rounded-xl active:bg-ink hover:bg-ink transition font-bold min-h-[44px] flex items-center justify-center gap-2 shadow-brutal font-mono">
             Tingkatkan Skor Sekarang
             <ArrowRight className="w-4 h-4 text-wasabi" />
           </button>

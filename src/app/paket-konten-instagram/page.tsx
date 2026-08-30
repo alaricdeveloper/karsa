@@ -71,7 +71,7 @@ export default function PaketKontenInstagramPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <a
               href="#order"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-terracotta text-white font-mono text-sm font-bold hover:bg-ink transition shadow-brutal-sm min-h-[48px]"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-terracotta text-ink hover:text-white font-mono text-sm font-bold hover:bg-ink transition shadow-brutal-sm min-h-[48px]"
             >
               Mulai dengan Brief — Rp299.000 <span>&rarr;</span>
             </a>

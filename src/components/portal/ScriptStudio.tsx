@@ -89,7 +89,7 @@ export function ScriptStudio({
         <div className="grid grid-cols-1 sm:flex sm:items-center gap-2.5 w-full sm:w-auto sm:justify-end">
           <button
             onClick={onOpenTeleprompter}
-            className="w-full sm:w-auto justify-center px-4 py-2.5 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center gap-2 min-h-[48px] shadow-brutal"
+            className="w-full sm:w-auto justify-center px-4 py-2.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center gap-2 min-h-[48px] shadow-brutal"
           >
             <Play className="w-4 h-4 text-wasabi" />
             <span>Buka Teleprompter</span>

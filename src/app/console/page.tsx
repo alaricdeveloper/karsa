@@ -43,7 +43,7 @@ import {
 type View = "pipeline" | "database" | "studio" | "laporan" | "pengaturan";
 
 const VIEW_TABS: { key: View; label: string; icon: React.ReactNode; num: string; numClass: string }[] = [
-  { key: "pipeline", label: "Pipeline Operasional", icon: <LayoutGrid className="w-4 h-4" />, num: "01", numClass: "bg-terracotta text-white" },
+  { key: "pipeline", label: "Pipeline Operasional", icon: <LayoutGrid className="w-4 h-4" />, num: "01", numClass: "bg-terracotta text-ink" },
   { key: "database", label: "Database Pesanan", icon: <Table className="w-4 h-4" />, num: "02", numClass: "bg-sunflower text-ink" },
   { key: "studio", label: "Prompt Studio", icon: <Sparkles className="w-4 h-4" />, num: "03", numClass: "bg-wasabi text-ink" },
   { key: "laporan", label: "Laporan 30 Hari", icon: <BarChart3 className="w-4 h-4" />, num: "04", numClass: "bg-terracottaLight text-terracotta" },
@@ -367,7 +367,7 @@ export default function ConsolePage() {
             </button>
             <button
               onClick={() => setNewOrderOpen(true)}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-terracotta text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-terracotta text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
             >
               <PlusCircle className="w-3.5 h-3.5 text-wasabi" />
               <span className="hidden sm:inline">Input Manual</span>
@@ -512,7 +512,7 @@ export default function ConsolePage() {
         ))}
         <button
           onClick={() => setNewOrderOpen(true)}
-          className="flex flex-col items-center justify-center -mt-4 w-12 h-12 bg-terracotta text-white rounded-full shadow-brutal border-2 border-ink"
+          className="flex flex-col items-center justify-center -mt-4 w-12 h-12 bg-terracotta text-ink rounded-full shadow-brutal border-2 border-ink"
           aria-label="Input manual brief"
         >
           <Plus className="w-6 h-6 text-wasabi" />

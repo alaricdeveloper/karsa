@@ -212,7 +212,7 @@ export function DashboardShell() {
           </Link>
 
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
-            <button onClick={() => setModalOpen(true)} className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-terracotta hover:bg-ink text-white rounded-xl transition font-bold shadow-brutal">
+            <button onClick={() => setModalOpen(true)} className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl transition font-bold shadow-brutal">
               <Plus className="w-3.5 h-3.5 text-wasabi" />
               <span className="hidden sm:inline">Mulai Batch (Rp299k)</span>
               <span className="sm:hidden">Order</span>

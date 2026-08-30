@@ -10,7 +10,7 @@ export function AnatomySection() {
               <p className="text-xs sm:text-sm text-stone-600 font-mono mt-2 leading-relaxed">Setiap naskah Karsa mengikuti struktur waktu ini — alasan di balik setiap detiknya.</p>
             </div>
             <div className="timeline-bar rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-4 font-mono text-xs">
-              <div className="p-4 sm:p-5 bg-terracotta text-white">
+              <div className="p-4 sm:p-5 bg-terracotta text-ink">
                 <span className="text-[9px] uppercase tracking-wider font-bold block">00:00 - 00:03</span>
                 <h3 className="font-serif text-lg mt-1">HOOK</h3>
                 <p className="text-white/85 text-[11px] mt-1.5 leading-relaxed font-sans">Pernyataan kontras, pertanyaan, atau klaim yang memicu rasa penasaran dalam 3 detik pertama.</p>
@@ -50,7 +50,7 @@ export function AnatomySection() {
             </div>
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl border-2 border-ink bg-wasabi/25">
               <span className="font-mono text-xs font-bold text-ink text-center sm:text-left">50 template hook ada di Bonus 01 — mulai dari penyangkalan, angka mengejutkan, sampai "stop doing X".</span>
-              <a href="#bonus-stack" className="badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-white transition shrink-0">Lihat semua bonus &rarr;</a>
+              <a href="#bonus-stack" className="badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-ink transition shrink-0">Lihat semua bonus &rarr;</a>
             </div>
           </div>
         </section>

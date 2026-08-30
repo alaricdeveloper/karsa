@@ -109,7 +109,7 @@ export default function RefundPage() {
           </div>
 
           <div className="bento-pop p-6 rounded-3xl space-y-3 bg-terracottaLight">
-            <div className="w-10 h-10 rounded-2xl bg-terracotta border-2 border-ink text-white flex items-center justify-center shadow-brutal-sm font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-terracotta border-2 border-ink text-ink flex items-center justify-center shadow-brutal-sm font-bold">
               <FileCheck className="w-5 h-5 text-wasabi" />
             </div>
             <h3 className="font-serif font-bold text-lg text-ink">Naskah Kata-per-Kata</h3>

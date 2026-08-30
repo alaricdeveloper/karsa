@@ -188,7 +188,7 @@ export function NewOrderModal({
             </button>
             <button
               type="submit"
-              className="w-1/2 sm:w-auto px-6 py-3 bg-terracotta hover:bg-ink text-white rounded-xl font-bold min-h-[44px] shadow-brutal"
+              className="w-1/2 sm:w-auto px-6 py-3 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl font-bold min-h-[44px] shadow-brutal"
             >
               Simpan
             </button>

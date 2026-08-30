@@ -133,7 +133,7 @@ export function NewOrderModal({ onClose, defaults }: Props) {
             </div>
 
             <div className="pt-3 border-t-2 border-ink">
-              <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 text-xs sm:text-sm min-h-[48px] shadow-brutal font-mono">
+              <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 text-xs sm:text-sm min-h-[48px] shadow-brutal font-mono">
                 <span>Kirim Brief & Buat Tagihan (Rp299.000)</span>
                 <ArrowRight className="w-4 h-4 text-wasabi" />
               </button>

@@ -18,7 +18,7 @@ export function ContactStrip() {
               <div className="md:text-right">
                 <div className="font-mono text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Slot produksi mingguan terbatas</div>
                 <p className="text-xs text-stone-600 font-sans leading-relaxed max-w-xs md:ml-auto">Batch diproses sesuai urutan pembayaran. Pesan lebih awal agar antrean tidak menunda tanggal mulai kamu.</p>
-                <a href="#order" className="mt-3 inline-flex items-center gap-2 badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-white transition">Amankan slot minggu ini &rarr;</a>
+                <a href="#order" className="mt-3 inline-flex items-center gap-2 badge-tag bg-ink text-canvas px-4 py-2.5 rounded-xl font-mono text-xs font-bold hover:bg-terracotta hover:text-ink transition">Amankan slot minggu ini &rarr;</a>
               </div>
             </div>
           </div>

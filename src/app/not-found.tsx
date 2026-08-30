@@ -86,7 +86,7 @@ export default function NotFound() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
           <Link href="/" className="flex items-center space-x-2 shrink-0 group">
             <span className="font-serif text-3xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
-            <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-terracotta text-white rounded font-bold">Status 404</span>
+            <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-terracotta text-ink rounded font-bold">Status 404</span>
           </Link>
           <div className="flex items-center space-x-3 text-xs font-mono">
             <Link href="/" className="badge-tag bg-white hover:bg-canvas text-ink px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 shadow-brutal-sm min-h-[44px]">
@@ -136,7 +136,7 @@ export default function NotFound() {
 
         {/* PRIMARY ACTION BUTTONS */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 font-mono text-xs max-w-md mx-auto">
-          <Link href="/" className="w-full sm:w-auto px-6 py-3.5 bg-terracotta hover:bg-ink text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+          <Link href="/" className="w-full sm:w-auto px-6 py-3.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
             <ArrowLeft className="w-4 h-4 text-wasabi" />
             <span>Kembali ke Beranda Utama</span>
           </Link>

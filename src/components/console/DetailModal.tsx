@@ -337,7 +337,7 @@ export function DetailModal({
             <button
               onClick={saveContent}
               disabled={contentLoading || !jsonDraft.trim()}
-              className="mt-2.5 w-full px-4 py-2.5 bg-terracotta hover:bg-ink text-white rounded-xl text-xs font-mono font-bold transition shadow-brutal-sm min-h-[44px] disabled:opacity-40"
+              className="mt-2.5 w-full px-4 py-2.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl text-xs font-mono font-bold transition shadow-brutal-sm min-h-[44px] disabled:opacity-40"
             >
               Simpan Konten ke Portal
             </button>
@@ -410,7 +410,7 @@ export function DetailModal({
         <div className="p-4 border-t-2 border-ink bg-canvas flex flex-col sm:flex-row justify-between items-center gap-3">
           <button
             onClick={() => onSendWA(order, notionUrl)}
-            className="w-full sm:w-auto px-5 py-3 bg-ink hover:bg-terracotta text-white rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 transition min-h-[44px] shadow-brutal-sm"
+            className="w-full sm:w-auto px-5 py-3 bg-ink hover:bg-terracotta text-ink rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 transition min-h-[44px] shadow-brutal-sm"
           >
             <MessageSquare className="w-4 h-4 text-wasabi" />
             <span>Kirim Notifikasi WA</span>
@@ -425,7 +425,7 @@ export function DetailModal({
             </button>
             <button
               onClick={() => onSave(o.order_id, { status, notion_url: notionUrl.trim(), notes: notes.trim() })}
-              className="w-1/2 sm:w-auto px-6 py-3 bg-terracotta hover:bg-ink text-white rounded-xl text-xs font-mono font-bold transition min-h-[44px] shadow-brutal"
+              className="w-1/2 sm:w-auto px-6 py-3 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-xl text-xs font-mono font-bold transition min-h-[44px] shadow-brutal"
             >
               Simpan
             </button>

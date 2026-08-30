@@ -26,7 +26,7 @@ export function HowItWorksSection() {
                 <p className="text-[11px] text-stone-400 font-sans leading-relaxed mt-2">Brief dibedah menjadi sudut pesan, tema, dan ide yang relevan dengan audiensmu.</p>
               </div>
               <div className="p-5 rounded-2xl bg-stone-900 border-2 border-stone-700 relative">
-                <span className="absolute -top-3 -left-2 badge-tag bg-terracotta text-white px-2 py-1 rounded-lg text-[10px] font-mono font-bold">03</span>
+                <span className="absolute -top-3 -left-2 badge-tag bg-terracotta text-ink px-2 py-1 rounded-lg text-[10px] font-mono font-bold">03</span>
                 <PenTool className="w-7 h-7 text-terracotta mb-5" />
                 <h3 className="font-bold font-serif text-lg">Naskah disusun</h3>
                 <p className="text-[11px] text-stone-400 font-sans leading-relaxed mt-2">Script, caption, SEO, dan shot-list dirangkai menjadi kalender 30 hari yang utuh.</p>

@@ -66,7 +66,7 @@ export function OrderFormSection() {
 <section id="order" className="py-12 sm:py-20 bg-canvas border-b-2 border-ink">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 sm:mb-10">
-              <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-terracotta text-white">SLA Maks. 24 Jam</span>
+              <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-terracotta text-ink">SLA Maks. 24 Jam</span>
               <h2 className="text-2xl sm:text-4xl font-serif text-ink mt-2">Mulai dengan brief singkat.</h2>
               <p className="text-stone-600 text-xs sm:text-sm mt-1 font-mono">Jawabanmu membantu tim Karsa menulis kalender yang terasa spesifik untuk bisnis kamu.</p>
             </div>
@@ -122,7 +122,7 @@ export function OrderFormSection() {
                   </div>
                 </div>
                 <div className="pt-2 sm:pt-3">
-                  <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-white font-mono font-bold rounded-2xl text-sm sm:text-base transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px] shadow-brutal">
+                  <button type="submit" className="w-full py-4 bg-terracotta hover:bg-ink text-ink hover:text-white font-mono font-bold rounded-2xl text-sm sm:text-base transition flex items-center justify-center gap-2 min-h-[48px] sm:min-h-[50px] shadow-brutal">
                     <span>Kirim Brief &amp; Lanjut ke Checkout (Rp299.000)</span>
                     <ArrowRight className="w-4 h-4 text-wasabi" />
                   </button>

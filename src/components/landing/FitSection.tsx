@@ -24,7 +24,7 @@ export function FitSection() {
               </div>
               <div className="bento-pop p-5 sm:p-7 rounded-3xl bg-canvas">
                 <div className="flex items-center gap-2 font-mono text-xs font-bold text-terracotta mb-4">
-                  <span className="w-6 h-6 rounded-full bg-terracotta text-white border-2 border-ink flex items-center justify-center">!</span>
+                  <span className="w-6 h-6 rounded-full bg-terracotta text-ink border-2 border-ink flex items-center justify-center">!</span>
                   Kurang cocok jika...
                 </div>
                 <ul className="space-y-3 text-xs sm:text-sm text-stone-700 font-sans">
