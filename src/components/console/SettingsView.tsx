@@ -48,7 +48,7 @@ export function SettingsView({
             Mesin &amp; Sinkronisasi
           </span>
           <h2 className="text-xl sm:text-2xl font-serif text-ink mt-2">Pengaturan Konsol</h2>
-          <p className="text-xs text-stone-600 font-mono mt-1">Sinkronkan ulang dataset demo atau periksa kondisi mesin data lokal.</p>
+          <p className="text-xs text-stone-600 font-mono mt-1">Kelola sinkronisasi data langsung dari Supabase dan kondisi mesin data lokal.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">

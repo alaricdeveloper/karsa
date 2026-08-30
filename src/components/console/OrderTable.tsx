@@ -92,7 +92,7 @@ export function OrderTable({
         <div className="p-4 sm:p-6 border-b-2 border-ink flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-canvas">
           <div>
             <h2 className="text-base sm:text-xl font-serif text-ink">Database Master Pesanan</h2>
-            <p className="text-xs text-stone-600 font-mono">Riwayat batch transaksi terverifikasi di sistem (data demo).</p>
+            <p className="text-xs text-stone-600 font-mono">Riwayat batch transaksi terverifikasi langsung dari Supabase.</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">

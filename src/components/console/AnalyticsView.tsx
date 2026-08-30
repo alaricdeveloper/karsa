@@ -28,9 +28,7 @@ function MetricCard({
       <span className={`badge-tag px-2.5 py-0.5 rounded text-[10px] font-mono uppercase font-bold ${badgeClass}`}>
         {badge}
       </span>
-      <h3 className="text-lg font-serif text-ink mt-2">
-        {title} <span className="text-[10px] font-mono text-stone-600 font-bold align-middle">— data demo</span>
-      </h3>
+      <h3 className="text-lg font-serif text-ink mt-2">{title}</h3>
       <div className="mt-4 space-y-2 font-mono text-xs">
         {rows.map(([label, value, valueClass]) => (
           <div key={label} className="flex justify-between py-1.5 border-b border-stone-300">
@@ -96,6 +94,35 @@ export function AnalyticsView({ orders, now }: { orders: Order[]; now: number })
   const safe = orders.filter((o) => slaRemainingSafe(o, now)).length;
   const pending = orders.filter((o) => o.status === "PENDING_PAYMENT").length;
 
+  const paying = orders.filter((o) => o.status !== "PENDING_PAYMENT");
+  const revenue = paying.length * ORDER_VALUE;
+  const aov = paying.length > 0 ? Math.round(revenue / paying.length) : null;
+
+  const emailCounts: Record<string, number> = {};
+  orders.forEach((o) => {
+    emailCounts[o.email] = (emailCounts[o.email] || 0) + 1;
+  });
+  const repeatClients = Object.values(emailCounts).filter((c) => c > 1).length;
+  const repeatPct = orders.length > 0 ? Math.round((repeatClients / orders.length) * 1000) / 10 : null;
+
+  const completedOrders = orders.filter((o) => o.status === "COMPLETED");
+  let turnaroundMs: number | null = null;
+  if (completedOrders.length > 0) {
+    const totalMs = completedOrders.reduce((acc, o) => {
+      const created = new Date(o.created_at).getTime();
+      const updated = new Date(o.updated_at || o.created_at).getTime();
+      return acc + Math.max(0, updated - created);
+    }, 0);
+    turnaroundMs = totalMs / completedOrders.length;
+  }
+  const fmtTurnaround = (ms: number | null): string => {
+    if (ms === null) return "—";
+    const hours = Math.floor(ms / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    if (hours >= 24) return `${Math.floor(hours / 24)} Hari ${hours % 24} Jam`;
+    return `${hours} Jam ${mins} Menit`;
+  };
+
   const stages: [string, string, string, string][] = [
     ["Pending Invoice", "PENDING_PAYMENT", "#FCD34D", "text-ink"],
     ["Penyusunan", "IN_PROGRESS", "#FDF0ED", "text-ink"],
@@ -112,12 +139,12 @@ export function AnalyticsView({ orders, now }: { orders: Order[]; now: number })
         <MetricCard
           badge="Modal vs Return"
           badgeClass="bg-sunflower text-ink"
-          title="Return on Ad Spend (ROAS)"
+          title="Return on Investment (ROI)"
           rows={[
-            ["Modal Awal:", "Rp1.000.000"],
-            ["Total Omset:", formatRp(10166000), "text-terracotta font-serif text-sm"],
-            ["Gross Margin:", "90.1%"],
-            ["ROI:", "10.1x (1.016%)", "text-wasabiDark"],
+            ["Pendapatan Kotor:", formatRp(revenue), "text-terracotta font-serif text-sm"],
+            ["Pesanan Masuk:", `${orders.length} Batch`],
+            ["AOV:", aov === null ? "—" : formatRp(aov)],
+            ["ROI:", "— (data modal belum dicatat)", "text-stone-500"],
           ]}
         />
         <MetricCard
@@ -125,10 +152,10 @@ export function AnalyticsView({ orders, now }: { orders: Order[]; now: number })
           badgeClass="bg-wasabi text-ink"
           title="Metrik Akuisisi"
           rows={[
-            ["Total Klien:", "34 Brand"],
-            ["Rata-rata CAC:", "~Rp29.400", "text-terracotta"],
-            ["AOV:", "Rp299.000"],
-            ["Repeat Batch:", "23.5%", "text-terracotta"],
+            ["Total Klien:", `${orders.length} Brand`],
+            ["Rata-rata CAC:", "— (belum ada data iklan)", "text-terracotta"],
+            ["AOV:", aov === null ? "—" : formatRp(aov)],
+            ["Repeat Batch:", repeatPct === null ? "—" : `${repeatPct}%`, "text-terracotta"],
           ]}
         />
         <MetricCard
@@ -137,9 +164,9 @@ export function AnalyticsView({ orders, now }: { orders: Order[]; now: number })
           title="Efisiensi Deliverables"
           rows={[
             ["Target SLA:", "Maks. 24 Jam"],
-            ["Turnaround Rata-rata:", "3 Jam 42 Menit", "text-wasabiDark"],
-            ["Script Dibuat:", "1.020 Naskah"],
-            ["Artikel SEO:", "136 Artikel"],
+            ["Turnaround Rata-rata:", fmtTurnaround(turnaroundMs), "text-wasabiDark"],
+            ["Script Dibuat:", `${done * 30} Naskah`],
+            ["Artikel SEO:", `${done * 4} Artikel`],
           ]}
         />
       </div>
@@ -152,7 +179,6 @@ export function AnalyticsView({ orders, now }: { orders: Order[]; now: number })
             </span>
             <h2 className="text-lg font-serif text-ink mt-2">Kategori Niche Paling Banyak Memesan</h2>
           </div>
-          <span className="text-[10px] font-mono text-stone-600 font-bold">Angka demo</span>
         </div>
         <div className="mt-6 space-y-4 font-mono text-xs">
           {Object.entries(nicheCounts).map(([niche, count]) => {
