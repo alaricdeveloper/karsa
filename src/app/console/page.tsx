@@ -429,7 +429,7 @@ export default function ConsolePage() {
 
       {/* MAIN VIEWPORT */}
       <main id="main-content" className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-6">
-        <StatsOverview orders={orders} />
+        <StatsOverview orders={orders} now={now} />
 
         {loading ? (
           <div className="text-center py-12">
