@@ -435,29 +435,36 @@ export default function ConsolePage() {
           <div className="text-center py-12">
             <p className="text-sm text-stone-600 font-mono font-bold">Memuat data...</p>
           </div>
-        ) : orders.length === 0 ? (
-          <div className="plate-pop rounded-3xl p-12 text-center font-mono text-xs text-stone-600 space-y-4">
-            <CheckCircle2 className="w-8 h-8 mx-auto text-stone-400" />
-            <p>Belum ada pesanan. Order baru akan muncul otomatis di sini setelah customer checkout.</p>
-          </div>
         ) : (
           <>
-            {view === "pipeline" && (
-              <KanbanBoard orders={orders} onSelectOrder={handleSelectOrder} onQuickAdvance={handleQuickAdvance} now={now} />
-            )}
-            {view === "database" && (
-              <OrderTable
-                orders={orders}
-                onSelectOrder={handleSelectOrder}
-                now={now}
-                search={search}
-                onSearch={setSearch}
-                statusFilter={statusFilter}
-                onStatusFilter={setStatusFilter}
-                dateFilter={dateFilter}
-                onDateFilter={setDateFilter}
-              />
-            )}
+            {view === "pipeline" &&
+              (orders.length === 0 ? (
+                <div className="plate-pop rounded-3xl p-12 text-center font-mono text-xs text-stone-600 space-y-4">
+                  <CheckCircle2 className="w-8 h-8 mx-auto text-stone-400" />
+                  <p>Belum ada pesanan. Order baru akan muncul otomatis di sini setelah customer checkout.</p>
+                </div>
+              ) : (
+                <KanbanBoard orders={orders} onSelectOrder={handleSelectOrder} onQuickAdvance={handleQuickAdvance} now={now} />
+              ))}
+            {view === "database" &&
+              (orders.length === 0 ? (
+                <div className="plate-pop rounded-3xl p-12 text-center font-mono text-xs text-stone-600 space-y-4">
+                  <CheckCircle2 className="w-8 h-8 mx-auto text-stone-400" />
+                  <p>Belum ada pesanan. Order baru akan muncul otomatis di sini setelah customer checkout.</p>
+                </div>
+              ) : (
+                <OrderTable
+                  orders={orders}
+                  onSelectOrder={handleSelectOrder}
+                  now={now}
+                  search={search}
+                  onSearch={setSearch}
+                  statusFilter={statusFilter}
+                  onStatusFilter={setStatusFilter}
+                  dateFilter={dateFilter}
+                  onDateFilter={setDateFilter}
+                />
+              ))}
             {view === "studio" && <AIStudio orders={orders} defaultTone={defaultTone} onToneChange={setDefaultTone} />}
             {view === "laporan" && <AnalyticsView orders={orders} now={now} />}
             {view === "pengaturan" && (
