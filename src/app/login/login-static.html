@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Masuk ke Member Workspace | Karsa Studio</title>
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#F4F0E6">
+  <link rel="icon" type="image/png" href="logo.png">
+  
+  <meta name="description" content="Masuk ke Member Workspace Karsa Studio untuk mengakses 30 hari video scripts, Notion Content OS, Brand Vault, dan update SLA produksi.">
+  <link rel="canonical" href="https://usekarsa.co/login">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Bricolage Grotesque (Display) + Plus Jakarta Sans (Body) + JetBrains Mono (Meta) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800;12..96,900&family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Bricolage Grotesque"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            canvas: '#F4F0E6',
+            surface: '#FFFFFF',
+            ink: '#0D0D0D',
+            brutalYellow: '#FFDE59',
+            brutalCyan: '#70D6FF',
+            brutalPink: '#FF70A6',
+            brutalGreen: '#7AE582',
+            sand: '#EAE4D6',
+          },
+          boxShadow: {
+            'brutal-sm': '2px 2px 0px #0D0D0D',
+            'brutal': '4px 4px 0px #0D0D0D',
+            'brutal-lg': '6px 6px 0px #0D0D0D',
+            'brutal-xl': '8px 8px 0px #0D0D0D',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 1. Subtle Dot Matrix Pattern */
+    .brutal-dots {
+      background-color: #F4F0E6;
+      background-image: radial-gradient(#0D0D0D 1.4px, transparent 1.4px);
+      background-size: 24px 24px;
+    }
+
+    /* 2. Structured Retro Grid Pattern */
+    .brutal-grid {
+      background-color: #F4F0E6;
+      background-image: linear-gradient(to right, #0D0D0D10 1.2px, transparent 1.2px),
+                        linear-gradient(to bottom, #0D0D0D10 1.2px, transparent 1.2px);
+      background-size: 32px 32px;
+    }
+
+    .bento-card {
+      background: #FFFFFF;
+      border: 2.5px solid #0D0D0D;
+      box-shadow: 4px 4px 0px #0D0D0D;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 640px) {
+      .bento-card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 7px 7px 0px #0D0D0D;
+      }
+    }
+
+    /* Tactile Button Press Micro-interaction */
+    .btn-press {
+      border: 2.5px solid #0D0D0D;
+      box-shadow: 4px 4px 0px #0D0D0D;
+      transition: all 0.12s ease;
+    }
+    .btn-press:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #0D0D0D;
+    }
+    .btn-press:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0px 0px 0px #0D0D0D;
+    }
+
+    .badge-brutal {
+      border: 2px solid #0D0D0D;
+      box-shadow: 2.5px 2.5px 0px #0D0D0D;
+      transition: transform 0.15s ease;
+    }
+    .badge-brutal:hover {
+      transform: translate(-2px, -2px) rotate(0deg) !important;
+    }
+
+    .brutal-star {
+      clip-path: polygon(50% 0%, 65% 28%, 100% 35%, 75% 60%, 82% 95%, 50% 78%, 18% 95%, 25% 60%, 0% 35%, 35% 28%);
+    }
+
+    html { scroll-behavior: smooth; }
+    :focus-visible {
+      outline: 3px solid #0D0D0D;
+      outline-offset: 3px;
+    }
+
+    * {
+      scrollbar-color: #0D0D0D #F4F0E6;
+      scrollbar-width: thin;
+    }
+  </style>
+</head>
+<body class="bg-canvas text-ink font-sans antialiased selection:bg-brutalYellow selection:text-ink min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- TOP STATUS TICKER -->
+  <div class="bg-brutalYellow text-ink text-[11px] sm:text-xs font-mono py-2.5 px-3 text-center tracking-tight border-b-2 border-ink flex items-center justify-center gap-2 font-bold relative z-30">
+    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-ink text-brutalYellow text-[10px] uppercase font-mono font-black border border-ink shadow-brutal-sm shrink-0">
+      <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> PORTAL MEMBER
+    </span>
+    <span class="truncate sm:overflow-visible text-ink font-bold">Akses terenkripsi ke Notion Content OS, Brand Vault, dan pemantauan SLA produksi.</span>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="border-b-2 border-ink bg-canvas/95 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a class="flex items-center space-x-2 group shrink-0" href="/">
+        <span class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-ink group-hover:-translate-y-0.5 transition-transform">Karsa</span>
+        <span class="badge-brutal text-[10px] font-mono uppercase px-2 py-0.5 bg-brutalYellow text-ink rounded font-bold">Studio</span>
+      </a>
+
+      <!-- Status & Back Button -->
+      <div class="flex items-center gap-3 text-xs font-mono font-bold">
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-ink shadow-brutal-sm">
+          <span class="w-2 h-2 rounded-full bg-brutalGreen border border-ink animate-ping"></span>
+          <span>Sistem: <strong class="text-ink">Online 24/7</strong></span>
+        </div>
+        <a class="btn-press inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-white text-ink rounded-xl font-bold transition" href="/">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span class="hidden xs:inline">Kembali ke Beranda</span>
+          <span class="xs:hidden">Beranda</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN AUTH CONTENT -->
+  <main id="main-content" class="flex-1 py-10 sm:py-16 lg:py-20 brutal-dots relative overflow-hidden flex items-center">
+    
+    <!-- Floating Brutalist Stickers & Geometry -->
+    <div class="hidden lg:flex absolute top-10 left-10 w-28 h-28 bg-brutalYellow text-ink items-center justify-center font-display font-extrabold text-xs uppercase text-center p-2 rotate-12 z-0 brutal-star border-2 border-ink shadow-brutal animate-pulse pointer-events-none">
+      100%<br>TERKUNCI
+    </div>
+    <div class="hidden xl:flex absolute bottom-12 right-10 badge-brutal bg-white px-3.5 py-2 rounded-xl items-center gap-2 -rotate-6 z-10 shadow-brutal">
+      <div class="w-6 h-6 rounded bg-ink text-brutalYellow flex items-center justify-center font-mono font-black text-xs">N</div>
+      <span class="font-mono font-bold text-xs">Notion OS Database</span>
+    </div>
+    <div class="absolute top-1/4 left-2 text-2xl font-mono font-black text-ink select-none pointer-events-none opacity-30">✦</div>
+    <div class="absolute bottom-1/4 right-6 text-3xl font-mono font-black text-ink select-none pointer-events-none opacity-20">✛</div>
+    <div class="hidden lg:block absolute bottom-8 left-1/4 w-5 h-5 rounded-full border-2 border-ink bg-brutalCyan rotate-45 pointer-events-none shadow-brutal-sm"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+        
+        <!-- Left Side: Workspace Features & Benefit Cards (6 Cols) -->
+        <section class="lg:col-span-6 space-y-6 text-center lg:text-left" aria-labelledby="workspace-title">
+          
+          <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 badge-brutal bg-brutalYellow px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold text-ink">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-ink"></i>
+              <span>WORKSPACE DASHBOARD</span>
+            </div>
+
+            <h1 id="workspace-title" class="text-3xl sm:text-5xl lg:text-[54px] font-display font-extrabold tracking-tight text-ink leading-[1.1]">
+              Semua eksekusi konten, <br class="hidden sm:inline">
+              <span class="bg-brutalYellow text-ink px-2.5 py-0.5 inline-block -rotate-1 border-2 border-ink shadow-brutal-sm">satu ruang kendali.</span>
+            </h1>
+
+            <div class="max-w-lg mx-auto lg:mx-0">
+              <p class="bg-white border-2 border-ink rounded-2xl shadow-brutal-sm px-4 sm:px-5 py-3.5 sm:py-4 text-sm sm:text-base text-stone-800 leading-relaxed font-sans font-medium flex items-start gap-3">
+                <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-brutalYellow border-2 border-ink flex items-center justify-center shadow-brutal-sm shrink-0 mt-0.5"><i data-lucide="calendar" class="w-4 h-4 text-ink"></i></span>
+                <span>Akses langsung kalender naskah 30 hari kamu, salin database Notion Content OS, simpan Brand Vault, dan pantau SLA produksi real-time.</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-2">
+            
+            <div class="bento-card p-5 rounded-3xl bg-white flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-mono text-[10px] uppercase font-bold text-stone-500">01 / TRACK</span>
+                  <div class="w-8 h-8 rounded-xl bg-brutalCyan/30 border-2 border-ink flex items-center justify-center shadow-brutal-sm">
+                    <i data-lucide="kanban" class="w-4 h-4 text-ink"></i>
+                  </div>
+                </div>
+                <h2 class="font-display font-bold text-lg sm:text-xl text-ink">Pantau Pipeline</h2>
+                <p class="text-xs text-stone-600 font-sans leading-relaxed mt-1.5">
+                  Cek status konfirmasi brief, penulisan script, hingga link file serah terima final.
+                </p>
+              </div>
+              <span class="font-mono text-[10px] text-stone-500 mt-4 pt-2.5 border-t-2 border-ink block font-bold">
+                Update SLA Real-Time
+              </span>
+            </div>
+
+            <div class="bento-card p-5 rounded-3xl bg-brutalYellow flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-mono text-[10px] uppercase font-bold text-ink">02 / VAULT</span>
+                  <div class="w-8 h-8 rounded-xl bg-white border-2 border-ink flex items-center justify-center shadow-brutal-sm">
+                    <i data-lucide="archive" class="w-4 h-4 text-ink"></i>
+                  </div>
+                </div>
+                <h2 class="font-display font-bold text-lg sm:text-xl text-ink">Brand Vault</h2>
+                <p class="text-xs text-stone-800 font-sans leading-relaxed mt-1.5">
+                  Simpan persona, target pembeli, dan kamus istilah brand kamu untuk batch berikutnya.
+                </p>
+              </div>
+              <span class="font-mono text-[10px] text-ink mt-4 pt-2.5 border-t-2 border-ink block font-bold">
+                1-Click Preset Load
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Bottom Trust Banner -->
+          <div class="bento-card p-4 sm:p-5 rounded-2xl bg-white flex items-center gap-3.5 text-left">
+            <div class="w-11 h-11 rounded-2xl bg-brutalGreen border-2 border-ink flex items-center justify-center shrink-0 shadow-brutal-sm">
+              <i data-lucide="shield-alert" class="w-5 h-5 text-ink"></i>
+            </div>
+            <div>
+              <span class="block font-display font-bold text-sm sm:text-base text-ink">Keamanan Data Terisolasi</span>
+              <span class="block text-xs text-stone-600 font-sans leading-relaxed">
+                Brief, dokumen, & repositori naskah hanya dapat diakses oleh akun terverifikasi kamu.
+              </span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Right Side: Auth Form Box (6 Cols) -->
+        <section class="lg:col-span-6 flex justify-center lg:justify-end" aria-labelledby="auth-title">
+          <div class="w-full max-w-md bento-card p-6 sm:p-8 rounded-3xl bg-white relative shadow-brutal-lg">
+            
+            <!-- Auth Form Header -->
+            <div class="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <span class="font-mono text-[10px] uppercase tracking-wider text-stone-500 font-bold">Autentikasi Member</span>
+                <h2 id="auth-title" class="font-display font-extrabold text-2xl sm:text-3xl text-ink mt-1">Masuk ke Workspace</h2>
+                <p class="text-xs text-stone-600 mt-1 font-mono">Lanjutkan manajemen batch konten kamu.</p>
+              </div>
+              <div class="w-11 h-11 rounded-2xl bg-brutalYellow border-2 border-ink flex items-center justify-center shrink-0 shadow-brutal-sm">
+                <i data-lucide="key" class="w-5 h-5 text-ink"></i>
+              </div>
+            </div>
+
+            <!-- Tab Switcher (Masuk vs Buat Akun) -->
+            <div class="grid grid-cols-2 gap-2 p-1.5 bg-canvas border-2 border-ink rounded-2xl mb-5 font-mono text-xs font-bold" role="tablist" aria-label="Mode Autentikasi">
+              <button type="button" id="tabLogin" onclick="switchAuthMode('login')" role="tab" aria-selected="true" class="rounded-xl py-2.5 transition bg-ink text-brutalYellow shadow-brutal-sm">
+                Masuk
+              </button>
+              <button type="button" id="tabRegister" onclick="switchAuthMode('register')" role="tab" aria-selected="false" class="rounded-xl py-2.5 transition text-stone-600 hover:text-ink">
+                Buat Akun
+              </button>
+            </div>
+
+            <!-- OAuth Buttons -->
+            <div class="space-y-2.5 mb-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button type="button" onclick="handleOAuth('google')" class="btn-press w-full py-2.5 px-3 rounded-xl bg-white text-ink font-mono text-xs font-bold flex items-center justify-center gap-2">
+                  <svg viewBox="0 0 24 24" class="w-4 h-4 shrink-0" aria-hidden="true">
+                    <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/>
+                  </svg>
+                  <span>Google</span>
+                </button>
+
+                <button type="button" onclick="handleOAuth('github')" class="btn-press w-full py-2.5 px-3 rounded-xl bg-ink text-white font-mono text-xs font-bold flex items-center justify-center gap-2">
+                  <svg viewBox="0 0 24 24" class="w-4 h-4 shrink-0" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                  </svg>
+                  <span>GitHub</span>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-3 font-mono text-[10px] text-stone-500 font-bold py-1" aria-hidden="true">
+                <span class="flex-1 border-t-2 border-dashed border-ink/20"></span>
+                <span>atau via email</span>
+                <span class="flex-1 border-t-2 border-dashed border-ink/20"></span>
+              </div>
+            </div>
+
+            <!-- Email & Password Form -->
+            <form id="authForm" class="space-y-3.5" onsubmit="handleAuthSubmit(event)">
+              
+              <!-- Brand Name field (shown on register mode) -->
+              <div id="fieldBrand" class="hidden">
+                <label for="inputBrandName" class="block text-xs font-mono font-bold text-ink mb-1.5">Nama Brand / Bisnis *</label>
+                <div class="flex items-center gap-2 bg-canvas border-2 border-ink rounded-xl px-3 focus-within:ring-2 focus-within:ring-ink">
+                  <i data-lucide="briefcase" class="w-4 h-4 text-stone-500 shrink-0"></i>
+                  <input id="inputBrandName" type="text" placeholder="Contoh: Kopi Teras Senja" class="w-full bg-transparent py-2.5 text-sm text-ink focus:outline-none font-sans">
+                </div>
+              </div>
+
+              <div>
+                <label for="inputEmail" class="block text-xs font-mono font-bold text-ink mb-1.5">Email Workspace *</label>
+                <div class="flex items-center gap-2 bg-canvas border-2 border-ink rounded-xl px-3 focus-within:ring-2 focus-within:ring-ink">
+                  <i data-lucide="mail" class="w-4 h-4 text-stone-500 shrink-0"></i>
+                  <input id="inputEmail" type="email" required autocomplete="email" placeholder="nama@brand.com" class="w-full bg-transparent py-2.5 text-sm text-ink focus:outline-none font-sans">
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <label for="inputPassword" class="block text-xs font-mono font-bold text-ink">Password *</label>
+                  <button type="button" onclick="handleForgotPassword()" class="text-[10px] font-mono font-bold text-stone-600 hover:text-ink hover:underline">Lupa password?</button>
+                </div>
+                <div class="flex items-center gap-2 bg-canvas border-2 border-ink rounded-xl pl-3 pr-1.5 focus-within:ring-2 focus-within:ring-ink">
+                  <i data-lucide="lock" class="w-4 h-4 text-stone-500 shrink-0"></i>
+                  <input id="inputPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Minimal 6 karakter" class="w-full bg-transparent py-2.5 text-sm text-ink focus:outline-none font-sans">
+                  <button type="button" onclick="togglePasswordVisibility()" aria-label="Lihat Password" class="p-1.5 rounded-lg text-stone-500 hover:bg-brutalYellow hover:text-ink transition">
+                    <i data-lucide="eye" id="eyeIcon" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between gap-3 pt-1 text-xs">
+                <label class="inline-flex items-center gap-2 text-stone-700 cursor-pointer select-none">
+                  <input type="checkbox" checked class="w-4 h-4 accent-ink rounded border-2 border-ink">
+                  <span class="font-medium">Ingat perangkat ini</span>
+                </label>
+                <span class="font-mono text-[10px] font-bold text-stone-500">256-Bit SSL</span>
+              </div>
+
+              <button type="submit" id="btnSubmitAuth" class="btn-press w-full py-3.5 bg-ink text-brutalYellow hover:bg-brutalYellow hover:text-ink font-mono text-xs sm:text-sm font-bold rounded-xl flex items-center justify-center gap-2">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                <span id="submitBtnText">Masuk ke Workspace</span>
+              </button>
+
+              <p id="authStatus" role="status" class="text-center text-xs font-mono text-stone-600 min-h-4"></p>
+            </form>
+
+            <!-- Bottom Mode Switcher -->
+            <div class="mt-5 pt-4 border-t-2 border-ink text-center text-xs font-mono text-stone-600">
+              <span id="toggleTextHelper">Belum punya akun workspace?</span>
+              <button type="button" onclick="toggleAuthModeHelper()" id="btnToggleHelper" class="font-bold text-ink underline hover:text-stone-800 ml-1">
+                Daftar sekarang
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t-2 border-ink bg-canvas py-6 brutal-grid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs font-mono text-stone-600">
+      <div>
+        <span>&copy; 2026 Karsa Studio (usekarsa.co). Member Auth Console.</span>
+      </div>
+      <div class="flex items-center gap-4 font-bold">
+        <a href="/terms" class="hover:underline hover:text-ink">Syarat</a>
+        <a href="/privacy" class="hover:underline hover:text-ink">Privasi</a>
+        <a href="/refund" class="hover:underline hover:text-ink">Jaminan SLA</a>
+      </div>
+    </div>
+  </footer>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    lucide.createIcons();
+
+    const SUPABASE_URL = "https://ipqkjcvissmqunbfabaj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwcWtqY3Zpc3NtcXVuYmZhYmFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4Njc2NTMsImV4cCI6MjEwMjQ0MzY1M30.018wVLdI1Mol0G-_SiL6rArWkGhe_5G53UVhD2PP-4I";
+    let sb = null;
+    try {
+      sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    } catch (e) {
+      console.error(e);
+    }
+
+    let currentAuthMode = 'login';
+
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+      const fieldBrand = document.getElementById('fieldBrand');
+      const inputBrandName = document.getElementById('inputBrandName');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const toggleTextHelper = document.getElementById('toggleTextHelper');
+      const btnToggleHelper = document.getElementById('btnToggleHelper');
+      const authStatus = document.getElementById('authStatus');
+
+      authStatus.textContent = '';
+
+      if (mode === 'login') {
+        tabLogin.className = 'rounded-xl py-2.5 transition bg-ink text-brutalYellow shadow-brutal-sm';
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabRegister.className = 'rounded-xl py-2.5 transition text-stone-600 hover:text-ink';
+        tabRegister.setAttribute('aria-selected', 'false');
+        fieldBrand.classList.add('hidden');
+        inputBrandName.removeAttribute('required');
+        submitBtnText.textContent = 'Masuk ke Workspace';
+        toggleTextHelper.textContent = 'Belum punya akun workspace?';
+        btnToggleHelper.textContent = 'Daftar sekarang';
+      } else {
+        tabRegister.className = 'rounded-xl py-2.5 transition bg-ink text-brutalYellow shadow-brutal-sm';
+        tabRegister.setAttribute('aria-selected', 'true');
+        tabLogin.className = 'rounded-xl py-2.5 transition text-stone-600 hover:text-ink';
+        tabLogin.setAttribute('aria-selected', 'false');
+        fieldBrand.classList.remove('hidden');
+        inputBrandName.setAttribute('required', 'true');
+        submitBtnText.textContent = 'Buat Akun Workspace';
+        toggleTextHelper.textContent = 'Sudah memiliki akun workspace?';
+        btnToggleHelper.textContent = 'Masuk di sini';
+      }
+    }
+
+    function toggleAuthModeHelper() {
+      switchAuthMode(currentAuthMode === 'login' ? 'register' : 'login');
+    }
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('inputPassword');
+      const eyeIcon = document.getElementById('eyeIcon');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function getDestination() {
+      const params = new URLSearchParams(window.location.search);
+      const redirectPath = params.get('redirect');
+      const orderId = params.get('orderId');
+      let dest = '/dashboard';
+      if (redirectPath && redirectPath.startsWith('/') && !redirectPath.startsWith('//')) {
+        dest = redirectPath;
+      }
+      if (orderId) {
+        dest += (dest.includes('?') ? '&' : '?') + 'id=' + encodeURIComponent(orderId);
+      }
+      return dest;
+    }
+
+    async function handleOAuth(provider) {
+      const authStatus = document.getElementById('authStatus');
+      if (!sb) {
+        authStatus.textContent = 'Layanan login belum tersedia. Coba lagi sebentar.';
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+        return;
+      }
+      const callbackUrl = new URL('/auth/callback', window.location.origin);
+      callbackUrl.searchParams.set('next', getDestination());
+      const { error } = await sb.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: callbackUrl.toString() },
+      });
+      if (error) {
+        authStatus.textContent = 'Gagal membuka ' + provider + ': ' + error.message;
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+      }
+    }
+
+    async function handleAuthSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('inputEmail').value.trim();
+      const password = document.getElementById('inputPassword').value;
+      const brandName = document.getElementById('inputBrandName').value.trim();
+      const authStatus = document.getElementById('authStatus');
+      const submitBtn = document.getElementById('btnSubmitAuth');
+
+      if (!sb) {
+        authStatus.textContent = 'Layanan login belum tersedia. Coba lagi sebentar.';
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      authStatus.textContent = currentAuthMode === 'login' ? 'Memverifikasi kredensial workspace...' : 'Membuat akun workspace...';
+      authStatus.className = 'text-center text-xs font-mono text-ink font-bold';
+
+      try {
+        if (currentAuthMode === 'register') {
+          if (brandName.length < 2) throw new Error('Isi nama brand/bisnis agar brief batch bisa disusun dengan benar.');
+          const { data, error } = await sb.auth.signUp({
+            email,
+            password,
+            options: { data: { role: 'customer', brand: brandName } },
+          });
+          if (error) throw error;
+          if (data.session) {
+            window.location.replace(getDestination());
+            return;
+          }
+          switchAuthMode('login');
+          authStatus.textContent = 'Akun berhasil dibuat. Periksa email untuk verifikasi, lalu masuk.';
+          authStatus.className = 'text-center text-xs font-mono text-ink font-bold';
+        } else {
+          const { data, error } = await sb.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          const res = await fetch('/api/me', {
+            headers: { Authorization: 'Bearer ' + data.session.access_token },
+          });
+          const me = res.ok ? await res.json() : null;
+          if (me && me.role === 'admin') {
+            window.location.replace('/console');
+          } else {
+            window.location.replace(getDestination());
+          }
+        }
+      } catch (err) {
+        authStatus.textContent = err.message || 'Terjadi kesalahan';
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    async function handleForgotPassword() {
+      const email = document.getElementById('inputEmail').value.trim();
+      const authStatus = document.getElementById('authStatus');
+      if (!email) {
+        authStatus.textContent = 'Isi alamat email dulu untuk reset password.';
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+        return;
+      }
+      if (!sb) return;
+      authStatus.textContent = 'Mengirim instruksi reset...';
+      authStatus.className = 'text-center text-xs font-mono text-ink font-bold';
+      const callbackUrl = new URL('/auth/callback', window.location.origin);
+      callbackUrl.searchParams.set('next', '/login?mode=update');
+      const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: callbackUrl.toString(),
+      });
+      if (error) {
+        authStatus.textContent = error.message;
+        authStatus.className = 'text-center text-xs font-mono text-brutalPink font-bold';
+      } else {
+        authStatus.textContent = 'Instruksi reset dikirim. Periksa inbox untuk membuat password baru.';
+        authStatus.className = 'text-center text-xs font-mono text-ink font-bold';
+      }
+    }
+  </script>
+</body>
+</html>

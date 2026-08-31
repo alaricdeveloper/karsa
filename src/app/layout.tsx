@@ -1,38 +1,15 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Plus_Jakarta_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const mono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://usekarsa.com"),
   title: {
     default:
-      "Jasa Konten Video UMKM 30 Hari — 30 Script + 4 Artikel SEO | Karsa Studio",
+      "Karsa Studio — 30 Hari Konten Siap Rekam (30 Script + SEO + Notion OS)",
     template: "%s | Karsa Studio",
   },
   description:
-    "Jasa konten video UMKM & script video 30 hari: 30 naskah kata-per-kata untuk TikTok/Reels/Shorts, 30 caption AIDA, 4 artikel SEO, dan Notion OS — dikirim dalam 24 jam kerja. Mulai Rp299.000.",
+    "30 video script kata-per-kata, 30 caption AIDA, 4 artikel SEO, Notion Content OS, dikirim dalam 24 jam kerja.",
   keywords: [
     "jasa konten video umkm",
     "jasa script video tiktok",
@@ -53,7 +30,7 @@ export const metadata: Metadata = {
     url: "https://usekarsa.com",
     siteName: "Karsa Studio",
     title:
-      "Jasa Konten Video UMKM 30 Hari — 30 Script + 4 Artikel SEO | Karsa Studio",
+      "Karsa Studio — 30 Hari Konten Siap Rekam (30 Script + SEO + Notion OS)",
     description:
       "30 video scripts kata-per-kata, 30 caption AIDA, 4 artikel SEO, dan Notion OS dalam 24 jam kerja. Mulai Rp299.000.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Karsa Studio — Jasa Konten Video UMKM 30 Hari" }],
@@ -61,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Jasa Konten Video UMKM 30 Hari — 30 Script + 4 Artikel SEO | Karsa Studio",
+      "Karsa Studio — 30 Hari Konten Siap Rekam (30 Script + SEO + Notion OS)",
     description:
       "30 video scripts kata-per-kata, 30 caption AIDA, 4 artikel SEO, dan Notion OS dalam 24 jam kerja. Mulai Rp299.000.",
     images: ["/og-image.png"],
@@ -122,8 +99,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
-        className={`${jakarta.variable} ${serif.variable} ${mono.variable} bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink overflow-x-hidden`}
+        className={`bg-canvas text-ink font-sans antialiased selection:bg-brutalYellow selection:text-ink overflow-x-hidden`}
       >
         <script
           type="application/ld+json"

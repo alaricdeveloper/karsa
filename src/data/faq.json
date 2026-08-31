@@ -1,0 +1,380 @@
+{
+ "umum": [
+  {
+   "q": "Bagaimana format berkas yang akan saya terima?",
+   "a": "Kamu akan menerima tautan Notion Workspace terstruktur per hari (Day 01 hingga Day 30), lengkap dengan jadwal posting, video script kata-per-kata, caption AIDA, dan shot-list B-Roll. Kami juga menyertakan file cadangan Google Docs (.docx)."
+  },
+  {
+   "q": "Apakah saya harus merekam videonya sendiri?",
+   "a": "Ya. Karsa menyediakan video script kata-per-kata per detik yang siap dibaca langsung di teleprompter ponsel kamu. Kamu atau tim cukup berbicara di depan kamera HP mengikuti panduan visual dan intonasi yang telah kami siapkan."
+  },
+  {
+   "q": "Bagaimana hak cipta dan kepemilikan materi konten?",
+   "a": "Hak pakai komersial materi menjadi milik kamu setelah dokumen diserahterimakan. Kamu bebas mempublikasikan, memodifikasi, atau menggunakannya sebagai materi promosi brand."
+  },
+  {
+   "q": "Bagaimana jika industri bisnis saya sangat unik / niche?",
+   "a": "Di formulir brief, kamu dapat mencantumkan deskripsi produk sedetail mungkin dan menyertakan 1 akun kompetitor rujukan. Tim kami akan membedah target audiens dan pain point spesifik produkmu, apa pun industrinya."
+  },
+  {
+   "q": "Apakah naskah ini bisa dipakai untuk iklan berbayar (Meta/TikTok Ads)?",
+   "a": "Sangat bisa. Struktur video script kami menggunakan pola hook psikologis dan direct CTA yang teruji menghasilkan Click-Through-Rate (CTR) tinggi saat dialihkan menjadi materi iklan berbayar."
+  },
+  {
+   "q": "Apakah gaya bahasa bisa disesuaikan dengan brand saya?",
+   "a": "Bisa. Pilihan tone di brief menjadi acuan awal, lalu kamu bisa menjelaskan istilah, kata yang harus dihindari, dan cara brand kamu berbicara kepada audiens."
+  },
+  {
+   "q": "Apakah naskah bisa dipakai untuk LinkedIn, YouTube long-form, atau X/Threads?",
+   "a": "Kalender 30 hari difokuskan ke short-form (TikTok, Reels, Shorts) karena ROI tercepat untuk UMKM. Untuk LinkedIn atau YouTube, angle dan struktur naskah tetap bisa dipakai — bonus Content Repurposing Framework kami menjelaskan cara mengubah satu naskah menjadi beberapa format."
+  },
+  {
+   "q": "Apakah konten harus berbahasa Indonesia?",
+   "a": "Default konten ditulis dalam Bahasa Indonesia. Jika target pasar kamu membutuhkan bahasa Inggris atau campuran (seperti dialek Jawa, Sunda, atau istilah daerah), jelaskan di brief dan kami sesuaikan."
+  },
+  {
+   "q": "Apakah saya harus tampil di depan kamera?",
+   "a": "Tidak wajib. Banyak customer memakai format voiceover + B-Roll produk (tangan saja yang muncul), atau mempercayakan rekaman ke satu anggota tim. Panduan B-Roll kami menyediakan shot list untuk format tanpa wajah."
+  },
+  {
+   "q": "Apa itu Karsa Studio?",
+   "a": "Karsa Studio adalah tim produksi konten yang menyiapkan inventaris konten 30 hari untuk UMKM: 30 video script kata-per-kata, 30 caption AIDA + riset tagar, 4 artikel SEO, dan Notion Content OS — dalam satu batch Rp299.000."
+  },
+  {
+   "q": "Apakah ini jasa perorangan atau tim?",
+   "a": "Tim. Setiap batch diproses oleh copywriter, SEO strategist, dan kurator QC yang saling review sebelum link Notion dikirim ke kamu."
+  },
+  {
+   "q": "Berapa lama saya bisa mengakses materi setelah terkirim?",
+   "a": "Selamanya. Link Notion Workspace dan file cadangan Google Docs milikmu permanen — kamu bisa mengunduh kapan saja."
+  },
+  {
+   "q": "Apakah saya bisa berbagi akses Notion dengan tim atau agensi?",
+   "a": "Bisa. Kamu tinggal membagikan akses link Notion ke editor/rekan tim. Kalau perlu panduan, tim kami siap membantu via WhatsApp."
+  },
+  {
+   "q": "Apakah brief saya dijamin kerahasiaannya?",
+   "a": "Ya. Data brief, produk, dan materi yang kamu kirim hanya digunakan untuk pengerjaan batch kamu dan tidak dibagikan ke pihak lain."
+  },
+  {
+   "q": "Apakah materi bisa saya pakai untuk konten lain seperti podcast atau e-book?",
+   "a": "Materi yang kamu terima sepenuhnya milikmu — naskah video bisa diadaptasi untuk podcast, artikel untuk e-book, atau medium lain selama sesuai kebutuhan bisnismu."
+  }
+ ],
+ "harga": [
+  {
+   "q": "Berapa lama waktu pengerjaan dari pengisian brief (SLA)?",
+   "a": "Standar SLA pengiriman adalah maksimal 1x24 jam kerja. Waktu ini digunakan untuk memproses brief, menyusun naskah kata-per-kata, dan menjalankan kurasi kualitas sebelum link Notion dikirimkan ke email kamu."
+  },
+  {
+   "q": "Apakah ini sistem langganan yang memotong saldo otomatis?",
+   "a": "Bukan langganan mengikat dan tidak ada auto-debit. Kamu hanya membayar flat Rp299.000 per batch saat membutuhkan kalender konten 30 hari yang baru. Tidak ada biaya tersembunyi di bulan berikutnya."
+  },
+  {
+   "q": "Metode pembayaran apa saja yang didukung?",
+   "a": "Kami menerima pembayaran instan via QRIS serta Virtual Account dari bank utama di Indonesia. Detail metode pembayaran akan muncul di halaman checkout."
+  },
+  {
+   "q": "Apa bedanya Karsa dengan jasa konten bulanan atau agensi?",
+   "a": "Agensi biasanya kontrak bulanan Rp5-20 juta dan mengerjakan produksi secara menyeluruh. Karsa menjual satu sistem konten sekali bayar: riset, naskah, caption, SEO, dan template produksi — kamu yang merekam dan memposting. Lebih murah, tanpa kontrak, dan brand voice tetap di tangan kamu."
+  },
+  {
+   "q": "Apakah tersedia invoice dan faktur pajak?",
+   "a": "Ya. Setiap pembelian menghasilkan halaman invoice yang bisa dicetak atau diunduh. Untuk kebutuhan faktur pajak badan usaha, hubungi kami lewat email setelah checkout dan kami bantu prosesnya."
+  },
+  {
+   "q": "Bisa beli untuk beberapa brand sekaligus?",
+   "a": "Bisa. Setiap brand dihitung sebagai satu batch terpisah dengan brief masing-masing. Diskon paket 3 batch berlaku lintas brand, jadi kamu bisa mengelola 3 brand sekaligus dengan satu pembelian."
+  },
+  {
+   "q": "Apakah ada biaya bulanan atau langganan?+",
+   "a": "Tidak. Satu harga flat per batch, tanpa langganan otomatis dan tanpa auto-debit. Kamu hanya membayar saat membutuhkan batch baru."
+  },
+  {
+   "q": "Bagaimana cara pembayarannya?+",
+   "a": "Pembayaran instan melalui QRIS dan Virtual Account di halaman checkout. Batch diproses sesuai urutan pembayaran."
+  },
+  {
+   "q": "Apakah harga bisa berubah untuk pembelian batch tambahan?+",
+   "a": "Untuk paket 6 batch, harga terkunci untuk penambahan batch. Untuk paket lain, harga mengikuti daftar harga yang berlaku."
+  },
+  {
+   "q": "Apakah ada diskon atau promo?+",
+   "a": "Paket 3 batch dan 6 batch sudah termasuk diskon bawaan: hemat Rp98.000 untuk 3 batch dan Rp304.000 untuk 6 batch dibanding membeli satuan."
+  },
+  {
+   "q": "Apakah ini menggantikan content creator full-time?+",
+   "a": "Untuk UMKM tahap awal, ya — kamu mendapat output content creator (script, caption, artikel, kalender) tanpa gaji bulanan. Tim kamu tinggal merekam dan memposting. Saat skala bertambah, sistem ini jadi fondasi untuk diambil alih tim internal."
+  },
+  {
+   "q": "Apakah harga sudah termasuk pajak?",
+   "a": "Harga Rp299.000 per batch sudah termasuk semuanya, tanpa biaya tersembunyi. Invoice resmi dikirim setelah pembayaran dikonfirmasi."
+  },
+  {
+   "q": "Bagaimana jika pembayaran saya gagal?",
+   "a": "Invoice kamu tetap tersimpan di sistem — cukup hubungi tim via WhatsApp untuk bantuan penyelesaian pembayaran, dan batch akan diproses setelah pembayaran terkonfirmasi."
+  },
+  {
+   "q": "Apakah ada kode promo atau diskon referral?",
+   "a": "Diskon tersedia lewat paket 3 batch (Rp799.000) dan 6 batch (Rp1.490.000). Untuk promo musiman, pantau halaman utama dan akun media sosial Karsa."
+  },
+  {
+   "q": "Bisakah saya bayar untuk orang lain atau perusahaan saya?",
+   "a": "Bisa. Isi data perusahaan di formulir brief dan gunakan email invoice perusahaan. Invoice diterbitkan atas nama yang kamu isi saat checkout."
+  },
+  {
+   "q": "Apakah harga bisa berubah setelah saya membeli batch pertama?",
+   "a": "Harga untuk paket batch tambahan terkunci sesuai paket yang kamu pilih saat pembelian. Untuk paket lain, harga mengikuti daftar harga yang berlaku."
+  },
+  {
+   "q": "Apakah ada biaya konsultasi tambahan?",
+   "a": "Tidak. Konsultasi via WhatsApp termasuk dalam batch — tanya apa pun seputar materi, cara rekam, atau strategi posting tanpa biaya tambahan."
+  }
+ ],
+ "sla": [
+  {
+   "q": "Bagaimana jika pengiriman melebihi 24 jam kerja?",
+   "a": "Jika terjadi keterlambatan dari sisi tim internal kami, kamu akan mendapatkan 5 naskah video tambahan sebagai kompensasi sesuai kebijakan SLA."
+  },
+  {
+   "q": "Apa yang harus saya siapkan sebelum mengisi brief?",
+   "a": "Siapkan deskripsi produk, target pembeli, rentang harga, satu kompetitor acuan, dan contoh tone yang kamu suka. Semakin jelas konteksnya, semakin spesifik arah naskah yang bisa kami susun."
+  },
+  {
+   "q": "Kapan hitungan SLA 1x24 jam kerja dimulai?",
+   "a": "SLA mulai dihitung setelah brief terisi lengkap dan pembayaran terkonfirmasi. Jika ada informasi penting yang belum jelas, kami akan menghubungi kamu sebelum proses penulisan dimulai."
+  },
+  {
+   "q": "Bagaimana cara mengakses Notion Content OS?",
+   "a": "Kamu menerima tautan duplicate 1-klik — salin ke akun Notion kamu, lalu seluruh database (kalender, script, caption, SEO) siap dipakai. Panduan pemakaian 3 menit disertakan, dan semua file juga dikirim dalam format Docs/Markdown sebagai cadangan."
+  },
+  {
+   "q": "Kapan waktu terbaik untuk mulai?",
+   "a": "Hari ini. Batch diproses maksimal 24 jam kerja setelah pembayaran terkonfirmasi, jadi konten bisa mulai direkam minggu ini juga. Banyak customer memulai di awal bulan agar ritme 30 hari sejalan dengan jadwal produksi mereka."
+  },
+  {
+   "q": "Apakah SLA 24 jam dihitung termasuk hari Sabtu dan Minggu?",
+   "a": "SLA dihitung dalam 1x24 jam kerja, artinya hari libur dan akhir pekan tidak dihitung. Batch yang masuk Jumat malam diproses mulai hari kerja berikutnya."
+  },
+  {
+   "q": "Bagaimana jika brief yang saya kirim tidak lengkap?",
+   "a": "Tim kami akan menghubungimu via email/WhatsApp untuk melengkapi data. Hitungan SLA dimulai setelah brief dianggap lengkap oleh tim."
+  },
+  {
+   "q": "Bisakah saya minta pengiriman lebih cepat dari 24 jam?",
+   "a": "Standar kami 1x24 jam kerja. Kalau kamu butuh prioritas, sampaikan saat checkout — tim akan konfirmasi ketersediaan slot cepat."
+  },
+  {
+   "q": "Apa yang terjadi tepat setelah 24 jam?",
+   "a": "Link Notion Content OS dikirim ke emailmu lengkap dengan 30 script, 30 caption, 4 artikel SEO, dan audit kompetitor."
+  }
+ ],
+ "revisi": [
+  {
+   "q": "Bagaimana jika ada naskah yang kurang cocok (Garansi Revisi)?",
+   "a": "Kami menyediakan garansi kalibrasi pesan selama 48 jam. Jika ada istilah teknis atau nada bicara yang ingin disesuaikan dengan persona brand kamu, tim kami akan memperbarui Notion dalam kurun waktu 12 jam kerja."
+  },
+  {
+   "q": "Berapa banyak penyesuaian yang termasuk dalam garansi?",
+   "a": "Garansi berfokus pada kalibrasi istilah produk, tone, dan sudut pesan yang kurang sesuai dengan brief. Untuk kebutuhan yang berubah jauh dari konteks awal, hubungi tim agar cakupannya bisa disepakati lebih dulu."
+  },
+  {
+   "q": "Bagaimana teknis pengajuan revisi kalibrasi?",
+   "a": "Kirim permintaan lewat form di Member Workspace atau balas email pengiriman. Sebutkan nomor Day dan bagian yang ingin disesuaikan (istilah, tone, sudut pesan). Tim kami memperbarui langsung di Notion kamu maksimal 12 jam kerja."
+  },
+  {
+   "q": "Apakah ada garansi uang kembali?",
+   "a": "Jika setelah kalibrasi 48 jam ternyata output tidak sesuai scope yang dijanjikan di halaman Jaminan SLA, hubungi kami — kami akan mengevaluasi dan menyelesaikannya, termasuk opsi pengembalian sesuai ketentuan kebijakan refund."
+  },
+  {
+   "q": "Apakah ada garansi jika hasilnya kurang sesuai?+",
+   "a": "Ada garansi kalibrasi pesan 48 jam: penyesuaian istilah produk dan tone naskah gratis dalam 48 jam pertama, pembaruan Notion maksimal 12 jam kerja."
+  },
+  {
+   "q": "Apakah ada jaminan jika naskah kurang cocok?+",
+   "a": "Ada garansi kalibrasi pesan 48 jam: istilah produk dan tone naskah bisa disesuaikan, dengan pembaruan Notion maksimal 12 jam kerja."
+  },
+  {
+   "q": "Apakah saya bisa mengajukan revisi lebih dari satu kali?",
+   "a": "Kalibrasi 48 jam mencakup penyesuaian sudut pesan untuk batch kamu. Untuk kebutuhan penyesuaian lanjutan, tim tetap membantu semampunya via WhatsApp."
+  },
+  {
+   "q": "Apakah revisi memengaruhi timeline 30 hari?",
+   "a": "Tidak. Revisi kalibrasi dikerjakan paralel (maksimal 12 jam kerja) dan tidak menggeser jadwal konten yang sudah direncanakan."
+  },
+  {
+   "q": "Bagaimana jika saya tetap tidak puas setelah revisi?",
+   "a": "Sampaikan detail ketidakcocokan — tim akan mencari solusi, termasuk penggantian sudut pesan atau penyesuaian format selama masih dalam cakupan batch."
+  },
+  {
+   "q": "Apakah garansi uang kembali punya syarat?",
+   "a": "Garansi berlaku sesuai ketentuan di halaman Refund: pembatalan sebelum pengerjaan dimulai, atau kegagalan SLA 24 jam tanpa kompensasi sesuai kebijakan."
+  },
+  {
+   "q": "Siapa yang melakukan kurasi kualitas (QC)?",
+   "a": "Kurator QC independen di tim kami yang mengecek: hook, alur, CTA, ejaan, dan kesesuaian brief sebelum batch dikirim."
+  }
+ ],
+ "tiktok": [
+  {
+   "q": "Berapa lama script video TikTok dikerjakan?+",
+   "a": "30 naskah kata-per-kata dikirim maksimal 1x24 jam kerja setelah brief dan pembayaran terkonfirmasi. Setiap naskah sudah lengkap dengan timing per detik, arahan visual, dan CTA."
+  },
+  {
+   "q": "Script-nya format vertikal berapa detik?+",
+   "a": "Setiap naskah dirancang 15-30 detik format vertikal 9:16 untuk TikTok, Reels, dan Shorts — dengan pembagian per detik: hook (0-3s), problem framing, value solution, dan CTA."
+  },
+  {
+   "q": "Apakah saya perlu punya tim video?+",
+   "a": "Tidak. Cukup HP dengan kamera 1080p dan tripod ponsel. Setiap script menyertakan panduan visual, shot list, dan intonasi sehingga kamu atau satu orang talent bisa merekam sendiri."
+  },
+  {
+   "q": "Apakah script bisa disesuaikan dengan produk saya?+",
+   "a": "Ya. Brief kamu dibedah dulu: produk, target pembeli, gaya komunikasi, dan kompetitor acuan. Ada garansi kalibrasi 48 jam untuk istilah produk dan tone naskah."
+  },
+  {
+   "q": "Apakah script TikTok sudah termasuk arahan kamera dan B-roll?",
+   "a": "Ya. Setiap script dilengkapi shot-list: petunjuk angle, ekspresi, visual B-roll yang direkomendasikan, dan timing per detik."
+  },
+  {
+   "q": "Bisakah saya minta script dengan durasi 60 detik?",
+   "a": "Standar kami 25-40 detik (durasi performa terbaik). Untuk kebutuhan 60 detik atau long-form, sebutkan di brief — tim menyesuaikan."
+  },
+  {
+   "q": "Apakah script ditulis kata-per-kata atau cuma poin?",
+   "a": "Kata-per-kata. Kamu bisa membaca langsung di teleprompter ponsel tanpa menghafal — lengkap dengan jeda (pause) dan penekanan kalimat."
+  },
+  {
+   "q": "Apakah ada panduan cara membaca script di depan kamera?",
+   "a": "Ada. Di Notion Content OS tersedia panduan rekam: tips framing, pencahayaan, dan latihan intonasi untuk pemula."
+  }
+ ],
+ "video": [
+  {
+   "q": "Apa bedanya jasa konten video UMKM ini dengan jasa shooting?+",
+   "a": "Kami menyediakan sistem konten (naskah, caption, kalender, artikel SEO), bukan produksi video di lokasi. Kamu atau tim merekam sendiri dengan HP — setiap naskah sudah berisi panduan visual dan shot list."
+  },
+  {
+   "q": "Cocok untuk bisnis seperti apa?+",
+   "a": "Untuk UMKM yang sudah punya produk siap jual, bisa merekam dengan HP atau punya satu talent, dan butuh posting konsisten 30 hari tanpa pusing mikir ide tiap minggu."
+  },
+  {
+   "q": "Platform apa saja yang didukung?+",
+   "a": "Format vertikal 15-30 detik siap untuk TikTok, Instagram Reels, dan YouTube Shorts. Caption AIDA bisa langsung dipakai di Instagram, TikTok, dan Facebook."
+  },
+  {
+   "q": "Apakah paket konten video UMKM termasuk editing video?",
+   "a": "Tidak — fokus kami adalah naskah, strategi, dan sistem. Kamu merekam sendiri di HP dan bisa mengedit dengan aplikasi gratis (CapCut) sesuai panduan yang kami sertakan."
+  },
+  {
+   "q": "Apakah bisa untuk konten YouTube?",
+   "a": "Bisa. Sebutkan di brief kalau target utamamu YouTube — script akan disesuaikan format long-form atau short sesuai kebutuhan."
+  },
+  {
+   "q": "Apakah ada contoh atau portofolio hasil kerja?",
+   "a": "Contoh gaya script bisa kamu lihat di halaman utama (bagian Lihat Kualitas & Preview). Untuk hasil spesifik per industri, tanya tim via WhatsApp."
+  },
+  {
+   "q": "Apakah saya perlu menyediakan produk foto atau aset brand?",
+   "a": "Tidak wajib. Tim menulis dari deskripsi brief. Kalau kamu punya foto produk, kirim saat pengerjaan untuk referensi visual yang lebih akurat."
+  }
+ ],
+ "creator": [
+  {
+   "q": "Berapa biaya content creator per bulan dibanding Karsa?+",
+   "a": "Content creator UMKM umumnya Rp2-8 juta per bulan. Karsa flat Rp299.000 per batch 30 hari. Perbandingan lengkap ada di halaman harga."
+  },
+  {
+   "q": "Siapa yang merekam videonya?+",
+   "a": "Kamu atau satu orang talent internal dengan HP. Setiap naskah dilengkapi arahan visual, gesture, dan intonasi sehingga rekaman bisa dilakukan tanpa pengalaman."
+  },
+  {
+   "q": "Apakah saya bisa tetap konsultasi dengan tim?+",
+   "a": "Ya. Ada garansi kalibrasi 48 jam untuk tone dan istilah produk, plus opsi NDA untuk brief sensitif. Komunikasi melalui WhatsApp dan email."
+  },
+  {
+   "q": "Apakah Karsa menggantikan content creator full-time?",
+   "a": "Untuk kebutuhan produksi naskah dan strategi: ya, ini alternatif tanpa gaji bulanan. Kamu tetap perlu merekam sendiri — total waktu eksekusi ±2 jam per minggu."
+  },
+  {
+   "q": "Apakah ada sesi konsultasi terstruktur?",
+   "a": "Konsultasi tersedia via WhatsApp selama batch berjalan. Untuk analisis mendalam, laporan audit kompetitor sudah termasuk dalam paket."
+  },
+  {
+   "q": "Bagaimana alur kolaborasinya?",
+   "a": "Isi brief (5 menit) → tim memproses 24 jam kerja → terima Notion OS → rekam & posting. Kalibrasi 48 jam untuk penyesuaian."
+  },
+  {
+   "q": "Apakah kontennya bisa dipakai berulang untuk campaign iklan?",
+   "a": "Bisa — naskah yang kuat bisa di-boost sebagai iklan berbayar (Meta/TikTok Ads). FAQ ini dijawab lengkap di kategori Umum."
+  }
+ ],
+ "seo": [
+  {
+   "q": "Berapa artikel SEO yang saya dapatkan?+",
+   "a": "4 artikel pilar masing-masing sekitar 1.000 kata, lengkap dengan susunan heading H1/H2/H3, meta description, dan internal linking yang disarankan."
+  },
+  {
+   "q": "Apakah artikelnya termasuk riset keyword?+",
+   "a": "Ya. Kami menganalisis satu akun kompetitor dan memetakan sudut pesan yang belum digarap, lalu menulis artikel berdasarkan pertanyaan yang benar-benar dicari calon pembeli."
+  },
+  {
+   "q": "Apakah saya bisa publish artikelnya di blog sendiri?+",
+   "a": "Bisa. Semua hak komersial materi menjadi milik kamu setelah serah terima — bebas dipublikasikan di blog, website, atau medium apapun."
+  },
+  {
+   "q": "Kapan saya bisa mulai melihat traffic dari artikel SEO?+",
+   "a": "Artikel SEO butuh waktu 1-3 bulan untuk terindex dan naik peringkat. Yang penting fondasinya benar sejak awal: keyword yang tepat, struktur yang jelas, dan konten yang menjawab pertanyaan pembeli. Simak panduannya di blog kami: cara menulis artikel SEO untuk toko online."
+  },
+  {
+   "q": "Apakah artikel SEO bisa dipublikasikan di blog perusahaan saya?",
+   "a": "Bisa, dan itu justru disarankan. Artikel diberikan dalam format yang siap publish di WordPress, Blogger, atau platform blog lainnya."
+  },
+  {
+   "q": "Apakah sudah termasuk meta description dan slug?",
+   "a": "Ya. Setiap artikel dilengkapi meta description 155 karakter, slug rekomendasi, struktur H1-H3, dan skema FAQ untuk rich snippet."
+  },
+  {
+   "q": "Berapa kata kunci yang diriset per artikel?",
+   "a": "Tim meriset kata kunci utama + pendukung per artikel berdasarkan niche kamu, lengkap dengan anchor text internal link."
+  },
+  {
+   "q": "Apakah artikelnya ditulis oleh penulis manusia atau AI?",
+   "a": "Ditulis oleh copywriter tim dengan bantuan riset alat — lalu dikurasi dan diedit manusia sebelum dikirim. Hasilnya orisinal dan siap index."
+  }
+ ],
+ "ig": [
+  {
+   "q": "Apakah paket ini termasuk desain feed atau konten foto?+",
+   "a": "Fokus paket ini adalah konten video Reels + caption + kalender, bukan desain feed. Namun setiap caption disusun struktur AIDA dan bisa langsung dipakai, dan bonus panduan bio & highlight membantu profil terlihat profesional."
+  },
+  {
+   "q": "Berapa kali saya harus posting dalam seminggu?+",
+   "a": "Kalender Karsa dirancang 30 hari dengan ritme produksi: rekam batch 4-6 video sekali jalan, edit di CapCut, lalu jadwalkan via Meta Business Suite. Total 30 konten siap dijadwalkan."
+  },
+  {
+   "q": "Apakah caption dan tagar risetnya sudah termasuk?+",
+   "a": "Ya — setiap video disertai caption AIDA dan riset tagar 3 tier (broad, medium, niche) yang relevan dengan produk kamu."
+  },
+  {
+   "q": "Bagaimana dengan Instagram Story?+",
+   "a": "Panduan optimasi bio & highlight serta repurposing framework membantu mengubah satu ide video menjadi Story, carousel, dan konten X/WhatsApp Status."
+  },
+  {
+   "q": "Apakah paket Instagram termasuk desain feed atau template visual?",
+   "a": "Tidak termasuk desain feed — fokus kami konten copy: 30 caption AIDA, riset tagar, dan konsep konten. Desain bisa dibuat tim kamu dengan panduan konsep yang kami kirim."
+  },
+  {
+   "q": "Apakah saya bisa repost konten Instagram ke TikTok?",
+   "a": "Bisa. Format Reels dan TikTok kompatibel — tinggal sesuaikan cover dan musik. Naskahnya sudah dirancang untuk vertikal 9:16."
+  },
+  {
+   "q": "Apakah ada penjadwalan otomatis untuk posting?",
+   "a": "Tidak ada auto-posting. Kamu dapat kalender 30 hari yang jelas: jam posting, jenis konten, dan caption siap pakai di Notion."
+  },
+  {
+   "q": "Apakah caption dan tagar sudah termasuk riset?",
+   "a": "Sudah. 30 caption AIDA + 10 tagar riset per konten, dikelompokkan berdasarkan kategori tagar (besar, menengah, niche)."
+  }
+ ]
+}
