@@ -33,6 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     { url: `${base}/blog`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/contoh`, changeFrequency: "monthly", priority: 0.8 },
+
     {
       url: `${base}/blog/jasa-konten-video-umkm-untuk-penjualan`,
       changeFrequency: "yearly",
