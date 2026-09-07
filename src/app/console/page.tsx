@@ -43,10 +43,10 @@ import {
 type View = "pipeline" | "database" | "studio" | "laporan" | "pengaturan";
 
 const VIEW_TABS: { key: View; label: string; icon: React.ReactNode; num: string; numClass: string }[] = [
-  { key: "pipeline", label: "Pipeline Operasional", icon: <LayoutGrid className="w-4 h-4" />, num: "01", numClass: "bg-terracotta text-ink" },
-  { key: "database", label: "Database Pesanan", icon: <Table className="w-4 h-4" />, num: "02", numClass: "bg-sunflower text-ink" },
-  { key: "studio", label: "Prompt Studio", icon: <Sparkles className="w-4 h-4" />, num: "03", numClass: "bg-wasabi text-ink" },
-  { key: "laporan", label: "Laporan 30 Hari", icon: <BarChart3 className="w-4 h-4" />, num: "04", numClass: "bg-terracottaLight text-terracotta" },
+  { key: "pipeline", label: "Pipeline Operasional", icon: <LayoutGrid className="w-4 h-4" />, num: "01", numClass: "bg-brutalYellow text-ink" },
+  { key: "database", label: "Database Pesanan", icon: <Table className="w-4 h-4" />, num: "02", numClass: "bg-brutalYellow text-ink" },
+  { key: "studio", label: "Prompt Studio", icon: <Sparkles className="w-4 h-4" />, num: "03", numClass: "bg-brutalGreen text-ink" },
+  { key: "laporan", label: "Laporan 30 Hari", icon: <BarChart3 className="w-4 h-4" />, num: "04", numClass: "bg-sand/40 text-ink" },
   { key: "pengaturan", label: "Pengaturan", icon: <Settings className="w-4 h-4" />, num: "05", numClass: "bg-ink text-canvas" },
 ];
 
@@ -330,10 +330,10 @@ export default function ConsolePage() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink pb-28 md:pb-10 overflow-x-hidden">
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-brutalGreen selection:text-ink pb-28 md:pb-10 overflow-x-hidden">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-wasabi focus:text-ink focus:px-4 focus:py-2 focus:rounded-xl focus:border-2 focus:border-ink font-mono text-xs font-bold"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-brutalGreen focus:text-ink focus:px-4 focus:py-2 focus:rounded-xl focus:border-2 focus:border-ink font-mono text-xs font-bold"
       >
         Lompat ke konten utama
       </a>
@@ -343,14 +343,14 @@ export default function ConsolePage() {
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
           <div className="flex items-center space-x-2.5 sm:space-x-3">
             <a href="/" className="flex items-center space-x-2 shrink-0 group">
-              <span className="font-serif text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">
+              <span className="font-display text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">
                 Karsa
               </span>
               <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-ink text-canvas rounded font-bold">
                 Konsol Admin
               </span>
             </a>
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono text-ink bg-wasabi px-2.5 py-1 rounded-xl border-2 border-ink font-bold shadow-brutal-sm">
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono text-ink bg-brutalGreen px-2.5 py-1 rounded-xl border-2 border-ink font-bold shadow-brutal-sm">
               <span className="w-2 h-2 rounded-full bg-ink pulse-dot"></span>
               <span>{orders.length} Batch Live</span>
             </span>
@@ -359,7 +359,7 @@ export default function ConsolePage() {
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
             <button
               onClick={handleSync}
-              className="p-2 sm:px-3.5 sm:py-2 bg-sunflower hover:bg-wasabi text-ink border-2 border-ink rounded-xl transition flex items-center gap-1.5 font-bold shadow-brutal-sm min-h-[44px]"
+              className="p-2 sm:px-3.5 sm:py-2 bg-brutalYellow hover:bg-brutalGreen text-ink border-2 border-ink rounded-xl transition flex items-center gap-1.5 font-bold shadow-brutal-sm min-h-[44px]"
               title="Sinkronkan data terbaru dari database"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -367,9 +367,9 @@ export default function ConsolePage() {
             </button>
             <button
               onClick={() => setNewOrderOpen(true)}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-terracotta text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-brutalYellow text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
             >
-              <PlusCircle className="w-3.5 h-3.5 text-wasabi" />
+              <PlusCircle className="w-3.5 h-3.5 text-ink" />
               <span className="hidden sm:inline">Input Manual</span>
             </button>
             <button
@@ -504,7 +504,7 @@ export default function ConsolePage() {
           <button
             key={tab.key}
             onClick={() => setView(tab.key)}
-            className={`flex flex-col items-center py-1 ${view === tab.key ? "text-terracotta" : "text-stone-500"}`}
+            className={`flex flex-col items-center py-1 ${view === tab.key ? "text-ink" : "text-stone-500"}`}
           >
             {tab.icon}
             <span>{tab.label}</span>
@@ -512,10 +512,10 @@ export default function ConsolePage() {
         ))}
         <button
           onClick={() => setNewOrderOpen(true)}
-          className="flex flex-col items-center justify-center -mt-4 w-12 h-12 bg-terracotta text-ink rounded-full shadow-brutal border-2 border-ink"
+          className="flex flex-col items-center justify-center -mt-4 w-12 h-12 bg-brutalYellow text-ink rounded-full shadow-brutal border-2 border-ink"
           aria-label="Input manual brief"
         >
-          <Plus className="w-6 h-6 text-wasabi" />
+          <Plus className="w-6 h-6 text-ink" />
         </button>
         {[
           { key: "studio" as View, label: "Studio", icon: <Sparkles className="w-5 h-5 mb-0.5" /> },
@@ -524,7 +524,7 @@ export default function ConsolePage() {
           <button
             key={tab.key}
             onClick={() => setView(tab.key)}
-            className={`flex flex-col items-center py-1 ${view === tab.key ? "text-terracotta" : "text-stone-500"}`}
+            className={`flex flex-col items-center py-1 ${view === tab.key ? "text-ink" : "text-stone-500"}`}
           >
             {tab.icon}
             <span>{tab.label}</span>

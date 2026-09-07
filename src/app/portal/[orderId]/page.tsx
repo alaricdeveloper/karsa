@@ -29,12 +29,12 @@ const TABS: { key: Tab; label: string; short: string; num: string; icon: React.E
 ];
 
 const RAIL_COLORS: Record<string, string> = {
-  "01": "bg-sunflower text-ink",
-  "02": "bg-terracotta text-ink",
-  "03": "bg-wasabi text-ink",
-  "04": "bg-terracottaLight text-terracotta",
+  "01": "bg-brutalYellow text-ink",
+  "02": "bg-brutalYellow text-ink",
+  "03": "bg-brutalGreen text-ink",
+  "04": "bg-sand/40 text-ink",
   "05": "bg-ink text-canvas",
-  "06": "bg-sunflower text-ink",
+  "06": "bg-brutalYellow text-ink",
 };
 
 export default function PortalPage() {
@@ -222,16 +222,16 @@ export default function PortalPage() {
       <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <div className="text-center space-y-4 max-w-sm">
           {isAccessDenied && (
-            <div className="w-14 h-14 rounded-2xl bg-terracottaLight border-2 border-ink flex items-center justify-center mx-auto shadow-brutal-sm">
-              <Lock className="w-7 h-7 text-terracotta" />
+            <div className="w-14 h-14 rounded-2xl bg-sand/40 border-2 border-ink flex items-center justify-center mx-auto shadow-brutal-sm">
+              <Lock className="w-7 h-7 text-ink" />
             </div>
           )}
           <div className="space-y-1">
-            <p className="text-sm text-terracotta font-semibold">{error || "Order tidak ditemukan"}</p>
+            <p className="text-sm text-ink font-semibold">{error || "Order tidak ditemukan"}</p>
             {isAccessDenied && <p className="text-xs text-inkMuted font-mono">Portal ini hanya bisa diakses oleh pemilik pesanan.</p>}
           </div>
           <div className="flex items-center justify-center gap-3">
-            <a href="/dashboard" className="px-4 py-2 bg-ink text-canvas text-xs font-mono rounded-xl hover:bg-terracotta transition shadow-brutal-sm min-h-[44px] flex items-center">
+            <a href="/dashboard" className="px-4 py-2 bg-ink text-canvas text-xs font-mono rounded-xl hover:bg-brutalYellow transition shadow-brutal-sm min-h-[44px] flex items-center">
               ke Dashboard
             </a>
             <a href="/" className="text-xs text-inkMuted hover:text-ink transition font-mono font-bold min-h-[44px] flex items-center">
@@ -246,13 +246,13 @@ export default function PortalPage() {
   const currentItem = contentItems.find((c) => c.day_number === selectedDay);
 
   return (
-    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink pb-32 md:pb-16 overflow-x-hidden">
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-brutalGreen selection:text-ink pb-32 md:pb-16 overflow-x-hidden">
       <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 whitespace-nowrap">
           <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <a href="/" className="flex items-center gap-2 group">
-              <span className="font-serif text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
-              <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-sunflower text-ink rounded font-bold">Client Hub</span>
+              <span className="font-display text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
+              <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-brutalYellow text-ink rounded font-bold">Client Hub</span>
             </a>
           </div>
 
@@ -286,9 +286,9 @@ export default function PortalPage() {
               href="https://wa.me/6281288009920"
               target="_blank"
               rel="noopener"
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-terracotta text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-brutalYellow text-ink hover:text-white rounded-xl hover:bg-ink transition font-bold shadow-brutal-sm min-h-[44px]"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-wasabi" />
+              <MessageSquare className="w-3.5 h-3.5 text-ink" />
               <span className="hidden sm:inline">Support 48 Jam</span>
             </a>
           </div>
@@ -310,7 +310,7 @@ export default function PortalPage() {
                 key={tab.key}
                 onClick={() => switchTab(tab.key)}
                 className={`flex items-center gap-2 py-3.5 border-b-2 shrink-0 font-mono text-xs font-bold transition ${
-                  isActive ? "border-terracotta text-ink" : "border-transparent text-inkMuted hover:text-ink"
+                  isActive ? "border-ink text-ink" : "border-transparent text-inkMuted hover:text-ink"
                 }`}
               >
                 <span className={`w-6 h-6 rounded-lg border-2 border-ink flex items-center justify-center text-[10px] font-bold shadow-brutal-sm ${RAIL_COLORS[tab.num]}`}>
@@ -368,7 +368,7 @@ export default function PortalPage() {
 
         <footer className="pt-2 pb-4 text-center font-mono text-[10px] sm:text-xs text-inkMuted font-bold">
           <p>Karsa Studio &bull; konten siap rekam dalam 24 jam &bull; garansi kalibrasi 48 jam</p>
-          <a href="https://wa.me/6281288009920" target="_blank" rel="noopener" className="text-terracotta hover:underline underline-offset-4 inline-block mt-1">
+          <a href="https://wa.me/6281288009920" target="_blank" rel="noopener" className="text-ink hover:underline underline-offset-4 inline-block mt-1">
             Butuh bantuan? Chat tim Karsa &rarr;
           </a>
         </footer>
@@ -382,7 +382,7 @@ export default function PortalPage() {
             <button
               key={tab.key}
               onClick={() => switchTab(tab.key)}
-              className={`flex flex-col items-center py-1 min-h-[44px] justify-center ${isActive ? "text-terracotta" : "text-inkMuted"}`}
+              className={`flex flex-col items-center py-1 min-h-[44px] justify-center ${isActive ? "text-ink" : "text-inkMuted"}`}
             >
               <Icon className="w-5 h-5 mb-0.5" />
               <span>{tab.short}</span>

@@ -42,12 +42,20 @@ function InvoiceContent() {
     : "QRIS Terverifikasi";
 
   return (
-    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink print:bg-white!">
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-brutalGreen selection:text-ink print:bg-white!">
       {/* ACTION BAR + WORDMARK (HIDDEN IN PRINT) */}
+      <div className="bg-brutalYellow text-ink text-[11px] sm:text-xs font-mono py-2.5 px-3 text-center tracking-tight border-b-2 border-ink flex items-center justify-center gap-2 font-bold relative z-30 print:hidden">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-ink text-brutalYellow text-[10px] uppercase font-mono font-black border border-ink shadow-brutal-sm shrink-0">
+          <FileText className="w-3.5 h-3.5" /> Invoice Resmi
+        </span>
+        <span className="truncate sm:overflow-visible text-ink font-bold">
+          Bukti pemesanan batch konten Karsa Studio.
+        </span>
+      </div>
       <header className="sticky top-0 z-50 bg-canvas/95 backdrop-blur-md border-b-2 border-ink print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <span className="font-serif text-2xl sm:text-4xl tracking-tight group-hover:rotate-1 transition-transform">
+            <span className="font-display text-2xl sm:text-4xl tracking-tight group-hover:rotate-1 transition-transform">
               Karsa
             </span>
           </Link>
@@ -61,9 +69,9 @@ function InvoiceContent() {
             </Link>
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] bg-ink text-canvas rounded-xl hover:bg-terracotta transition font-bold shadow-brutal"
+              className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] bg-ink text-canvas rounded-xl hover:bg-brutalYellow transition font-bold shadow-brutal"
             >
-              <Printer className="w-3.5 h-3.5 text-wasabi" />
+              <Printer className="w-3.5 h-3.5 text-ink" />
               <span>Cetak / Simpan PDF</span>
             </button>
           </div>
@@ -77,10 +85,10 @@ function InvoiceContent() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b-2 border-ink">
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-serif text-3xl sm:text-4xl tracking-tight text-ink">
+                <span className="font-display text-3xl sm:text-4xl tracking-tight text-ink">
                   Karsa
                 </span>
-                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink rounded font-bold">
+                <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-brutalGreen text-ink rounded font-bold">
                   Content Studio
                 </span>
               </div>
@@ -90,7 +98,7 @@ function InvoiceContent() {
             </div>
 
             {/* PAID STAMP BADGE */}
-            <div className="flex items-center gap-2 px-4 py-2 bg-wasabi border-2 border-ink text-ink rounded-2xl font-mono text-xs font-bold uppercase tracking-wider shadow-brutal-sm">
+            <div className="flex items-center gap-2 px-4 py-2 bg-brutalGreen border-2 border-ink text-ink rounded-2xl font-mono text-xs font-bold uppercase tracking-wider shadow-brutal-sm">
               <CheckCircle className="w-4 h-4 text-emerald-800" />
               <span>Lunas &bull; Terverifikasi</span>
             </div>
@@ -102,7 +110,7 @@ function InvoiceContent() {
               <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Nomor Invoice
               </span>
-              <span className="font-bold text-terracotta mt-0.5 block text-sm sm:text-base font-serif">
+              <span className="font-bold text-ink mt-0.5 block text-sm sm:text-base font-display">
                 {invNumber}
               </span>
             </div>
@@ -118,7 +126,7 @@ function InvoiceContent() {
               <span className="text-stone-500 text-[10px] uppercase font-bold block">
                 Klien / Brand
               </span>
-              <span className="font-bold text-ink mt-0.5 block text-sm sm:text-base font-serif">
+              <span className="font-bold text-ink mt-0.5 block text-sm sm:text-base font-display">
                 {invBrand}
               </span>
             </div>
@@ -150,7 +158,7 @@ function InvoiceContent() {
                     4 Artikel SEO
                   </span>
                 </div>
-                <span className="font-bold text-ink text-sm sm:text-base font-serif">
+                <span className="font-bold text-ink text-sm sm:text-base font-display">
                   Rp 299.000
                 </span>
               </div>
@@ -183,7 +191,7 @@ function InvoiceContent() {
             {/* TOTAL BOX */}
             <div className="pt-4 border-t-2 border-ink flex justify-between items-center text-sm font-bold text-ink">
               <span className="font-sans">Total Pembayaran Lunas</span>
-              <span className="text-2xl sm:text-3xl font-serif text-terracotta">
+              <span className="text-2xl sm:text-3xl font-display text-ink">
                 Rp 299.000
               </span>
             </div>
@@ -192,7 +200,7 @@ function InvoiceContent() {
           {/* SLA GUARANTEE CALLOUT */}
           <div className="p-4 bg-canvas border-2 border-ink rounded-2xl font-mono text-xs space-y-1 text-stone-800 shadow-brutal-sm">
             <div className="flex items-center gap-2 font-bold text-ink">
-              <Clock className="w-4 h-4 text-terracotta" />
+              <Clock className="w-4 h-4 text-ink" />
               <span>SLA Pengerjaan: Maksimal 24 Jam Kerja</span>
             </div>
             <p className="text-xs font-sans text-stone-600 leading-relaxed">
@@ -206,10 +214,10 @@ function InvoiceContent() {
           <div className="pt-4 text-center print:hidden">
             <Link
               href={`/portal/${invNumber}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-terracotta text-ink hover:text-white rounded-2xl font-mono text-xs font-bold hover:bg-ink transition shadow-brutal min-h-[48px]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-brutalYellow text-ink hover:text-white rounded-2xl font-mono text-xs font-bold hover:bg-ink transition shadow-brutal min-h-[48px]"
             >
               <span>Buka Customer Hub Sekarang</span>
-              <ArrowRight className="w-4 h-4 text-wasabi" />
+              <ArrowRight className="w-4 h-4 text-ink" />
             </Link>
           </div>
         </main>

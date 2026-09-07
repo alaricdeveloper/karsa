@@ -1,202 +1,236 @@
 "use client";
+import { useEffect, useRef } from "react";
+import { Icon } from "@/components/Icon";
 
-import { useState } from "react";
-import Link from "next/link";
-import { Home, LayoutGrid, ArrowUpRight, ArrowLeft, Search } from "lucide-react";
+export default function Page() {
+const searchRef = useRef<HTMLInputElement>(null);
 
-export default function NotFound() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const directoryCards = [
-    {
-      title: "Customer Hub",
-      desc: "Akses 30 naskah, teleprompter, dan duplikasi Notion.",
-      href: "/portal/demo",
-      external: false,
-      bg: "bg-white",
-      iconColor: "text-terracotta",
-    },
-    {
-      title: "Member Tools",
-      desc: "Generator Hook, Kalkulator ROI, dan Brand Vault.",
-      href: "/login",
-      external: false,
-      bg: "bg-white",
-      iconColor: "text-terracotta",
-    },
-    {
-      title: "Checkout Gateway",
-      desc: "Pembayaran instan QRIS & Virtual Account.",
-      href: "/checkout",
-      external: false,
-      bg: "bg-white",
-      iconColor: "text-terracotta",
-    },
-    {
-      title: "Terms & IP Transfer",
-      desc: "Syarat ketentuan resmi & 100% hak cipta.",
-      href: "/terms",
-      external: false,
-      bg: "bg-canvas",
-      iconColor: "text-inkMuted",
-    },
-    {
-      title: "SLA & Guarantee",
-      desc: "Garansi 24 jam & revisi kalibrasi 48 jam.",
-      href: "/refund",
-      external: false,
-      bg: "bg-canvas",
-      iconColor: "text-inkMuted",
-    },
-    {
-      title: "Bantuan CS",
-      desc: "Hubungi tim operasional langsung via WhatsApp.",
-      href: "https://wa.me/6281288009920",
-      external: true,
-      bg: "bg-wasabi/40",
-      iconColor: "text-ink",
-    },
-    {
-      title: "Harga Paket",
-      desc: "Batch 30 hari mulai Rp299.000, tanpa langganan.",
-      href: "/harga",
-      external: false,
-      bg: "bg-white",
-      iconColor: "text-terracotta",
-    },
-    {
-      title: "Blog & Panduan",
-      desc: "Panduan konten video & SEO untuk UMKM.",
-      href: "/blog",
-      external: false,
-      bg: "bg-white",
-      iconColor: "text-terracotta",
-    },
-  ];
-
-  const isCardVisible = (title: string, desc: string) => {
-    if (!searchQuery) return true;
-    return `${title} ${desc}`.toLowerCase().includes(searchQuery.toLowerCase());
+useEffect(() => {
+  const input = searchRef.current;
+  if (!input) return;
+  const filter = () => {
+    const q = input.value.toLowerCase();
+    const items = document.querySelectorAll(".dir-item");
+    items.forEach((item) => {
+      const t = (item.textContent ?? "").toLowerCase();
+      (item as HTMLElement).style.display = t.includes(q) ? "block" : "none";
+    });
   };
-
+  input.addEventListener("input", filter);
+  return () => input.removeEventListener("input", filter);
+}, []);
   return (
-    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink flex flex-col justify-between">
-      {/* TOP APP BAR */}
-      <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
-          <Link href="/" className="flex items-center space-x-2 shrink-0 group">
-            <span className="font-serif text-3xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">Karsa</span>
-            <span className="badge-tag text-[10px] font-mono uppercase px-2 py-0.5 bg-terracotta text-ink rounded font-bold">Status 404</span>
-          </Link>
-          <div className="flex items-center space-x-3 text-xs font-mono">
-            <Link href="/" className="badge-tag bg-white hover:bg-canvas text-ink px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 shadow-brutal-sm min-h-[44px]">
-              <Home className="w-3.5 h-3.5 text-inkMuted" />
-              <span>Beranda</span>
-            </Link>
-          </div>
+    <div className="min-h-screen flex flex-col justify-between">
+
+
+  {/* TOP STATUS TICKER */}
+  <div className="bg-brutalYellow text-ink text-[11px] sm:text-xs font-mono py-2.5 px-3 text-center tracking-tight border-b-2 border-ink flex items-center justify-center gap-2 font-bold relative z-30">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-ink text-brutalYellow text-[10px] uppercase font-mono font-black border border-ink shadow-brutal-sm shrink-0">
+      <Icon name="alert-triangle" className="w-3.5 h-3.5" /> STATUS 404
+    </span>
+    <span className="truncate sm:overflow-visible text-ink font-bold">Halaman tidak ditemukan. Gunakan direktori portal di bawah untuk melanjutkan navigasi.</span>
+  </div>
+
+  {/* NAVIGATION HEADER */}
+  <header className="border-b-2 border-ink bg-canvas/95 backdrop-blur-md sticky top-0 z-30">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      
+      {/* Brand Logo */}
+      <a className="flex items-center space-x-2 group shrink-0" href="/">
+        <span className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-ink group-hover:-translate-y-0.5 transition-transform">Karsa</span>
+        <span className="badge-brutal text-[10px] font-mono uppercase px-2 py-0.5 bg-brutalPink text-ink rounded font-bold">404</span>
+      </a>
+
+      {/* Status Indicator & Navigation Action Button */}
+      <div className="flex items-center gap-3 text-xs font-mono font-bold">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-ink shadow-brutal-sm">
+          <span className="w-2 h-2 rounded-full bg-brutalGreen border border-ink animate-ping"></span>
+          <span>Gateway: <strong className="text-ink">Online</strong></span>
         </div>
-      </header>
+        <a className="btn-press inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-white text-ink rounded-xl font-bold transition" href="/">
+          <Icon name="home" className="w-4 h-4" />
+          <span className="hidden xs:inline">Kembali ke Beranda</span>
+          <span className="xs:hidden">Beranda</span>
+        </a>
+      </div>
 
-      {/* MAIN 404 CONTENT */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 my-auto text-center space-y-8 relative">
-        {/* Decorative Ambient Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-sunflower/30 blur-3xl pointer-events-none -z-10"></div>
+    </div>
+  </header>
 
-        {/* BIG EDITORIAL 404 DISPLAY */}
-        <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 badge-tag bg-sunflower px-3.5 py-1.5 rounded-full text-xs font-mono font-bold text-ink">
-            <span className="w-2 h-2 rounded-full bg-terracotta animate-ping"></span>
-            <span>Alamat URL Tidak Ditemukan</span>
-          </div>
+  {/* MARQUEE STRIP */}
+  <div className="py-3 sm:py-3.5 border-b-2 border-ink bg-brutalYellow overflow-hidden relative">
+    <div className="flex items-center gap-3 px-4 max-w-7xl mx-auto">
+      <div className="marquee-track flex gap-8 font-mono text-xs sm:text-sm font-bold text-ink uppercase tracking-wider whitespace-nowrap shrink-0 items-center">
+        <span className="flex items-center gap-1.5"><Icon name="compass" className="w-4 h-4 text-ink" /> Routing System</span>
+        <span>///</span>
+        <span className="flex items-center gap-1.5"><Icon name="alert-circle" className="w-4 h-4 text-ink" /> 404 URL Terputus</span>
+        <span>///</span>
+        <span className="flex items-center gap-1.5"><Icon name="layout-grid" className="w-4 h-4 text-ink" /> 8 Kanal Direktori Aktif</span>
+        <span>///</span>
+        <span className="flex items-center gap-1.5"><Icon name="zap" className="w-4 h-4 text-ink" /> SLA 24 Jam Tetap Jalan</span>
+        <span>///</span>
+        <span className="flex items-center gap-1.5"><Icon name="compass" className="w-4 h-4 text-ink" /> Routing System</span>
+        <span>///</span>
+        <span className="flex items-center gap-1.5"><Icon name="alert-circle" className="w-4 h-4 text-ink" /> 404 URL Terputus</span>
+      </div>
+    </div>
+  </div>
 
-          <h1 className="text-7xl sm:text-9xl font-serif text-ink tracking-tight select-none leading-none">
+  {/* MAIN 404 HERO & SEARCH */}
+  <main id="main-content" className="flex-1 py-12 sm:py-20 brutal-grid relative overflow-hidden flex flex-col justify-center">
+    
+    {/* Floating Geometry */}
+    <div className="hidden lg:flex absolute top-12 left-12 w-24 h-24 bg-brutalYellow text-ink items-center justify-center font-display font-extrabold text-xs uppercase text-center p-2 rotate-12 z-0 brutal-star border-2 border-ink shadow-brutal pointer-events-none">
+      URL<br />HILANG
+    </div>
+    <div className="absolute top-1/3 right-8 text-3xl font-mono font-black text-ink select-none pointer-events-none opacity-30">✛</div>
+    <div className="absolute bottom-1/4 left-6 text-2xl font-mono font-black text-ink select-none pointer-events-none opacity-30">✦</div>
+
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6 sm:space-y-8 w-full">
+      
+      {/* Protected Content Plaque to Eliminate Dot Distraction behind text */}
+      <div className="hero-plaque p-6 sm:p-10 space-y-5">
+        
+        {/* Status Badge */}
+        <div className="inline-flex items-center gap-2 badge-brutal bg-brutalYellow px-4 py-1.5 rounded-lg text-xs font-mono font-bold text-ink">
+          <span className="w-2 h-2 rounded-full bg-ink animate-pulse"></span>
+          <span>ALAMAT URL TIDAK DITEMUKAN</span>
+        </div>
+
+        {/* Big Typography 404 */}
+        <div className="space-y-3">
+          <h1 className="text-8xl sm:text-9xl font-display font-black tracking-tight text-ink select-none leading-none">
             404
           </h1>
-
-          <h2 className="text-2xl sm:text-4xl font-serif text-terracotta italic leading-tight">
-            Naskah konten ini belum terbit atau tautannya berpindah.
+          <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-ink leading-tight">
+            Naskah konten ini <span className="bg-brutalPink/50 text-ink px-3 py-0.5 inline-block -rotate-1 border-2 border-ink shadow-brutal-sm">belum terbit</span> atau tautannya berpindah.
           </h2>
-
-          <p className="text-xs sm:text-sm text-inkMuted font-sans max-w-lg mx-auto leading-relaxed font-medium">
-            Halaman yang kamu cari tidak tersedia dalam arsip Karsa Studio. Mungkin tautan salah ketik atau telah dialihkan ke ruang kerja baru.
+          <p className="text-xs sm:text-base text-stone-800 font-sans max-w-xl mx-auto leading-relaxed font-medium pt-1">
+            Halaman yang Anda cari tidak tersedia dalam repositori Karsa Studio. Kemungkinan URL salah ketik atau telah dialihkan ke ruang kerja produksi yang baru.
           </p>
         </div>
 
-        {/* INTERACTIVE REAL-TIME SEARCH BOX */}
-        <div className="max-w-md mx-auto relative">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-inkMuted" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari halaman (workspace, hub, legal, brief)..."
-            className="w-full bg-white border-2 border-ink rounded-2xl pl-10 pr-4 py-3 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-terracotta font-mono shadow-brutal-sm transition min-h-[44px] caret-terracotta"
-          />
+        {/* Search Input Interactive with Shielded Contrast */}
+        <div className="max-w-md mx-auto relative pt-2">
+          <Icon name="search" className="w-4 h-4 absolute left-4 top-[60%] -translate-y-1/2 text-stone-500" />
+          <input type="text" id="dirSearchInput" ref={searchRef} placeholder="Cari halaman (workspace, brief, blog, kontak)..." className="w-full bg-white border-2 border-ink rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-ink focus:outline-none focus:ring-2 focus:ring-ink font-mono shadow-brutal transition min-h-[46px]" />
         </div>
 
-        {/* PRIMARY ACTION BUTTONS */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 font-mono text-xs max-w-md mx-auto">
-          <Link href="/" className="w-full sm:w-auto px-6 py-3.5 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
-            <ArrowLeft className="w-4 h-4 text-wasabi" />
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <a href="/" className="btn-press w-full sm:w-auto px-6 py-3.5 bg-brutalYellow text-ink hover:bg-ink hover:text-brutalYellow rounded-2xl font-mono text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]">
+            <Icon name="arrow-left" className="w-4 h-4" />
             <span>Kembali ke Beranda Utama</span>
-          </Link>
-          <Link href="/login" className="w-full sm:w-auto px-6 py-3.5 bg-white border-2 border-ink hover:bg-canvas text-ink rounded-2xl font-bold transition flex items-center justify-center gap-2 min-h-[48px] shadow-brutal-sm">
-            <LayoutGrid className="w-4 h-4 text-inkMuted" />
+          </a>
+          <a href="/login" className="btn-press w-full sm:w-auto px-6 py-3.5 bg-white text-ink hover:bg-canvas rounded-2xl font-mono text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 min-h-[48px] shadow-brutal-sm">
+            <Icon name="layout-grid" className="w-4 h-4" />
             <span>Buka Member Workspace</span>
-          </Link>
+          </a>
         </div>
 
-        {/* QUICK DIRECTORY BENTO CARDS */}
-        <div className="pt-8 border-t-2 border-ink space-y-4 text-left font-mono text-xs">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-inkMuted uppercase tracking-wider font-bold">Direktori Portal Karsa</span>
-            <span className="text-[10px] text-inkMuted">8 Saluran Aktif</span>
-          </div>
+      </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-            {directoryCards.map((card) => (
-              <div key={card.title} className={isCardVisible(card.title, card.desc) ? "" : "hidden"}>
-                {card.external ? (
-                  <a
-                    href={card.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`dir-card bento-pop p-4 rounded-2xl space-y-1 block ${card.bg}`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-ink font-sans text-sm">{card.title}</span>
-                      <ArrowUpRight className={`w-4 h-4 ${card.iconColor}`} />
-                    </div>
-                    <p className="text-[11px] text-inkMuted font-sans leading-snug">{card.desc}</p>
-                  </a>
-                ) : (
-                  <Link href={card.href} className={`dir-card bento-pop p-4 rounded-2xl space-y-1 block ${card.bg}`}>
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-ink font-sans text-sm">{card.title}</span>
-                      <ArrowUpRight className={`w-4 h-4 ${card.iconColor}`} />
-                    </div>
-                    <p className="text-[11px] text-inkMuted font-sans leading-snug">{card.desc}</p>
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* 8 Channels Directory Bento Grid */}
+      <section className="pt-6 border-t-2 border-ink space-y-4 text-left font-mono">
+        <div className="flex items-center justify-between pb-1">
+          <span className="text-xs text-stone-700 uppercase tracking-wider font-bold">Direktori Portal Karsa</span>
+          <span className="badge-brutal text-[10px] px-2 py-0.5 bg-brutalGreen text-ink rounded font-bold">8 Saluran Aktif</span>
         </div>
-      </main>
 
-      {/* FOOTER */}
-      <footer className="border-t-2 border-ink py-6 px-4 font-mono text-xs text-inkMuted text-center bg-surface">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-3 text-[11px] font-bold text-ink">
-            <Link href="/terms" className="hover:text-terracotta transition underline">Terms</Link>
-            <span>&bull;</span>
-            <Link href="/privacy" className="hover:text-terracotta transition underline">Privacy</Link>
-            <span>&bull;</span>
-            <Link href="/refund" className="hover:text-terracotta transition underline">SLA Guarantee</Link>
-          </div>
-          <p className="text-[11px] text-inkMuted font-bold">&copy; 2026 Karsa Studio (<span className="text-ink">usekarsa.com</span>). All rights reserved.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="directoryGrid">
+          
+          {/* Channel 01 */}
+          <a href="/dashboard" className="dir-item bento-card p-4 rounded-2xl bg-white block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Customer Hub</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-600 font-sans leading-snug">Akses 30 naskah, teleprompter, dan Notion.</p>
+          </a>
+
+          {/* Channel 02 */}
+          <a href="/login" className="dir-item bento-card p-4 rounded-2xl bg-brutalYellow/30 block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Member Tools</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-700 font-sans leading-snug">Generator Hook, Kalkulator ROI, & Brand Vault.</p>
+          </a>
+
+          {/* Channel 03 */}
+          <a href="index.html#orderForm" className="dir-item bento-card p-4 rounded-2xl bg-white block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Formulir Brief</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-600 font-sans leading-snug">Order batch 30 hari dalam 3 menit.</p>
+          </a>
+
+          {/* Channel 04 */}
+          <a href="index.html#harga" className="dir-item bento-card p-4 rounded-2xl bg-brutalCyan/30 block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Pilihan Paket</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-700 font-sans leading-snug">Batch 30 hari flat Rp299k tanpa langganan.</p>
+          </a>
+
+          {/* Channel 05 */}
+          <a href="/blog" className="dir-item bento-card p-4 rounded-2xl bg-white block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Blog & Panduan</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-600 font-sans leading-snug">Panduan naskah video vertikal & SEO UMKM.</p>
+          </a>
+
+          {/* Channel 06 */}
+          <a href="/tentang-kami" className="dir-item bento-card p-4 rounded-2xl bg-white block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Tentang Studio</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-600 font-sans leading-snug">Manifesto & 5 prinsip pembuatan konten.</p>
+          </a>
+
+          {/* Channel 07 */}
+          <a href="https://wa.me/6281288009920" target="_blank" rel="noopener noreferrer" className="dir-item bento-card p-4 rounded-2xl bg-brutalGreen/30 block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Bantuan CS WA</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-700 font-sans leading-snug">Konsultasi langsung tim via WhatsApp.</p>
+          </a>
+
+          {/* Channel 08 */}
+          <a href="/refund" className="dir-item bento-card p-4 rounded-2xl bg-white block group">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <span className="font-display font-bold text-sm text-ink group-hover:underline">Garansi & SLA</span>
+              <Icon name="arrow-up-right" className="w-4 h-4 text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-stone-600 font-sans leading-snug">Jaminan 24 jam & revisi kalibrasi 48 jam.</p>
+          </a>
+
         </div>
-      </footer>
+      </section>
+
+    </div>
+  </main>
+
+  {/* FOOTER */}
+  <footer className="border-t-2 border-ink py-6 px-4 font-mono text-xs text-stone-600 bg-canvas brutal-grid">
+    <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <p className="font-bold">&copy; 2026 Karsa Studio (usekarsa.co). All rights reserved.</p>
+      <div className="flex items-center gap-4 font-bold">
+        <a className="hover:underline hover:text-ink" href="/terms">Syarat & Ketentuan</a>
+        <a className="hover:underline hover:text-ink" href="/privacy">Kebijakan Privasi</a>
+        <a className="hover:underline hover:text-ink" href="/refund">Jaminan SLA</a>
+      </div>
+    </div>
+  </footer>
+
+  
+
     </div>
   );
 }

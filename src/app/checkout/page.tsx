@@ -42,13 +42,22 @@ const VA_LABELS: Record<string, string> = {
 
 function CheckoutHeader() {
   return (
-    <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
+    <>
+      <div className="bg-brutalYellow text-ink text-[11px] sm:text-xs font-mono py-2.5 px-3 text-center tracking-tight border-b-2 border-ink flex items-center justify-center gap-2 font-bold relative z-30">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-ink text-brutalYellow text-[10px] uppercase font-mono font-black border border-ink shadow-brutal-sm shrink-0">
+          <Lock className="w-3.5 h-3.5" /> Pembayaran Terproteksi
+        </span>
+        <span className="truncate sm:overflow-visible text-ink font-bold">
+          Enkripsi 256-bit & waktu pemrosesan 1×24 jam kerja.
+        </span>
+      </div>
+      <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b-2 border-ink">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between whitespace-nowrap">
         <Link href="/" className="flex items-center space-x-2 shrink-0 group">
-          <span className="font-serif text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">
+          <span className="font-display text-2xl sm:text-4xl tracking-tight text-ink font-normal group-hover:rotate-1 transition-transform">
             Karsa
           </span>
-          <span className="badge-tag text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-wasabi text-ink rounded font-bold">
+          <span className="badge-tag text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 bg-brutalGreen text-ink rounded font-bold">
             Verified Checkout
           </span>
         </Link>
@@ -61,6 +70,7 @@ function CheckoutHeader() {
         </div>
       </div>
     </header>
+    </>
   );
 }
 
@@ -205,31 +215,31 @@ function CheckoutContent() {
 
   const timerColor =
     timeLeft <= 0
-      ? "bg-terracotta text-ink"
+      ? "bg-brutalYellow text-ink"
       : timeLeft <= 60
-      ? "bg-terracottaLight text-terracotta"
+      ? "bg-sand/40 text-ink"
       : timeLeft <= 300
-      ? "bg-sunflower/40 text-ink"
+      ? "bg-brutalYellow/40 text-ink"
       : "bg-white text-ink";
 
   if (paymentComplete) {
     return (
-      <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink pb-28 md:pb-16">
+      <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-brutalGreen selection:text-ink pb-28 md:pb-16">
         <CheckoutHeader />
 
         <main className="max-w-5xl mx-auto px-3.5 sm:px-6 py-5 sm:py-8 space-y-6">
           {/* SUCCESS PROGRESS STEPPER */}
           <div className="bento-pop p-4 rounded-2xl flex items-center justify-between font-mono text-xs text-stone-500 bg-white">
-            <div className="flex items-center gap-2 text-wasabiDark font-bold">
-              <span className="w-6 h-6 rounded-full bg-wasabi border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
+            <div className="flex items-center gap-2 text-inkDark font-bold">
+              <span className="w-6 h-6 rounded-full bg-brutalGreen border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
                 ✓
               </span>
               <span className="hidden sm:inline">Brief Terkirim</span>
               <span className="sm:hidden">Brief</span>
             </div>
             <div className="h-0.5 w-8 sm:w-16 bg-stone-300" />
-            <div className="flex items-center gap-2 text-wasabiDark font-bold">
-              <span className="w-6 h-6 rounded-full bg-wasabi border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
+            <div className="flex items-center gap-2 text-inkDark font-bold">
+              <span className="w-6 h-6 rounded-full bg-brutalGreen border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
                 ✓
               </span>
               <span>Pembayaran</span>
@@ -246,11 +256,11 @@ function CheckoutContent() {
 
           {/* SUCCESS CARD */}
           <div className="bento-pop p-8 sm:p-12 rounded-3xl text-center space-y-6 bg-white">
-            <div className="w-20 h-20 bg-wasabi border-2 border-ink rounded-full mx-auto flex items-center justify-center shadow-brutal-sm">
+            <div className="w-20 h-20 bg-brutalGreen border-2 border-ink rounded-full mx-auto flex items-center justify-center shadow-brutal-sm">
               <CheckCircle className="w-10 h-10 text-ink" />
             </div>
             <div className="space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-serif font-bold text-ink">
+              <h1 className="text-2xl sm:text-3xl font-display font-bold text-ink">
                 Pembayaran Berhasil!
               </h1>
               <p className="text-sm text-stone-600 font-sans">
@@ -273,15 +283,15 @@ function CheckoutContent() {
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-500">Status</span>
-                <span className="font-bold text-wasabiDark">Diproses</span>
+                <span className="font-bold text-inkDark">Diproses</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/invoice?id=${order.orderId}`}
-                className="flex-1 py-4 bg-ink hover:bg-terracotta text-ink rounded-xl font-mono font-bold text-xs transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]"
+                className="flex-1 py-4 bg-ink hover:bg-brutalYellow text-ink rounded-xl font-mono font-bold text-xs transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px]"
               >
-                <FileText className="w-4 h-4 text-wasabi" />
+                <FileText className="w-4 h-4 text-ink" />
                 <span>Lihat Invoice</span>
               </Link>
               <Link
@@ -303,7 +313,7 @@ function CheckoutContent() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-wasabi selection:text-ink pb-28 md:pb-16">
+    <div className="min-h-screen bg-canvas text-ink font-sans antialiased selection:bg-brutalGreen selection:text-ink pb-28 md:pb-16">
       <CheckoutHeader />
 
       {/* MAIN VIEWPORT */}
@@ -311,7 +321,7 @@ function CheckoutContent() {
         {/* PROGRESS STEPPER */}
         <div className="bento-pop p-4 rounded-2xl flex items-center justify-between font-mono text-xs text-stone-500 bg-white">
           <div className="flex items-center gap-2 text-emerald-700 font-bold">
-            <span className="w-6 h-6 rounded-full bg-wasabi border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
+            <span className="w-6 h-6 rounded-full bg-brutalGreen border-2 border-ink flex items-center justify-center text-ink text-xs font-bold shadow-brutal-sm">
               ✓
             </span>
             <span className="hidden sm:inline">Brief Terkirim</span>
@@ -319,7 +329,7 @@ function CheckoutContent() {
           </div>
           <div className="h-0.5 w-8 sm:w-16 bg-stone-300" />
           <div className="flex items-center gap-2 text-ink font-bold">
-            <span className="w-6 h-6 rounded-full bg-terracotta text-ink border-2 border-ink flex items-center justify-center text-xs shadow-brutal-sm font-bold">
+            <span className="w-6 h-6 rounded-full bg-brutalYellow text-ink border-2 border-ink flex items-center justify-center text-xs shadow-brutal-sm font-bold">
               2
             </span>
             <span>Pembayaran</span>
@@ -339,10 +349,10 @@ function CheckoutContent() {
           {/* LEFT: PAYMENT METHODS & DISPLAY (7 COLS) */}
           <div className="lg:col-span-7 space-y-5">
             <div className="space-y-1">
-              <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-sunflower text-ink">
+              <span className="badge-tag px-3 py-1 rounded-full text-xs font-mono font-bold bg-brutalYellow text-ink">
                 Verifikasi Otomatis
               </span>
-              <h1 className="text-xl sm:text-3xl font-serif font-bold text-ink mt-2">
+              <h1 className="text-xl sm:text-3xl font-display font-bold text-ink mt-2">
                 Metode Pembayaran Resmi
               </h1>
               <p className="text-xs font-mono text-stone-600">
@@ -356,7 +366,7 @@ function CheckoutContent() {
               <label
                 className={`bento-pop p-4 rounded-2xl flex items-center justify-between cursor-pointer ${
                   paymentMethod === "QRIS"
-                    ? "bg-sunflower/20 shadow-brutal-sm"
+                    ? "bg-brutalYellow/20 shadow-brutal-sm"
                     : "bg-white"
                 }`}
               >
@@ -387,7 +397,7 @@ function CheckoutContent() {
               <label
                 className={`bento-pop p-4 rounded-2xl flex items-center justify-between cursor-pointer ${
                   paymentMethod === "BCA_VA"
-                    ? "bg-sunflower/20 shadow-brutal-sm"
+                    ? "bg-brutalYellow/20 shadow-brutal-sm"
                     : "bg-white"
                 }`}
               >
@@ -418,7 +428,7 @@ function CheckoutContent() {
               <label
                 className={`bento-pop p-4 rounded-2xl flex items-center justify-between cursor-pointer ${
                   paymentMethod === "MANDIRI_VA"
-                    ? "bg-sunflower/20 shadow-brutal-sm"
+                    ? "bg-brutalYellow/20 shadow-brutal-sm"
                     : "bg-white"
                 }`}
               >
@@ -489,7 +499,7 @@ function CheckoutContent() {
                   <span className="text-[10px] text-stone-500 uppercase tracking-wider font-bold">
                     {VA_LABELS[paymentMethod] || "Virtual Account"}
                   </span>
-                  <span className="text-emerald-700 font-bold text-[10px] badge-tag bg-wasabi px-2 py-0.5 rounded">
+                  <span className="text-emerald-700 font-bold text-[10px] badge-tag bg-brutalGreen px-2 py-0.5 rounded">
                     Online 24 Jam
                   </span>
                 </div>
@@ -543,7 +553,7 @@ function CheckoutContent() {
             {/* REASSURANCE ACCORDION (TRUST SEALS) */}
             <div className="bento-pop p-5 rounded-2xl space-y-3 font-mono text-xs text-stone-800 bg-canvas">
               <div className="flex items-center gap-2 font-bold text-ink">
-                <Award className="w-4 h-4 text-terracotta" />
+                <Award className="w-4 h-4 text-ink" />
                 <span>3 Jaminan Resmi Karsa Studio</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-sans">
@@ -581,9 +591,9 @@ function CheckoutContent() {
           {/* RIGHT: ORDER SUMMARY & CONVERSION BAR (5 COLS) */}
           <div className="lg:col-span-5 space-y-4">
             {/* COUNTDOWN TIMER */}
-            <div className="bento-pop p-4 rounded-2xl bg-sunflower border-2 border-ink font-mono text-xs flex items-center justify-between text-ink font-bold shadow-brutal-sm">
+            <div className="bento-pop p-4 rounded-2xl bg-brutalYellow border-2 border-ink font-mono text-xs flex items-center justify-between text-ink font-bold shadow-brutal-sm">
               <div className="flex items-center gap-2">
-                <Timer className="w-4 h-4 text-terracotta animate-pulse" />
+                <Timer className="w-4 h-4 text-ink animate-pulse" />
                 <span>Selesaikan pembayaran dalam:</span>
               </div>
               <span
@@ -604,10 +614,10 @@ function CheckoutContent() {
                     {order.orderId}
                   </span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-ink mt-1">
+                <h3 className="font-display font-bold text-xl text-ink mt-1">
                   {order.brand}
                 </h3>
-                <span className="text-terracotta font-bold text-xs">
+                <span className="text-ink font-bold text-xs">
                   {order.category}
                 </span>
               </div>
@@ -619,31 +629,31 @@ function CheckoutContent() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span>30 Takarir AIDA & 15 Tagar</span>
-                  <span className="text-wasabiDark font-bold">
+                  <span className="text-inkDark font-bold">
                     Termasuk (Gratis)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>4 Artikel Blog SEO (1.000 Kata)</span>
-                  <span className="text-wasabiDark font-bold">
+                  <span className="text-inkDark font-bold">
                     Termasuk (Gratis)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Notion Content OS 1-Click Duplicate</span>
-                  <span className="text-wasabiDark font-bold">
+                  <span className="text-inkDark font-bold">
                     Termasuk (Gratis)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Audit 1 Akun Kompetitor</span>
-                  <span className="text-wasabiDark font-bold">
+                  <span className="text-inkDark font-bold">
                     Termasuk (Gratis)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Biaya Transaksi / Layanan</span>
-                  <span className="text-wasabiDark font-bold">
+                  <span className="text-inkDark font-bold">
                     Rp 0 (Gratis)
                   </span>
                 </div>
@@ -651,16 +661,16 @@ function CheckoutContent() {
 
               <div className="flex justify-between items-center text-sm font-bold text-ink pt-1">
                 <span className="font-sans">Total Pembayaran Lunas</span>
-                <span className="text-2xl font-serif text-terracotta">
+                <span className="text-2xl font-display text-ink">
                   Rp 299.000
                 </span>
               </div>
 
               <button
                 onClick={confirmPayment}
-                className="w-full py-4 bg-terracotta hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-sm font-mono"
+                className="w-full py-4 bg-brutalYellow hover:bg-ink text-ink hover:text-white rounded-2xl font-bold transition flex items-center justify-center gap-2 shadow-brutal min-h-[48px] text-sm font-mono"
               >
-                <CheckCircle className="w-4 h-4 text-wasabi" />
+                <CheckCircle className="w-4 h-4 text-ink" />
                 <span>Saya Sudah Membayar →</span>
               </button>
 
